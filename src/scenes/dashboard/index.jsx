@@ -35,7 +35,7 @@ function Dashboard() {
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between">
-        <Header title="Principal" subtitle="Resúmen estadístico del centro" />
+        <Header title="PRINCIPAL" subtitle="Resúmen estadístico del centro" />
         {/*{!isXsDevices && (
           <Box>
             <Button

@@ -103,7 +103,7 @@ const CenterProfile = () => {
 
   return (
     <Box m="20px">
-      <Header title={"Centro"} subtitle={"Personalizar la información del centro"} />
+      <Header title={"CENTRO"} subtitle={"Personalizar la información del centro"} />
       <Box display="flex" flexDirection="column" alignItems="center" mb={4} position="relative">
         <Avatar src={info.logo} sx={{ width: 100, height: 100 }} />
         {!disableEdit && (

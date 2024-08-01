@@ -8,6 +8,7 @@ import GeographyChart from "./GeographyChart";
 import ProgressCircle from "./ProgressCircle";
 import StatBox from "./StatBox";
 import TextField from "./TextField";
+import Select from "./Select";
 
 export {
   Header,
@@ -19,5 +20,6 @@ export {
   GeographyChart,
   ProgressCircle,
   StatBox,
-  TextField
+  TextField,
+  Select
 };

@@ -13,6 +13,7 @@ import Stream from "./stream";
 import FAQ from "./faq";
 import Geography from "./geography";
 import CenterProfile from "./centerProfile";
+import EntityForm from "./entity/entityForm";
 
 
 export {
@@ -30,5 +31,6 @@ export {
   Stream,
   FAQ,
   Geography,
-  CenterProfile
+  CenterProfile,
+  EntityForm
 };
