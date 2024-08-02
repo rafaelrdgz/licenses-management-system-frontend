@@ -56,7 +56,7 @@ const CenterProfile = () => {
       .max(100, "La dirección debe tener menos de 100 caracteres"),
     phone: yup
       .string()
-      .matches(/^[0-9]+$/, "El número de teléfono debe ser un número")
+      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras")
       .required("El número de teléfono es requerido")
       .min(6, "El número de teléfono debe tener al menos 6 caracteres")
       .max(12, "El número de teléfono debe tener menos de 12 caracteres"),
@@ -103,7 +103,7 @@ const CenterProfile = () => {
 
   return (
     <Box m="20px">
-      <Header title={"CENTRO"} subtitle={"Personalizar la información del centro"} />
+      <Header title={"CENTRO"} subtitle={"Información del Centro"} />
       <Box display="flex" flexDirection="column" alignItems="center" mb={4} position="relative">
         <Avatar src={info.logo} sx={{ width: 100, height: 100 }} />
         {!disableEdit && (

@@ -14,7 +14,7 @@ import FAQ from "./faq";
 import Geography from "./geography";
 import CenterProfile from "./centerProfile";
 import EntityForm from "./entity/entityForm";
-
+import EntityTable from "./entity/entityTable"
 
 export {
   Navbar,
@@ -32,5 +32,6 @@ export {
   FAQ,
   Geography,
   CenterProfile,
-  EntityForm
+  EntityForm,
+  EntityTable
 };

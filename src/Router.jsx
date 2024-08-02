@@ -15,7 +15,8 @@ import {
   Calendar,
   Stream,
   CenterProfile,
-  EntityForm
+  EntityForm,
+  EntityTable
 } from "./scenes";
 
 
@@ -38,6 +39,7 @@ const AppRouter = () => {
           <Route path="/geography" element={<Geography />} />
           <Route path="/center" element={<CenterProfile />} />
           <Route path="/entity/new" element={<EntityForm />} />
+          <Route path="/entity" element={<EntityTable />} />
         </Route>
       </Routes>
     </Router>

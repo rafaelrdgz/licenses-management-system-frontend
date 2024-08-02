@@ -32,13 +32,13 @@ function EntityForm() {
       setInfo(res.data);
       setEditing(true);
     });
-  }
+  };
 
   useEffect(() => {
     if (params.id) {
       loadEntity(params.id);
     }
-  }, [params.id]);  
+  }, [params.id]);
 
   const initialValues = {
     name: info.name,
@@ -62,7 +62,7 @@ function EntityForm() {
       .max(100, "La dirección debe tener menos de 100 caracteres"),
     phone: yup
       .string()
-      .matches(/^[0-9]+$/, "El número de teléfono debe ser un número")
+      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras")
       .required("El número de teléfono es requerido")
       .min(6, "El número de teléfono debe tener al menos 6 caracteres")
       .max(12, "El número de teléfono debe tener menos de 12 caracteres"),
@@ -75,23 +75,26 @@ function EntityForm() {
       .string()
       .email("El correo debe ser un correo válido")
       .required("El correo es requerido"),
-    type: yup.string().required("El tipo de entidad es requerido"),
+    type: yup
+      .string()
+      .required("El tipo de entidad es requerido"),
   });
 
   const handleFormSubmit = async (values) => {
-    if(editing){//caso en q se edita una entidad existente
+    if (editing) {
+      //caso en q se edita una entidad existente
 
-      return
+      return;
     }
 
     //aki va el caso en q se debe insertar la nueva entidad en la bd
-    console.log(values)
-    navigate('/')
+    console.log(values);
+    navigate("/");
   };
 
   return (
     <Box m="20px">
-      <Header title={"ENTIDAD"} subtitle={""} />
+      <Header title={"ENTIDAD"} subtitle={editing ? 'Editar entidad' : 'Crear nueva entidad'}/>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -179,10 +182,7 @@ function EntityForm() {
                 helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 2" }}
               />
-              <FormControl
-                variant="filled"
-                sx={{ gridColumn: "span 2" }}
-              >
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Tipo
                 </InputLabel>
