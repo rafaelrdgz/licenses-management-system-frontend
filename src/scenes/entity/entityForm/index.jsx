@@ -26,12 +26,9 @@ function EntityForm() {
   const navigate = useNavigate();
   const params = useParams();
 
-  //Se carga la entidad de la bd
+  //Se carga la entidad de la bd y se asigna el valor con setInfo
   const loadEntity = async (id) => {
-    await axios.get(``).then((res) => {
-      setInfo(res.data);
-      setEditing(true);
-    });
+    setEditing(true);
   };
 
   useEffect(() => {
@@ -82,14 +79,14 @@ function EntityForm() {
 
   const handleFormSubmit = async (values) => {
     if (editing) {
-      //caso en q se edita una entidad existente
+      //caso en q se edita una entidad existente hay q actualizar en la bd
 
       return;
     }
 
     //aki va el caso en q se debe insertar la nueva entidad en la bd
     console.log(values);
-    navigate("/");
+    navigate("/entity");
   };
 
   return (

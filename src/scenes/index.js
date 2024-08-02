@@ -15,6 +15,9 @@ import Geography from "./geography";
 import CenterProfile from "./centerProfile";
 import EntityForm from "./entity/entityForm";
 import EntityTable from "./entity/entityTable"
+import ExamsForm from "./exams/examsForm";
+import ExamsTable from "./exams/examsTable";
+
 
 export {
   Navbar,
@@ -33,5 +36,7 @@ export {
   Geography,
   CenterProfile,
   EntityForm,
-  EntityTable
+  EntityTable,
+  ExamsForm,
+  ExamsTable
 };

@@ -19,6 +19,11 @@ import {
   WavesOutlined,
   StoreOutlined
 } from "@mui/icons-material";
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import avatar from "../../../assets/images/avatar.png";
 import logo from "../../../assets/images/logo.png";
 import Item from "./Item";
@@ -156,33 +161,39 @@ const SideBar = () => {
         >
           <Item
             title="Entidades"
-            path="/team"
+            path="/entity"
             colors={colors}
             icon={<PeopleAltOutlined />}
+          />
+          <Item
+            title="Clientes"
+            path="/entity"
+            colors={colors}
+            icon={<PermIdentityOutlinedIcon />}
           />
           <Item
             title="Conductores"
             path="/contacts"
             colors={colors}
-            icon={<ContactsOutlined />}
+            icon={<DirectionsCarFilledOutlinedIcon />}
           />
           <Item
             title="Licencias"
             path="/invoices"
             colors={colors}
-            icon={<ReceiptOutlined />}
+            icon={<BadgeOutlinedIcon />}
           />
           <Item
             title="Exámenes"
-            path="/invoices"
+            path="/exams"
             colors={colors}
-            icon={<ReceiptOutlined />}
+            icon={<ArticleOutlinedIcon />}
           />
           <Item
             title="Infracciones"
             path="/invoices"
             colors={colors}
-            icon={<ReceiptOutlined />}
+            icon={<PaidOutlinedIcon />}
           />
         </Menu>
         <Typography

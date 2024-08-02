@@ -16,8 +16,11 @@ import {
   Stream,
   CenterProfile,
   EntityForm,
-  EntityTable
+  EntityTable,
+  ExamsForm,
+  ExamsTable
 } from "./scenes";
+
 
 
 const AppRouter = () => {
@@ -40,6 +43,10 @@ const AppRouter = () => {
           <Route path="/center" element={<CenterProfile />} />
           <Route path="/entity/new" element={<EntityForm />} />
           <Route path="/entity" element={<EntityTable />} />
+          <Route path="/entity/:id/edit" element={<EntityForm />} />
+          <Route path="/exams/:id/edit" element={<ExamsForm />} />
+          <Route path="/exams/new" element={<ExamsForm />} />
+          <Route path="/exams" element={<ExamsTable />} />
         </Route>
       </Routes>
     </Router>
