@@ -7,6 +7,7 @@ import {
 } from "@mui/x-data-grid";
 import FileSaver from "file-saver";
 import * as XLSX from "xlsx";
+import { GridToolbarColumnsButton } from '@mui/x-data-grid';
 
 const TableToolbar = ({ columns, rows, fileName }) => {
   const exportToExcel = () => {
@@ -33,10 +34,11 @@ const TableToolbar = ({ columns, rows, fileName }) => {
 
   return (
     <GridToolbarContainer>
+      <GridToolbarColumnsButton color='secondary' />
+      <GridToolbarFilterButton color='secondary' />
       <Button color="secondary" variant="text" startIcon={<GetAppIcon />} onClick={exportToExcel}>
         Exportar a Excel
       </Button>
-      <GridToolbarFilterButton color='secondary' />
     </GridToolbarContainer>
   );
 }

@@ -8,16 +8,22 @@ import {
   GridActionsCellItem
 } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
+import { esES } from '@mui/x-data-grid/locales';
 
 function EntityTable() {
 
   const navigate = useNavigate();
 
-  const [rows, setRows] = React.useState([]);
-
-  React.useEffect(() => {
-    loadEntities();
-  }, []);
+  //quitar el objeto y dejar el array vacio al cargar de la bd
+  const [rows, setRows] = React.useState([{
+    id: '213',
+    name: 'Rafael Rodriguez Perez',
+    phoneNumber: '55362350',
+    address: 'sadsad sad sadsadsadsadsa dsadsadsa dsadsadsad sad sa dsa4546 45645',
+    email: 'dasdsadsadsadsadsa',
+    directorName: "dasdsa dsadsadsadsa dasdsadsa",
+    type: "autoescuela"
+  }]);
 
   //Cargar de la bd las entidades
   const loadEntities = async () => {
@@ -26,48 +32,52 @@ function EntityTable() {
     });*/
   };
 
+  React.useEffect(() => {
+    loadEntities();
+  }, []);
+
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
     //eleminar de la bd la entidad
   };
 
   const columns = [
-    { field: "name", headerName: "Nombre", width: 200, editable: false },
+    { field: "name", headerName: "Nombre", flex: 1, editable: false },
     {
       field: "phoneNumber",
       headerName: "Número de teléfono",
-      width: 150,
+      flex: 1,
       editable: false,
     },
     {
       field: "email",
       headerName: "Correo",
-      width: 150,
+      flex: 1,
       editable: false,
     },
     {
       field: "type",
       headerName: "Tipo",
-      width: 100,
+      flex: 1,
       editable: false,
     },
     {
       field: "address",
       headerName: "Dirección",
-      width: 350,
+      flex: 1,
       editable: false,
     },
     {
       field: "directorName",
       headerName: "Nombre del director",
-      width: 150,
+      flex: 1,
       editable: false,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Actions",
-      width: 100,
+      headerName: "Acciones",
+      flex: 1,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
@@ -97,7 +107,8 @@ function EntityTable() {
       />
       <Box
         sx={{
-          width: "100%",
+          height: "75vh",
+          maxflex: "100%",
           "& .actions": {
             color: "text.secondary",
           },
@@ -110,6 +121,7 @@ function EntityTable() {
           Insertar nueva entidad
         </Button>
         <DataGrid
+          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           initialState={{
             pagination: {
               paginationModel: { pageSize: 25, page: 0 },
