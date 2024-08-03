@@ -9,6 +9,7 @@ import ProgressCircle from "./ProgressCircle";
 import StatBox from "./StatBox";
 import TextField from "./TextField";
 import Select from "./Select";
+import TableToolbar from "./TableToolbar";
 
 export {
   Header,
@@ -21,5 +22,6 @@ export {
   ProgressCircle,
   StatBox,
   TextField,
-  Select
+  Select,
+  TableToolbar
 };
