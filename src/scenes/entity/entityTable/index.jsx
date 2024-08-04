@@ -77,7 +77,7 @@ function EntityTable() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      flex: 1,
+      flex: .5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
@@ -102,7 +102,7 @@ function EntityTable() {
   return (
     <Box m="20px">
       <Header
-        title={"ENTIDAD"}
+        title={"ENTIDADES"}
         subtitle={"Información de las Entidades Relacionadas"}
       />
       <Box
@@ -118,7 +118,7 @@ function EntityTable() {
         }}
       >
         <Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={() => navigate(`/entity/new`)}>
-          Insertar nueva entidad
+          Nueva entidad
         </Button>
         <DataGrid
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}

@@ -144,7 +144,7 @@ function Dashboard() {
         >
           <StatBox
             title="1,325,134"
-            subtitle="Exámenes pendientes"
+            subtitle="Exámenes realizados"
             progress="0.80"
             increase="+43%"
             icon={

@@ -37,7 +37,7 @@ const TableToolbar = ({ columns, rows, fileName }) => {
       <GridToolbarColumnsButton color='secondary' />
       <GridToolbarFilterButton color='secondary' />
       <Button color="secondary" variant="text" startIcon={<GetAppIcon />} onClick={exportToExcel}>
-        Exportar a Excel
+        Exportar Excel
       </Button>
     </GridToolbarContainer>
   );

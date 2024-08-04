@@ -83,7 +83,7 @@ function ExamsTable() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      flex: 1,
+      flex: .5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
@@ -108,7 +108,7 @@ function ExamsTable() {
   return (
     <Box m="20px">
       <Header
-        title={"EXAMEN"}
+        title={"EXAMENES"}
         subtitle={"Información de los exámenes"}
       />
       <Box
@@ -124,7 +124,7 @@ function ExamsTable() {
         }}
       >
         <Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={() => navigate(`/exams/new`)}>
-          Insertar nuevo exámen
+          Nuevo exámen
         </Button>
         <DataGrid
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
@@ -136,7 +136,7 @@ function ExamsTable() {
           rows={rows}
           columns={columns}
           components={{
-            Toolbar: () => <TableToolbar columns={columns} rows={rows} fileName={'Entidades'} />,
+            Toolbar: () => <TableToolbar columns={columns} rows={rows} fileName={'Exámenes'} />,
           }}
         />
       </Box>

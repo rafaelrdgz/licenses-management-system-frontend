@@ -17,6 +17,14 @@ import EntityForm from "./entity/entityForm";
 import EntityTable from "./entity/entityTable"
 import ExamsForm from "./exams/examsForm";
 import ExamsTable from "./exams/examsTable";
+import ClientsForm from "./clients/clientsForm";
+import ClientsTable from "./clients/clientsTable";
+import DriversForm from "./drivers/driversForm";
+import DriversTable from "./drivers/driversTable";
+import LicencesForm from "./licences/licencesForm";
+import LicencesTable from "./licences/licencesTable";
+import InfractionsForm from "./infractions/infractionsForm";
+import InfractionsTable from "./infractions/infractionsTable";
 
 
 export {
@@ -38,5 +46,13 @@ export {
   EntityForm,
   EntityTable,
   ExamsForm,
-  ExamsTable
+  ExamsTable,
+  ClientsForm,
+  ClientsTable,
+  DriversForm,
+  DriversTable,
+  LicencesForm, 
+  LicencesTable,
+  InfractionsForm,
+  InfractionsTable
 };

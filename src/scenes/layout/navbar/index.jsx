@@ -62,9 +62,11 @@ const Navbar = () => {
             <DarkModeOutlined />
           )}
         </IconButton>
+        <Link to="/faq">
         <IconButton>
           <NotificationsOutlined />
         </IconButton>
+        </Link>
         {/*<IconButton>
           <SettingsOutlined />
         </IconButton>*/}

@@ -18,7 +18,15 @@ import {
   EntityForm,
   EntityTable,
   ExamsForm,
-  ExamsTable
+  ExamsTable,
+  ClientsForm,
+  ClientsTable,
+  DriversForm,
+  DriversTable,
+  LicencesForm,
+  LicencesTable,
+  InfractionsForm,
+  InfractionsTable
 } from "./scenes";
 
 
@@ -47,6 +55,17 @@ const AppRouter = () => {
           <Route path="/exams/:id/edit" element={<ExamsForm />} />
           <Route path="/exams/new" element={<ExamsForm />} />
           <Route path="/exams" element={<ExamsTable />} />
+          <Route path="/clients" element={<ClientsTable />} />
+          <Route path="/clients/:id/edit" element={<ClientsForm />} />
+          <Route path="/clients/new" element={<ClientsForm />} />
+          <Route path="/drivers" element={<DriversTable />} />
+          <Route path="/drivers/:id/edit" element={<DriversForm />} />
+          <Route path="/licences" element={<LicencesTable />} />
+          <Route path="/licences/:id/edit" element={<LicencesForm />} />
+          <Route path="/licences/new" element={<LicencesForm />} />
+          <Route path="/infractions" element={<InfractionsTable />} />
+          <Route path="/infractions/:id/edit" element={<InfractionsForm />} />
+          <Route path="/infractions/new" element={<InfractionsForm />} />
         </Route>
       </Routes>
     </Router>

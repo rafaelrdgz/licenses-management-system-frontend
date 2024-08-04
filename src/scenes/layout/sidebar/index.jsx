@@ -167,19 +167,19 @@ const SideBar = () => {
           />
           <Item
             title="Clientes"
-            path="/entity"
+            path="/clients"
             colors={colors}
             icon={<PermIdentityOutlinedIcon />}
           />
           <Item
             title="Conductores"
-            path="/contacts"
+            path="/drivers"
             colors={colors}
             icon={<DirectionsCarFilledOutlinedIcon />}
           />
           <Item
             title="Licencias"
-            path="/invoices"
+            path="/licences"
             colors={colors}
             icon={<BadgeOutlinedIcon />}
           />
@@ -191,7 +191,7 @@ const SideBar = () => {
           />
           <Item
             title="Infracciones"
-            path="/invoices"
+            path="/infractions"
             colors={colors}
             icon={<PaidOutlinedIcon />}
           />
@@ -240,9 +240,8 @@ const SideBar = () => {
 
 
 
-        
-        //lo q venia con la app          
-        <Typography
+             
+        {/*<Typography
           variant="h6"
           color={colors.gray[300]}
           sx={{ m: "15px 0 5px 20px" }}
@@ -363,8 +362,8 @@ const SideBar = () => {
             path="/stream"
             colors={colors}
             icon={<WavesOutlined />}
-          />
-        </Menu>
+        />
+        </Menu>*/}
       </Box>
     </Sidebar>
   );
