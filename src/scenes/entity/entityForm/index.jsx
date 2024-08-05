@@ -49,6 +49,7 @@ function EntityForm() {
   const checkoutSchema = yup.object().shape({
     name: yup
       .string()
+      .matches(/^[a-zA-Z\s]*$/, "El nombre no debe contener números ni caracteres especiales")
       .required("El nombre es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(50, "El nombre debe tener menos de 50 caracteres"),
@@ -65,6 +66,7 @@ function EntityForm() {
       .max(12, "El número de teléfono debe tener menos de 12 caracteres"),
     directorName: yup
       .string()
+      .matches(/^[a-zA-Z\s]*$/, "El nombre del director no debe contener números ni caracteres especiales")
       .required("El nombre del director es requerido")
       .min(5, "El nombre del director debe tener al menos 5 caracteres")
       .max(50, "El nombre del director debe tener menos de 50 caracteres"),

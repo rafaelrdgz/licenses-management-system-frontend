@@ -57,13 +57,13 @@ function ClientsForm() {
     name: yup
       .string()
       .required("El nombre es requerido")
-      .matches(/^[a-zA-Z ]+$/, "El nombre no debe contener números")
+      .matches(/^[a-zA-Z ]+$/, "El nombre no debe contener números ni caracteres especiales")
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(25, "El nombre debe tener menos de 25 caracteres"),
     lastNames: yup
       .string()
       .required("Los apellidos son requeridos")
-      .matches(/^[a-zA-Z ]+$/, "Los apellidos no deben contener números")
+      .matches(/^[a-zA-Z ]+$/, "Los apellidos no deben contener números ni caracteres especiales")
       .min(5, "Los apellidos deben tener al menos 5 caracteres")
       .max(50, "Los apellidos deben tener menos de 50 caracteres"),
     address: yup
@@ -74,7 +74,7 @@ function ClientsForm() {
     phoneNumber: yup
       .string()
       .required("El número de teléfono es requerido")
-      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras")
+      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras ni caracteres especiales")
       .min(6, "El número de teléfono debe tener al menos 6 dígitos")
       .max(12, "El número de teléfono debe tener menos de 12 dígitos"),
     email: yup

@@ -46,12 +46,13 @@ const CenterProfile = () => {
   const checkoutSchema = yup.object().shape({
     name: yup
       .string()
+      .matches(/^[a-zA-Z\s]*$/, "El nombre no debe contener números ni caracteres especiales")
       .required("El nombre es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(50, "El nombre debe tener menos de 50 caracteres"),
     code: yup
       .string()
-      .matches(/^[0-9]+$/, "El código debe ser un número")
+      .matches(/^[0-9]+$/, "El código no debe contener letras ni caracteres especiales")
       .required("El código es requerido")
       .min(4, "El código debe tener al menos 4 caracteres")
       .max(16, "El código debe tener menos de 16 caracteres"),
@@ -62,17 +63,19 @@ const CenterProfile = () => {
       .max(100, "La dirección debe tener menos de 100 caracteres"),
     phone: yup
       .string()
-      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras")
+      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras ni caracteres especiales")
       .required("El número de teléfono es requerido")
       .min(6, "El número de teléfono debe tener al menos 6 caracteres")
       .max(12, "El número de teléfono debe tener menos de 12 caracteres"),
     directorName: yup
       .string()
+      .matches(/^[a-zA-Z\s]*$/, "El nombre del director no debe contener números ni caracteres especiales")
       .required("El nombre del director es requerido")
       .min(5, "El nombre del director debe tener al menos 5 caracteres")
       .max(50, "El nombre del director debe tener menos de 50 caracteres"),
     humanResourcesName: yup
       .string()
+      .matches(/^[a-zA-Z\s]*$/, "El nombre del jefe de recursos humanos no debe contener números ni caracteres especiales")
       .required("El nombre del jefe de recursos humanos es requerido")
       .min(
         5,
@@ -84,6 +87,7 @@ const CenterProfile = () => {
       ),
     accountantName: yup
       .string()
+      .matches(/^[a-zA-Z\s]*$/, "El nombre del responsable de contabilidad no debe contener números ni caracteres especiales")
       .required("El nombre del responsable de contabilidad es requerido")
       .min(
         5,
@@ -95,6 +99,7 @@ const CenterProfile = () => {
       ),
     sydicateSecretaryName: yup
       .string()
+      .matches(/^[a-zA-Z\s]*$/, "El nombre del secretario del sindicato no debe contener números ni caracteres especiales")
       .required("El nombre del secretario del sindicato es requerido")
       .min(
         5,
@@ -313,7 +318,7 @@ const CenterProfile = () => {
               justifyContent="end"
               mt="20px"
             >
-              <Button
+              {disableEdit && (<Button
                 onClick={() =>
                   disableEdit ? setDisableEdit(false) : setDisableEdit(true)
                 }
@@ -321,10 +326,9 @@ const CenterProfile = () => {
                 variant="contained"
               >
                 Editar
-              </Button>
+              </Button>)}
               {!disableEdit && (
                 <Button
-                  sx={{ marginLeft: "10px" }}
                   type="submit"
                   color="secondary"
                   variant="contained"

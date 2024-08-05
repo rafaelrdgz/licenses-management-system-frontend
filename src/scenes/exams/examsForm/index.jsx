@@ -86,7 +86,7 @@ function ExamsForm() {
     examinerName: yup
       .string()
       .required("El nombre es requerido")
-      .matches(/^[a-zA-Z ]+$/, "El nombre no debe contener números")
+      .matches(/^[a-zA-Z ]+$/, "El nombre no debe contener números ni caracteres especiales")
       .min(5, "El nombre debe tener al menos 5 caracteres")
       .max(50, "El nombre debe tener menos de 50 caracteres"),
     entityCode: yup
