@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { InputLabel } from "@mui/material";
+import { InputLabel, Typography } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
 function EntityForm() {

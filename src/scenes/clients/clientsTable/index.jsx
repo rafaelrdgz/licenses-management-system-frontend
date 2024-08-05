@@ -74,7 +74,7 @@ function ClientsTable() {
       },
       {
         field: "email",
-        headerName: "Fecha",
+        headerName: "Correo",
         flex: 1,
       },
       {

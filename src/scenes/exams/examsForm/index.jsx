@@ -13,7 +13,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-
+import {
+  isValidIdDate,
+  isValidEntity,
+  isValidPersonID,
+} from "../../../utils/validations.js";
 
 function ExamsForm() {
   const [editing, setEditing] = useState(false);
@@ -22,7 +26,7 @@ function ExamsForm() {
     personId: "",
     code: "",
     date: dayjs().subtract(1, "day"),
-    entityName: "",
+    entityCode: "",
     examinerName: "",
     type: "",
     result: "",
@@ -47,7 +51,7 @@ function ExamsForm() {
     personId: info.personId,
     code: info.code,
     date: info.date,
-    entityName: info.entityName,
+    entityCode: info.entityCode,
     examinerName: info.examinerName,
     type: info.type,
     result: info.result,
@@ -56,11 +60,23 @@ function ExamsForm() {
   const checkoutSchema = yup.object().shape({
     personId: yup
       .string()
-      .matches(/^[0-9]+$/, "El número de indentificación no debe contener letras")
+      .matches(
+        /^[0-9]+$/,
+        "El número de indentificación no debe contener letras"
+      )
       .required("El número de indentificación es requerido")
       .min(11, "El número de indentificación debe tener 11 dígitos")
       .max(11, "El número de indentificación debe tener 11 dígitos")
-      .test('is-valid-id', 'El número de indentificación no es válido', isValidIdDate),
+      .test(
+        "is-valid-id",
+        "El número de indentificación no es válido",
+        isValidIdDate
+      )
+      .test(
+        "is-valid-person",
+        "El número de identificación no se encuentra en el sistema",
+        isValidPersonID
+      ),
     code: yup
       .string()
       .matches(/^[0-9]+$/, "El código debe ser un número")
@@ -70,53 +86,40 @@ function ExamsForm() {
     examinerName: yup
       .string()
       .required("El nombre es requerido")
+      .matches(/^[a-zA-Z ]+$/, "El nombre no debe contener números")
       .min(5, "El nombre debe tener al menos 5 caracteres")
       .max(50, "El nombre debe tener menos de 50 caracteres"),
-    entityName: yup
+    entityCode: yup
       .string()
-      .required("El nombre es requerido")
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(50, "El nombre debe tener menos de 50 caracteres"),
-    type: yup
-      .string()
-      .required("El tipo de entidad es requerido"),
-    result: yup
-      .string()
-      .required("El tipo de entidad es requerido"),
-    date: yup
-      .string()
-      .required("La fecha es requerida")
+      .matches(/^[0-9]+$/, "El código debe ser un número")
+      .required("El código es requerido")
+      .min(6, "El código debe tener al menos 6 caracteres")
+      .max(16, "El código debe tener menos de 16 caracteres")
+      .test(
+        "is-valid-entity",
+        "El código de la entidad no se encuentra en el sistema",
+        isValidEntity
+      ),
+    type: yup.string().required("El tipo de entidad es requerido"),
+    result: yup.string().required("El tipo de entidad es requerido"),
+    date: yup.string().required("La fecha es requerida"),
   });
 
   const handleFormSubmit = async (values) => {
     if (editing) {
       //caso en q se edita un examen existente hay q actualizar en la bd
-
-    }else{
+    } else {
       //aki va el caso en q se debe insertar el nuevo examen en la bd
-
     }
 
     console.log(values);
     navigate("/exams");
   };
 
-  function isValidIdDate(id) {
-    let y = id.substring(0,2); 
-    let m = id.substring(2,4); 
-    let d = id.substring(4,6);
-
-    if(dayjs(`${y}-${m}-${d}`, 'YY-MM-DD', true).isValid()){
-      return true;
-    }
-    return false;
-  }
-
-
   return (
     <Box m="20px">
       <Header
-        title={"Examen"}
+        title={"EXAMENES"}
         subtitle={editing ? "Editar datos de exámen" : "Insertar nuevo exámen"}
       />
       <Formik
@@ -171,13 +174,13 @@ function ExamsForm() {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre de la entidad que realizó el exámen"
+                label="Código de la entidad que realizó el exámen"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.entityName}
-                name="entityName"
-                error={touched.entityName && errors.entityName}
-                helperText={touched.entityName && errors.entityName}
+                value={values.entityCode}
+                name="entityCode"
+                error={touched.entityCode && errors.entityCode}
+                helperText={touched.entityCode && errors.entityCode}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
