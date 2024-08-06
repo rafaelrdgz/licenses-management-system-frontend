@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { esES } from '@mui/x-data-grid/locales';
 
 
-function LicencesTable() {
+function LicensesTable() {
     const navigate = useNavigate();
 
     //quitar el objeto y dejar el array vacio al cargar de la bd
@@ -95,7 +95,7 @@ function LicencesTable() {
               icon={<EditOutlinedIcon />}
               label="Edit"
               className="textPrimary"
-              onClick={() => navigate(`/licences/${id}/edit`)}
+              onClick={() => navigate(`/licenses/${id}/edit`)}
               color="inherit"
             />,
             <GridActionsCellItem
@@ -115,7 +115,7 @@ function LicencesTable() {
           title={"LICENCIAS"}
           subtitle={"Información de las licencias"}
         />
-        <Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={() => navigate(`/licences/new`)}>
+        <Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={() => navigate(`/licenses/new`)}>
           Nueva licencia
         </Button>
         <Box
@@ -148,4 +148,4 @@ function LicencesTable() {
     );
   }
 
-export default LicencesTable
+export default LicensesTable

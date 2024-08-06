@@ -2,10 +2,10 @@ import { Box } from "@mui/material";
 import { Header, AccordionItem } from "../../components";
 import { mockAccordionData } from "../../data/mockData";
 
-const FAQ = () => {
+const Notifications = () => {
   return (
     <Box m="20px">
-      <Header title="FAQ" subtitle="Frequently Asked Questions Page" />
+      <Header title="NOTIFICACIONES" subtitle="Alertas y notificaciones" />
       {mockAccordionData.map((accordion, index) => (
         <AccordionItem key={index} {...accordion} />
       ))}
@@ -13,4 +13,4 @@ const FAQ = () => {
   );
 };
 
-export default FAQ;
+export default Notifications;

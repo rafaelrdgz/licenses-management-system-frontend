@@ -1,7 +1,7 @@
 import React from "react";
-import { Header, Select } from "../../../components";
+import { Header, Select } from "../../../components/index.jsx";
 import { Box, Button, useMediaQuery, MenuItem } from "@mui/material";
-import { TextField } from "../../../components";
+import { TextField } from "../../../components/index.jsx";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useState, useEffect } from "react";
@@ -12,10 +12,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import {
-  isValidIdDate,
-  isValidPersonID,
-} from "../../../utils/validations.js";
+import { isValidIdDate, isValidPersonID } from "../../../utils/validations.js";
 import { useTheme } from "@emotion/react";
 
 function LicensesForm() {
@@ -24,7 +21,7 @@ function LicensesForm() {
     "Uso de lentes",
     "Conducción diurna",
     "Límite del radio de conducción",
-    "Conducción sin pasajeros",
+    "Conducción sin acompañantes",
     "Limitación de velocidad",
     "Solo conducción en zonas urbanas",
   ];
@@ -42,7 +39,6 @@ function LicensesForm() {
 
   const [editing, setEditing] = useState(false);
 
-
   const [info, setInfo] = useState({
     id: "",
     driverId: "",
@@ -51,6 +47,7 @@ function LicensesForm() {
     expirationDate: dayjs().add(10, "year"),
     category: "",
     restrictions: [],
+    renewed: false,
   });
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -62,20 +59,38 @@ function LicensesForm() {
     setEditing(true);
   };
 
+  const renewLicense = () =>{
+    setInfo((prevInfo) => ({
+      ...prevInfo,
+      expirationDate: info.issueDate.add(20, "year"),
+      renewed: true,
+    }));
+    console.log(info);
+  }
+
+  //funcion para obtener del back el id de licencia, debe retornar el string con el id
+  const getNewLicenseId = () =>{
+
+  }
+
   useEffect(() => {
     if (params.id) {
       loadLicense(params.id);
+    } else {
+      setInfo((prevInfo) => ({
+        ...prevInfo,
+        id: getNewLicenseId(),
+      }));
     }
+
   }, [params.id]);
 
   const initialValues = {
     id: info.id,
     driverId: info.driverId,
     type: info.type,
-    issueDate: info.issueDate,
-    expirationDate: info.expirationDate,
     category: info.category,
-    restrictions: info.restrictions
+    restrictions: info.restrictions,
   };
 
   const checkoutSchema = yup.object().shape({
@@ -105,18 +120,23 @@ function LicensesForm() {
         "El número de licencia no debe contener letras ni caracteres especiales"
       )
       .required("El número de licencia es requerido")
-      .min(6, "El número de licencia debe tener al menos 6 caracteres")
-      .max(16, "El número de licencia debe tener menos de 16 caracteres"),
-    type: yup.string().required("El tipo de entidad es requerido"),
-    category: yup.string().required("El tipo de entidad es requerido"),
-    issueDate: yup.string().required("La fecha es requerida"),
-    expirationDate: yup.string().required("La fecha es requerida"),
+      .min(6, "El número de licencia debe tener 6 caracteres")
+      .max(6, "El número de licencia debe tener 6 caracteres"),
+    type: yup.
+      string().
+      required("El tipo de entidad es requerido"),
+    category: yup
+      .string()
+      .required("El tipo de entidad es requerido"),
   });
 
   const handleFormSubmit = (values) => {
     const data = {
       ...values,
       restrictions: info.restrictions,
+      renewed: info.renewed,
+      issueDate: info.issueDate,
+      expirationDate: info.expirationDate,
     };
 
     if (editing) {
@@ -126,20 +146,19 @@ function LicensesForm() {
     }
 
     console.log(data);
-    navigate("/licences");
+    navigate("/licenses");
   };
 
-  const handleRestrictionsChange = (event) =>{
+  const handleRestrictionsChange = (event) => {
     const {
       target: { value },
     } = event;
 
     setInfo((prevInfo) => ({
       ...prevInfo,
-      restrictions: typeof value === 'string' ? value.split(',') : value,
+      restrictions: typeof value === "string" ? value.split(",") : value,
     }));
-
-  }
+  };
 
   return (
     <Box m="20px">
@@ -149,6 +168,9 @@ function LicensesForm() {
           editing ? "Editar datos de licencia" : "Insertar nueva licencia"
         }
       />
+      {editing &&(<Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={renewLicense}>
+          Renovar licencia
+        </Button>)}
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -172,7 +194,6 @@ function LicensesForm() {
               }}
             >
               <TextField
-                
                 fullWidth
                 variant="filled"
                 type="text"
@@ -269,22 +290,26 @@ function LicensesForm() {
               </FormControl>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  disabled
+                  format="DD/MM/YYYY"
                   label="Fecha de emisión"
                   sx={{ gridColumn: "span 2" }}
-                  value={values.issueDate}
+                  value={info.issueDate}
                   slotProps={{
                     textField: {
-                      helperText: "MM/DD/YYYY",
+                      helperText: "DD/MM/YYYY",
                     },
                   }}
                 />
                 <DatePicker
+                  disabled
+                  format="DD/MM/YYYY"
                   label="Fecha de expiración"
                   sx={{ gridColumn: "span 2" }}
-                  value={values.expirationDate}
+                  value={info.expirationDate}
                   slotProps={{
                     textField: {
-                      helperText: "MM/DD/YYYY",
+                      helperText: "DD/MM/YYYY",
                     },
                   }}
                 />
