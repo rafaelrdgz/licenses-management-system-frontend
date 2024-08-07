@@ -168,7 +168,7 @@ function LicensesForm() {
           editing ? "Editar datos de licencia" : "Insertar nueva licencia"
         }
       />
-      {editing &&(<Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={renewLicense}>
+      {editing && !info.renewed &&(<Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={renewLicense}>
           Renovar licencia
         </Button>)}
       <Formik

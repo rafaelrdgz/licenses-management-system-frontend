@@ -46,7 +46,7 @@ const CenterProfile = () => {
   const checkoutSchema = yup.object().shape({
     name: yup
       .string()
-      .matches(/^[a-zA-Z\s]*$/, "El nombre no debe contener números ni caracteres especiales")
+      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre no debe contener números ni caracteres especiales")
       .required("El nombre es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(50, "El nombre debe tener menos de 50 caracteres"),
@@ -69,13 +69,13 @@ const CenterProfile = () => {
       .max(12, "El número de teléfono debe tener menos de 12 caracteres"),
     directorName: yup
       .string()
-      .matches(/^[a-zA-Z\s]*$/, "El nombre del director no debe contener números ni caracteres especiales")
+      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre del director no debe contener números ni caracteres especiales")
       .required("El nombre del director es requerido")
       .min(5, "El nombre del director debe tener al menos 5 caracteres")
       .max(50, "El nombre del director debe tener menos de 50 caracteres"),
     humanResourcesName: yup
       .string()
-      .matches(/^[a-zA-Z\s]*$/, "El nombre del jefe de recursos humanos no debe contener números ni caracteres especiales")
+      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre del jefe de recursos humanos no debe contener números ni caracteres especiales")
       .required("El nombre del jefe de recursos humanos es requerido")
       .min(
         5,
@@ -87,7 +87,7 @@ const CenterProfile = () => {
       ),
     accountantName: yup
       .string()
-      .matches(/^[a-zA-Z\s]*$/, "El nombre del responsable de contabilidad no debe contener números ni caracteres especiales")
+      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre del responsable de contabilidad no debe contener números ni caracteres especiales")
       .required("El nombre del responsable de contabilidad es requerido")
       .min(
         5,
@@ -99,7 +99,7 @@ const CenterProfile = () => {
       ),
     sydicateSecretaryName: yup
       .string()
-      .matches(/^[a-zA-Z\s]*$/, "El nombre del secretario del sindicato no debe contener números ni caracteres especiales")
+      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre del secretario del sindicato no debe contener números ni caracteres especiales")
       .required("El nombre del secretario del sindicato es requerido")
       .min(
         5,

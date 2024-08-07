@@ -148,10 +148,11 @@ function Dashboard() {
               xAxis={[
                 {
                   scaleType: "band",
-                  data: ["Moto", "Automóvil", "Camión", "Autobús"],
+                  data: ["Moto", "Automóvil", "Camión", "Autobús"]
                 },
               ]}
-              series={[{ type: "bar", data: chartBarInfo }]}
+              series={[{ type: "bar", data: chartBarInfo}]}
+              
             />
           </Box>
         </Box>
