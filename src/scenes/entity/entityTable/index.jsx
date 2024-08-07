@@ -113,7 +113,7 @@ function EntityTable() {
     <Box m="20px">
       <Header
         title={"ENTIDADES"}
-        subtitle={"Información de las Entidades Relacionadas"}
+        subtitle={"Información de las entidades relacionadas"}
       />
       <Box
         sx={{

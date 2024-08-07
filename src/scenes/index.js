@@ -15,6 +15,7 @@ import InfractionsTable from "./infractions/infractionsTable";
 import Notifications from "./notifications";
 import LicensesForm from "./licenses/licensesForm";
 import LicensesTable from "./licenses/licensesTable";
+import Reports from "./reports";
 
 export {
   Navbar,
@@ -33,5 +34,6 @@ export {
   InfractionsTable,
   Notifications,
   LicensesForm,
-  LicensesTable
+  LicensesTable,
+  Reports
 };

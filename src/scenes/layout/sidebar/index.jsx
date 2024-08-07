@@ -17,6 +17,7 @@ import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import logo from "../../../assets/images/logo.png";
 import Item from "./Item";
 import { ToggledContext } from "../../../App";
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -90,6 +91,12 @@ const SideBar = () => {
             path="/"
             colors={colors}
             icon={<DashboardOutlined />}
+          />
+          <Item
+            title="Reportes"
+            path="/reports"
+            colors={colors}
+            icon={<SummarizeOutlinedIcon />}
           />
         </Menu>
         <Typography

@@ -1,7 +1,6 @@
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Header, ProgressCircle, StatBox } from "../../components";
 import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { useEffect, useState } from "react";
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
@@ -19,11 +18,13 @@ function Dashboard() {
   
   const [chartBarInfo, setChartBarInfo] = useState([]) // el array solo debe tener los 4 valores en el orden: Moto, Automóvil, Camión, Autobús
   const [progressCircleInfo, setProgressCircleInfo] = useState(0)//debe darse el valor en probabilidad de 0 a 1
+  const [recentLicenses, setRecentLicenses] = useState([]) //debe ser un array de objetos con la siguiente estructura: [{id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}
 
   const loadData = () => {
-    //cargar de la bd y asignar valores con setChartBarInfo y setProgressCircleInfo
+    //cargar de la bd y asignar valores con setChartBarInfo , setProgressCircleInfo y setRecentLicenses
     setChartBarInfo([100, 200, 300, 400])
     setProgressCircleInfo(0.75)
+    setRecentLicenses([ {id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}, {id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}])
   }
 
   useEffect(() => {
@@ -196,9 +197,9 @@ function Dashboard() {
               Licencias emitidas recientemente
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, index) => (
+          {recentLicenses.map((license, index) => (
             <Box
-              key={`${transaction.txId}-${index}`}
+              key={`${license.id}-${index}`}
               display="flex"
               alignItems="center"
               justifyContent="space-between"
@@ -211,21 +212,21 @@ function Dashboard() {
                   variant="h5"
                   fontWeight="600"
                 >
-                  {transaction.txId}
+                  {license.id}
                 </Typography>
                 <Typography color={colors.gray[100]}>
-                  {transaction.user}
+                  {license.name}
                 </Typography>
               </Box>
               <Typography color={colors.gray[100]}>
-                {transaction.date}
+                {license.date}
               </Typography>
               <Box
                 bgcolor={colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                {license.category}
               </Box>
             </Box>
           ))}
