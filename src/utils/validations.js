@@ -21,5 +21,10 @@ const isValidPersonID = (id) => {
   return true;
 }
 
+//hay q verificar en la bd si la persona ya realizo los 3 examenes para obtener licencia y en tal caso retornar true
+const checkExamsDone = (id) => {
+  return true;
+}
 
-export { isValidIdDate, isValidEntity, isValidPersonID };
+
+export { isValidIdDate, isValidEntity, isValidPersonID, checkExamsDone };

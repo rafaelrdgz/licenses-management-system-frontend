@@ -12,7 +12,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
-import { isValidIdDate, isValidPersonID } from "../../../utils/validations.js";
+import { checkExamsDone, isValidIdDate, isValidPersonID } from "../../../utils/validations.js";
 import { useTheme } from "@emotion/react";
 
 function LicensesForm() {
@@ -59,19 +59,17 @@ function LicensesForm() {
     setEditing(true);
   };
 
-  const renewLicense = () =>{
+  const renewLicense = () => {
     setInfo((prevInfo) => ({
       ...prevInfo,
       expirationDate: info.issueDate.add(20, "year"),
       renewed: true,
     }));
     console.log(info);
-  }
+  };
 
   //funcion para obtener del back el id de licencia, debe retornar el string con el id
-  const getNewLicenseId = () =>{
-
-  }
+  const getNewLicenseId = () => {};
 
   useEffect(() => {
     if (params.id) {
@@ -82,7 +80,6 @@ function LicensesForm() {
         id: getNewLicenseId(),
       }));
     }
-
   }, [params.id]);
 
   const initialValues = {
@@ -112,6 +109,11 @@ function LicensesForm() {
         "is-valid-person",
         "El número de identificación no se encuentra en el sistema",
         isValidPersonID
+      )
+      .test(
+        "exams-done",
+        "La persona no tiene aprobados los exámenes",
+        checkExamsDone
       ),
     id: yup
       .string()
@@ -122,12 +124,8 @@ function LicensesForm() {
       .required("El número de licencia es requerido")
       .min(6, "El número de licencia debe tener 6 caracteres")
       .max(6, "El número de licencia debe tener 6 caracteres"),
-    type: yup.
-      string().
-      required("El tipo de entidad es requerido"),
-    category: yup
-      .string()
-      .required("El tipo de entidad es requerido"),
+    type: yup.string().required("El tipo de entidad es requerido"),
+    category: yup.string().required("El tipo de entidad es requerido"),
   });
 
   const handleFormSubmit = (values) => {
@@ -168,9 +166,16 @@ function LicensesForm() {
           editing ? "Editar datos de licencia" : "Insertar nueva licencia"
         }
       />
-      {editing && !info.renewed &&(<Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={renewLicense}>
+      {editing && !info.renewed && (
+        <Button
+          color="secondary"
+          variant="contained"
+          sx={{ mb: "10px" }}
+          onClick={renewLicense}
+        >
           Renovar licencia
-        </Button>)}
+        </Button>
+      )}
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
