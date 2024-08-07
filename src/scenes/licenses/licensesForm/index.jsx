@@ -194,6 +194,7 @@ function LicensesForm() {
               }}
             >
               <TextField
+                disabled
                 fullWidth
                 variant="filled"
                 type="text"

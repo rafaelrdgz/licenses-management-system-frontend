@@ -10,13 +10,11 @@ import ClientsForm from "./clients/clientsForm";
 import ClientsTable from "./clients/clientsTable";
 import DriversForm from "./drivers/driversForm";
 import DriversTable from "./drivers/driversTable";
-import LicensesForm from "./licences/licensesForm";
-import LicensesTable from "./licences/licensesTable";
 import InfractionsForm from "./infractions/infractionsForm";
 import InfractionsTable from "./infractions/infractionsTable";
 import Notifications from "./notifications";
-
-
+import LicensesForm from "./licenses/licensesForm";
+import LicensesTable from "./licenses/licensesTable";
 
 export {
   Navbar,
@@ -31,9 +29,9 @@ export {
   ClientsTable,
   DriversForm,
   DriversTable,
-  LicensesForm, 
-  LicensesTable,
   InfractionsForm,
   InfractionsTable,
-  Notifications
+  Notifications,
+  LicensesForm,
+  LicensesTable
 };

@@ -23,13 +23,13 @@ const StatBox = ({ title, subtitle, icon, progress, increase, disablePercent = t
         <Typography variant="h5" color={colors.greenAccent[500]}>
           {subtitle}
         </Typography>
-        {/*<Typography
+        {!disablePercent && (<Typography
           variant="h5"
           fontStyle="italic"
           color={colors.greenAccent[600]}
         >
-          {increase}
-        </Typography>*/}
+          {progress*100}%
+        </Typography>)}
       </Box>
     </Box>
   );

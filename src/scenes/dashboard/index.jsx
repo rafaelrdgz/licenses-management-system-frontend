@@ -1,24 +1,14 @@
-import {
-  Box,
-  IconButton,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import {
-  Header,
-  StatBox,
-  ProgressCircle,
-} from "../../components";
-import {
-  DownloadOutlined,
-  PersonAdd,
-  MonetizationOnOutlined
-} from "@mui/icons-material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Header, ProgressCircle, StatBox } from "../../components";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
-import { LocalHospitalOutlined } from "@mui/icons-material";
-import { BadgeOutlined } from "@mui/icons-material";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { useEffect, useState } from "react";
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
+
 
 function Dashboard() {
   const theme = useTheme();
@@ -26,6 +16,20 @@ function Dashboard() {
   const isXlDevices = useMediaQuery("(min-width: 1260px)");
   const isMdDevices = useMediaQuery("(min-width: 724px)");
   const isXsDevices = useMediaQuery("(max-width: 436px)");
+  
+  const [chartBarInfo, setChartBarInfo] = useState([]) // el array solo debe tener los 4 valores en el orden: Moto, Automóvil, Camión, Autobús
+  const [progressCircleInfo, setProgressCircleInfo] = useState(0)//debe darse el valor en probabilidad de 0 a 1
+
+  const loadData = () => {
+    //cargar de la bd y asignar valores con setChartBarInfo y setProgressCircleInfo
+    setChartBarInfo([100, 200, 300, 400])
+    setProgressCircleInfo(0.75)
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [])
+  
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between">
@@ -52,13 +56,13 @@ function Dashboard() {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          borderRadius='5px'
+          borderRadius="5px"
         >
           <StatBox
             title="11,361"
             subtitle="Clientes registrados"
             icon={
-              <BadgeOutlined
+              <PermIdentityOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -70,13 +74,13 @@ function Dashboard() {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          borderRadius='5px'
+          borderRadius="5px"
         >
           <StatBox
             title="431,225"
             subtitle="Conductores con licencia vigente"
             icon={
-              <MonetizationOnOutlined
+              <DirectionsCarFilledOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -88,13 +92,13 @@ function Dashboard() {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          borderRadius='5px'
+          borderRadius="5px"
         >
           <StatBox
             title="32,441"
             subtitle="Licencias emitidas"
             icon={
-              <PersonAdd
+              <BadgeOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
@@ -106,81 +110,91 @@ function Dashboard() {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          borderRadius='5px'
+          borderRadius="5px"
         >
           <StatBox
             title="1,325,134"
             subtitle="Exámenes realizados"
             icon={
-              <LocalHospitalOutlined
+              <ArticleOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
         </Box>
 
-        {/* ---------------- Row 2 ---------------- */}
-
-        {/* Transaction Data */}
+        {/* Bar Chart */}
         <Box
-          gridColumn={isXlDevices ? "span 6" : "span 3"}
+          gridColumn={isXlDevices ? "span 4" : "span 3"}
           gridRow="span 2"
-          bgcolor={colors.primary[400]}
-          overflow="auto"
+          backgroundColor={colors.primary[400]}
         >
-          <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
-            <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
-              Recent Transactions
-            </Typography>
+          <Typography
+            variant="h5"
+            fontWeight="600"
+            sx={{ p: "30px 30px 0 30px" }}
+            color={"#d1d1d1"}
+          >
+            Licencias por categoría
+          </Typography>
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            height="250px"
+            mt="-20px"
+          >
+            <BarChart
+              xAxis={[
+                {
+                  scaleType: "band",
+                  data: ["Moto", "Automóvil", "Camión", "Autobús"],
+                },
+              ]}
+              series={[{ type: "bar", data: chartBarInfo }]}
+            />
           </Box>
-
-          {mockTransactions.map((transaction, index) => (
-            <Box
-              key={`${transaction.txId}-${index}`}
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
-                  {transaction.txId}
-                </Typography>
-                <Typography color={colors.gray[100]}>
-                  {transaction.user}
-                </Typography>
-              </Box>
-              <Typography color={colors.gray[100]}>
-                {transaction.date}
-              </Typography>
-              <Box
-                bgcolor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
-              >
-                ${transaction.cost}
-              </Box>
-            </Box>
-          ))}
         </Box>
-        {/* Transaction Data */}
+
         <Box
-          gridColumn={isXlDevices ? "span 6" : "span 3"}
+          gridColumn={isXlDevices ? "span 4" : "span 3"}
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+          p="30px"
+        >
+          <Typography variant="h5" fontWeight="600" color={"#d1d1d1"}>
+            Tasa de aprobación de exámen práctico
+          </Typography>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            mt="25px"
+          >
+            <ProgressCircle size="125" progress={progressCircleInfo}/>
+            <Typography
+              textAlign="center"
+              variant="h5"
+              color={colors.greenAccent[500]}
+              sx={{ mt: "15px" }}
+              fontWeight={'bold'}
+            >
+              {progressCircleInfo*100}%
+            </Typography>
+          </Box>
+        </Box>
+
+        <Box
+          gridColumn={isXlDevices ? "span 4" : "span 3"}
           gridRow="span 2"
           bgcolor={colors.primary[400]}
           overflow="auto"
         >
           <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
             <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
-              Recent Transactions
+              Licencias emitidas recientemente
             </Typography>
           </Box>
-
           {mockTransactions.map((transaction, index) => (
             <Box
               key={`${transaction.txId}-${index}`}

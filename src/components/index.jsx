@@ -14,5 +14,5 @@ export {
   StatBox,
   TextField,
   Select,
-  TableToolbar
+  TableToolbar,
 };
