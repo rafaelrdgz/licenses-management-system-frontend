@@ -5,6 +5,7 @@ import StatBox from "./StatBox";
 import TextField from "./TextField";
 import Select from "./Select";
 import TableToolbar from "./TableToolbar";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 
 export {
@@ -15,4 +16,5 @@ export {
   TextField,
   Select,
   TableToolbar,
+  ConfirmationDialog
 };

@@ -1,29 +1,33 @@
 import React from "react";
-import { Header, TableToolbar } from "../../../components";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
 import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import {
-  DataGrid,
-  GridActionsCellItem
-} from "@mui/x-data-grid";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
-import { esES } from '@mui/x-data-grid/locales';
+import { esES } from "@mui/x-data-grid/locales";
+import { useState } from "react";
 
 function EntityTable() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleDialogClose = () => setDialogOpen(false);
+  const [selectedId, setSelectedId] = React.useState(null);
 
   const navigate = useNavigate();
 
   //quitar el objeto y dejar el array vacio al cargar de la bd
-  const [rows, setRows] = React.useState([{
-    id: '213',
-    name: 'Rafael Rodriguez Perez',
-    phoneNumber: '55362350',
-    address: 'sadsad sad sadsadsadsadsa dsadsadsa dsadsadsad sad sa dsa4546 45645',
-    email: 'dasdsadsadsadsadsa',
-    directorName: "dasdsa dsadsadsadsa dasdsadsa",
-    type: "autoescuela"
-  }]);
+  const [rows, setRows] = React.useState([
+    {
+      id: "213",
+      name: "Rafael Rodriguez Perez",
+      phoneNumber: "55362350",
+      address:
+        "sadsad sad sadsadsadsadsa dsadsadsa dsadsadsad sad sa dsa4546 45645",
+      email: "dasdsadsadsadsadsa",
+      directorName: "dasdsa dsadsadsadsa dasdsadsa",
+      type: "autoescuela",
+    },
+  ]);
 
   //Cargar de la bd las entidades
   const loadEntities = async () => {
@@ -37,8 +41,14 @@ function EntityTable() {
   }, []);
 
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-    //eleminar de la bd la entidad
+    setDialogOpen(true);
+    setSelectedId(id);
+  };
+
+  const handleDialogAgree = () => {
+    setDialogOpen(false);
+    setRows(rows.filter((row) => row.id !== selectedId));
+    //Eliminar de la bd
   };
 
   const columns = [
@@ -77,7 +87,7 @@ function EntityTable() {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
-      flex: .5,
+      flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
@@ -117,7 +127,12 @@ function EntityTable() {
           },
         }}
       >
-        <Button color="secondary" variant="contained" sx={{mb: '10px'}} onClick={() => navigate(`/entity/new`)}>
+        <Button
+          color="secondary"
+          variant="contained"
+          sx={{ mb: "10px" }}
+          onClick={() => navigate(`/entity/new`)}
+        >
           Nueva entidad
         </Button>
         <DataGrid
@@ -130,10 +145,23 @@ function EntityTable() {
           rows={rows}
           columns={columns}
           components={{
-            Toolbar: () => <TableToolbar columns={columns} rows={rows} fileName={'Entidades'} />,
+            Toolbar: () => (
+              <TableToolbar
+                columns={columns}
+                rows={rows}
+                fileName={"Entidades"}
+              />
+            ),
           }}
         />
       </Box>
+      <ConfirmationDialog
+        title={"Está seguro de querer eliminar la entidad?"}
+        text={"Tenga en cuenta que esta acción no se puede deshacer"}
+        open={dialogOpen}
+        handleClose={handleDialogClose}
+        handleAgree={handleDialogAgree}
+      />
     </Box>
   );
 }

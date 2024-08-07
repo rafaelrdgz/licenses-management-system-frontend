@@ -1,5 +1,5 @@
 import React from "react";
-import { Header, TableToolbar } from "../../../components";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
 import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
@@ -9,9 +9,23 @@ import {
 } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { esES } from '@mui/x-data-grid/locales';
-
+import { useState } from "react";
 
 function ExamsTable() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleDialogClose = () => setDialogOpen(false);
+  const [selectedId, setSelectedId] = React.useState(null);
+
+  const handleDeleteClick = (id) => () => {
+    setDialogOpen(true);
+    setSelectedId(id);
+  };
+
+  const handleDialogAgree = () => {
+    setDialogOpen(false);
+    setRows(rows.filter((row) => row.id !== selectedId));
+    //Eliminar de la bd
+  };
 
   const navigate = useNavigate();
 
@@ -37,11 +51,6 @@ function ExamsTable() {
   React.useEffect(() => {
     loadExams();
   }, []);
-
-  const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
-    //eleminar de la bd el examen
-  };
 
   const columns = [
     {
@@ -140,6 +149,13 @@ function ExamsTable() {
           }}
         />
       </Box>
+      <ConfirmationDialog
+        title={"Está seguro de querer eliminar el exámen?"}
+        text={"Tenga en cuenta que esta acción no se puede deshacer"}
+        open={dialogOpen}
+        handleClose={handleDialogClose}
+        handleAgree={handleDialogAgree}
+      />
     </Box>
   );
 }
