@@ -14,6 +14,7 @@ function EntityForm() {
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
+    code: '',
     name: "",
     address: "",
     phone: "",
@@ -38,6 +39,7 @@ function EntityForm() {
   }, [params.id]);
 
   const initialValues = {
+    code: info.code,
     name: info.name,
     address: info.address,
     phone: info.phone,
@@ -47,6 +49,12 @@ function EntityForm() {
   };
 
   const checkoutSchema = yup.object().shape({
+    code: yup
+      .string()
+      .matches(/^[0-9]+$/, "El código debe ser un número")
+      .required("El código es requerido")
+      .min(6, "El código debe tener al menos 6 caracteres")
+      .max(16, "El código debe tener menos de 16 caracteres"),
     name: yup
       .string()
       .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre no debe contener números ni caracteres especiales")
@@ -116,6 +124,19 @@ function EntityForm() {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Código de entidad"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.code}
+                name="code"
+                error={touched.code && errors.code}
+                helperText={touched.code && errors.code}
+                sx={{ gridColumn: "span 2" }}
+              />
               <TextField
                 fullWidth
                 variant="filled"

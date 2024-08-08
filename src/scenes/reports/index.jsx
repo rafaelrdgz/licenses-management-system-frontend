@@ -12,9 +12,9 @@ const reports = [
   },
   {
     name: "Ficha de un Conductor Determinado",
-    url: "/reporte/ficha-conductor",
+    url: "/reports/driver",
   },
-  { name: "Ficha de una Entidad Asociada", url: "/reporte/ficha-entidad" },
+  { name: "Ficha de una Entidad Asociada", url: "/reports/entity" },
   {
     name: "Reporte de Licencias Emitidas en un Período de Tiempo",
     url: "/reporte/licencias-emitidas",

@@ -17,7 +17,9 @@ import {
   InfractionsForm,
   InfractionsTable,
   Notifications,
-  Reports
+  Reports,
+  DriverReport,
+  EntityReport
 } from "./scenes";
 
 
@@ -48,6 +50,8 @@ const AppRouter = () => {
           <Route path="/infractions/:id/edit" element={<InfractionsForm />} />
           <Route path="/infractions/new" element={<InfractionsForm />} />
           <Route path="/reports/" element={<Reports />} />
+          <Route path="/reports/driver" element={<DriverReport />} />
+          <Route path="/reports/entity" element={<EntityReport />} />
         </Route>
       </Routes>
     </Router>

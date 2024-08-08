@@ -16,6 +16,8 @@ import Notifications from "./notifications";
 import LicensesForm from "./licenses/licensesForm";
 import LicensesTable from "./licenses/licensesTable";
 import Reports from "./reports";
+import DriverReport from "./reports/driverReport";
+import EntityReport from "./reports/entityReport";
 
 export {
   Navbar,
@@ -35,5 +37,7 @@ export {
   Notifications,
   LicensesForm,
   LicensesTable,
-  Reports
+  Reports,
+  DriverReport,
+  EntityReport
 };

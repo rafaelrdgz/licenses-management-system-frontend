@@ -156,7 +156,7 @@ function InfractionsTable() {
             rows={rows}
             columns={columns}
             components={{
-              Toolbar: () => <TableToolbar columns={columns} rows={rows} fileName={'Clientes'} />,
+              Toolbar: () => <TableToolbar columns={columns} rows={rows} fileName={'Infracciones'} />,
             }}
           />
         </Box>
