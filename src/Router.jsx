@@ -19,7 +19,10 @@ import {
   Notifications,
   Reports,
   DriverReport,
-  EntityReport
+  EntityReport,
+  IssuedLicensesReport,
+  ExamsPerformedReport,
+  RegisteredInfractionsReport
 } from "./scenes";
 
 
@@ -52,6 +55,9 @@ const AppRouter = () => {
           <Route path="/reports/" element={<Reports />} />
           <Route path="/reports/driver" element={<DriverReport />} />
           <Route path="/reports/entity" element={<EntityReport />} />
+          <Route path="/reports/issuedLicenses" element={<IssuedLicensesReport />} />
+          <Route path="/reports/examsPerformed" element={<ExamsPerformedReport />} />
+          <Route path="/reports/registeredInfractions" element={<RegisteredInfractionsReport />} />
         </Route>
       </Routes>
     </Router>

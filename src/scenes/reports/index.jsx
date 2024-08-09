@@ -14,18 +14,19 @@ const reports = [
     name: "Ficha de un Conductor Determinado",
     url: "/reports/driver",
   },
-  { name: "Ficha de una Entidad Asociada", url: "/reports/entity" },
+  { name: "Ficha de una Entidad Asociada",
+    url: "/reports/entity" },
   {
     name: "Reporte de Licencias Emitidas en un Período de Tiempo",
-    url: "/reporte/licencias-emitidas",
+    url: "/reports/issuedLicenses",
   },
   {
     name: "Reporte de Exámenes Realizados en un Período de Tiempo",
-    url: "/reporte/examenes-realizados",
+    url: "/reports/examsPerformed",
   },
   {
     name: "Reporte de Infracciones Registradas en un Período de Tiempo",
-    url: "/reporte/infracciones-registradas",
+    url: "/reports/registeredInfractions",
   },
   {
     name: "Reporte Consolidado de Infracciones por Tipo en un Año Determinado",

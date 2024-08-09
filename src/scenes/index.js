@@ -18,6 +18,9 @@ import LicensesTable from "./licenses/licensesTable";
 import Reports from "./reports";
 import DriverReport from "./reports/driverReport";
 import EntityReport from "./reports/entityReport";
+import IssuedLicensesReport from "./reports/issuedLicensesReport";
+import ExamsPerformedReport from "./reports/examsPerformedReport";
+import RegisteredInfractionsReport from "./reports/registeredInfractionsReport";
 
 export {
   Navbar,
@@ -39,5 +42,8 @@ export {
   LicensesTable,
   Reports,
   DriverReport,
-  EntityReport
+  EntityReport,
+  IssuedLicensesReport,
+  ExamsPerformedReport,
+  RegisteredInfractionsReport
 };

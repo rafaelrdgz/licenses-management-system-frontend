@@ -248,6 +248,14 @@ function DriverReport() {
           color={colors.gray[100]}
         >
           {" "}
+          Número de identidad: {info.personId}
+        </Typography>
+        <Typography
+          variant="h4"
+          sx={{ mt: "20px", mb: "10px" }}
+          color={colors.gray[100]}
+        >
+          {" "}
           Nombre: {info.name}
         </Typography>
         <Typography
