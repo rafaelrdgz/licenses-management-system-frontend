@@ -20,6 +20,8 @@ import IssuedLicensesReport from "./reports/issuedLicensesReport";
 import ExamsPerformedReport from "./reports/examsPerformedReport";
 import RegisteredInfractionsReport from "./reports/registeredInfractionsReport";
 import ExpiredLicensesReport from "./reports/expiredLicensesReport";
+import Login from "./authentication/login"
+import InfractionsByTypeReport from "./reports/infractionsByTypeReport";
 
 
 export {
@@ -44,5 +46,7 @@ export {
   IssuedLicensesReport,
   ExamsPerformedReport,
   RegisteredInfractionsReport,
-  ExpiredLicensesReport
+  ExpiredLicensesReport,
+  Login,
+  InfractionsByTypeReport
 };

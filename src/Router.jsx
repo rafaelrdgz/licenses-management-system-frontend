@@ -24,6 +24,7 @@ import {
   ExamsPerformedReport,
   RegisteredInfractionsReport,
   ExpiredLicensesReport,
+  InfractionsByTypeReport
 } from "./scenes";
 
 
@@ -60,6 +61,7 @@ const AppRouter = () => {
           <Route path="/reports/examsPerformed" element={<ExamsPerformedReport />} />
           <Route path="/reports/registeredInfractions" element={<RegisteredInfractionsReport />} />
           <Route path="/reports/expiredLicenses" element={<ExpiredLicensesReport />} />
+          <Route path="/reports/infractionsByType" element={<InfractionsByTypeReport />} />
         </Route>
       </Routes>
     </Router>

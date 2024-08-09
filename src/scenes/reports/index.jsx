@@ -30,7 +30,7 @@ const reports = [
   },
   {
     name: "Reporte Consolidado de Infracciones por Tipo en un Año Determinado",
-    url: "/reporte/infracciones-consolidadas",
+    url: "/reports/infractionsByType",
   },
   {
     name: "Reporte de Conductores con Licencias Vencidas en un Período de Tiempo",

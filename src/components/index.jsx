@@ -8,7 +8,6 @@ import TableToolbar from "./TableToolbar";
 import ConfirmationDialog from "./ConfirmationDialog";
 import SideBar from "./layout/sidebar"
 import Navbar from "./layout/navbar"
-import Login from "./authentication/login";
 
 export {
   SideBar,
@@ -21,5 +20,4 @@ export {
   Select,
   TableToolbar,
   ConfirmationDialog,
-  Login,
 };

@@ -45,8 +45,6 @@ function ExpiredLicensesReport() {
         "La fecha de fin debe ser mayor que la fecha de inicio"
       ),
   });
-  
-  
 
   const columns = [
     {
