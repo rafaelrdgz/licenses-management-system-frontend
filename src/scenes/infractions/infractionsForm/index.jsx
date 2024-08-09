@@ -1,6 +1,6 @@
 import React from "react";
 import { Header, Select } from "../../../components";
-import { Box, Button, useMediaQuery } from "@mui/material";
+import { Box, Button, FormHelperText, useMediaQuery } from "@mui/material";
 import { TextField } from "../../../components";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -87,7 +87,6 @@ function InfractionsForm() {
       .max(16, "El código debe tener menos de 16 caracteres"),
     description: yup
       .string()
-      .required("La descripción es requerida")
       .min(5, "La descripción debe tener al menos 5 caracteres")
       .max(50, "La descripción debe tener menos de 50 caracteres"),
     type: yup
@@ -205,6 +204,9 @@ function InfractionsForm() {
                   <MenuItem value={"Grave"}>Grave</MenuItem>
                   <MenuItem value={"Muy grave"}>Muy grave</MenuItem>
                 </Select>
+                {touched.type && errors.type && (
+                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
+                )}
               </FormControl>
               <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">

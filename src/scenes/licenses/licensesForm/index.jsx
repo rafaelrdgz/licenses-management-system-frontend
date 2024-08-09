@@ -1,6 +1,6 @@
 import React from "react";
 import { Header, Select } from "../../../components/index.jsx";
-import { Box, Button, useMediaQuery, MenuItem } from "@mui/material";
+import { Box, Button, useMediaQuery, MenuItem, FormHelperText } from "@mui/material";
 import { TextField } from "../../../components/index.jsx";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -125,7 +125,7 @@ function LicensesForm() {
       .min(6, "El número de licencia debe tener 6 caracteres")
       .max(6, "El número de licencia debe tener 6 caracteres"),
     type: yup.string().required("El tipo de entidad es requerido"),
-    category: yup.string().required("El tipo de entidad es requerido"),
+    category: yup.string().required("El tipo de categoría es requerido"),
   });
 
   const handleFormSubmit = (values) => {
@@ -243,6 +243,9 @@ function LicensesForm() {
                   <MenuItem value={"D"}>D</MenuItem>
                   <MenuItem value={"E"}>E</MenuItem>
                 </Select>
+                {touched.type && errors.type && (
+                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
+                )}
               </FormControl>
               <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">
@@ -261,6 +264,9 @@ function LicensesForm() {
                   <MenuItem value={"Camión"}>Camión</MenuItem>
                   <MenuItem value={"Autobús"}>Autobús</MenuItem>
                 </Select>
+                {touched.category && errors.category && (
+                  <FormHelperText sx={{color: '#f44336'}}>{errors.category}</FormHelperText> // Aquí se muestra el mensaje de error
+                )}
               </FormControl>
               <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">

@@ -8,18 +8,18 @@ import {
   Typography,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
-const AccordionItem = ({ question, details }) => {
+const AccordionItem = ({ title, content }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
     <Accordion sx={{ bgcolor: `${colors.primary[400]}` }}>
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Typography color={colors.greenAccent[500]} variant="h5">
-          {question}
+          {title}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography>{details}</Typography>
+        <Typography>{content}</Typography>
       </AccordionDetails>
     </Accordion>
   );

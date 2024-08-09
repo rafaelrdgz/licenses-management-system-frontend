@@ -1,6 +1,6 @@
 import React from "react";
 import { Header, Select } from "../../../components";
-import { Box, Button, useMediaQuery } from "@mui/material";
+import { Box, Button, FormHelperText, useMediaQuery } from "@mui/material";
 import { TextField } from "../../../components";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -100,8 +100,8 @@ function ExamsForm() {
         "El código de la entidad no se encuentra en el sistema",
         isValidEntity
       ),
-    type: yup.string().required("El tipo de entidad es requerido"),
-    result: yup.string().required("El tipo de entidad es requerido"),
+    type: yup.string().required("El tipo de exámen es requerido"),
+    result: yup.string().required("El resultado es requerido"),
     date: yup.string().required("La fecha es requerida"),
   });
 
@@ -212,6 +212,9 @@ function ExamsForm() {
                   <MenuItem value={"Práctico"}>Práctico</MenuItem>
                   <MenuItem value={"Médico"}>Médico</MenuItem>
                 </Select>
+                {touched.type && errors.type && (
+                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
+                )}
               </FormControl>
               <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">
@@ -228,6 +231,9 @@ function ExamsForm() {
                   <MenuItem value={"Aprobado"}>Aprobado</MenuItem>
                   <MenuItem value={"Reprobado"}>Reprobado</MenuItem>
                 </Select>
+                {touched.result && errors.result && (
+                  <FormHelperText sx={{color: '#f44336'}}>{errors.result}</FormHelperText> // Aquí se muestra el mensaje de error
+                )}
               </FormControl>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker

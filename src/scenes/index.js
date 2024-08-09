@@ -1,5 +1,3 @@
-import Navbar from "./layout/navbar";
-import SideBar from "./layout/sidebar";
 import Dashboard from "./dashboard";
 import CenterProfile from "./centerProfile";
 import EntityForm from "./entity/entityForm";
@@ -21,10 +19,10 @@ import EntityReport from "./reports/entityReport";
 import IssuedLicensesReport from "./reports/issuedLicensesReport";
 import ExamsPerformedReport from "./reports/examsPerformedReport";
 import RegisteredInfractionsReport from "./reports/registeredInfractionsReport";
+import ExpiredLicensesReport from "./reports/expiredLicensesReport";
+
 
 export {
-  Navbar,
-  SideBar,
   Dashboard,
   CenterProfile,
   EntityForm,
@@ -45,5 +43,6 @@ export {
   EntityReport,
   IssuedLicensesReport,
   ExamsPerformedReport,
-  RegisteredInfractionsReport
+  RegisteredInfractionsReport,
+  ExpiredLicensesReport
 };

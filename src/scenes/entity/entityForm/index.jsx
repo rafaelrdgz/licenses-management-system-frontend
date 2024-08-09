@@ -1,6 +1,6 @@
 import React from "react";
 import { Header, Select } from "../../../components";
-import { Box, Button, useMediaQuery } from "@mui/material";
+import { Box, Button, FormHelperText, useMediaQuery } from "@mui/material";
 import { TextField } from "../../../components";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -14,7 +14,7 @@ function EntityForm() {
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
-    code: '',
+    code: "",
     name: "",
     address: "",
     phone: "",
@@ -57,7 +57,10 @@ function EntityForm() {
       .max(16, "El código debe tener menos de 16 caracteres"),
     name: yup
       .string()
-      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre no debe contener números ni caracteres especiales")
+      .matches(
+        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        "El nombre no debe contener números ni caracteres especiales"
+      )
       .required("El nombre es requerido")
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(50, "El nombre debe tener menos de 50 caracteres"),
@@ -74,7 +77,10 @@ function EntityForm() {
       .max(12, "El número de teléfono debe tener menos de 12 caracteres"),
     directorName: yup
       .string()
-      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre del director no debe contener números ni caracteres especiales")
+      .matches(
+        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        "El nombre del director no debe contener números ni caracteres especiales"
+      )
       .required("El nombre del director es requerido")
       .min(5, "El nombre del director debe tener al menos 5 caracteres")
       .max(50, "El nombre del director debe tener menos de 50 caracteres"),
@@ -82,9 +88,7 @@ function EntityForm() {
       .string()
       .email("El correo debe ser un correo válido")
       .required("El correo es requerido"),
-    type: yup
-      .string()
-      .required("El tipo de entidad es requerido"),
+    type: yup.string().required("El tipo de entidad es requerido"),
   });
 
   const handleFormSubmit = async (values) => {
@@ -101,7 +105,10 @@ function EntityForm() {
 
   return (
     <Box m="20px">
-      <Header title={"ENTIDAD"} subtitle={editing ? 'Editar entidad' : 'Crear nueva entidad'}/>
+      <Header
+        title={"ENTIDAD"}
+        subtitle={editing ? "Editar entidad" : "Crear nueva entidad"}
+      />
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -217,6 +224,9 @@ function EntityForm() {
                   <MenuItem value={"Autoescuela"}>Autoescuela</MenuItem>
                   <MenuItem value={"Clínica"}>Clínica</MenuItem>
                 </Select>
+                {touched.type && errors.type && (
+                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
+                )}
               </FormControl>
             </Box>
             <Box

@@ -34,7 +34,7 @@ const reports = [
   },
   {
     name: "Reporte de Conductores con Licencias Vencidas en un Período de Tiempo",
-    url: "/reporte/licencias-vencidas",
+    url: "/reports/expiredLicenses",
   },
 ];
 

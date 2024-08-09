@@ -14,16 +14,28 @@ import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
-import logo from "../../../assets/images/logo.png";
+import logoo from "../../../assets/images/logo.png";
 import Item from "./Item";
 import { ToggledContext } from "../../../App";
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
+import { useEffect } from "react";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { toggled, setToggled } = useContext(ToggledContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [logo, setLogo] = useState(logoo);
+
+  const loadlogo = async () =>{
+    //cargar el logo de la bd
+  }
+
+  useEffect(() => {
+    loadlogo();
+  }, []);
+
+  
   return (
     <Sidebar
       backgroundColor={colors.primary[400]}
@@ -51,7 +63,7 @@ const SideBar = () => {
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: 'space-between',
             }}
           >
             {!collapsed && (
@@ -62,7 +74,7 @@ const SideBar = () => {
                 sx={{ transition: ".3s ease" }}
               >
                 <img
-                  style={{ width: "30px", height: "30px", borderRadius: "8px" }}
+                  style={{ width: "30px", height: "30px", borderRadius: "8px", marginLeft: "15px"}}
                   src={logo}
                   alt="Argon"
                 />
