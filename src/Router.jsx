@@ -23,7 +23,7 @@ import {
   IssuedLicensesReport,
   ExamsPerformedReport,
   RegisteredInfractionsReport,
-  ExpiredLicensesReport
+  ExpiredLicensesReport,
 } from "./scenes";
 
 
