@@ -19,6 +19,7 @@ import Item from "./Item";
 import { ToggledContext } from "../../../App";
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import { useEffect } from "react";
+import { EngineeringOutlined } from "@mui/icons-material";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -184,6 +185,12 @@ const SideBar = () => {
             },
           }}
         >
+          <Item
+            title="Trabajadores"
+            path="/workers"
+            colors={colors}
+            icon={<EngineeringOutlined />}
+          ></Item>
           <Item
             title="Perfil"
             path="/center"

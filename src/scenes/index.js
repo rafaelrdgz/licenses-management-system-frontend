@@ -22,7 +22,8 @@ import RegisteredInfractionsReport from "./reports/registeredInfractionsReport";
 import ExpiredLicensesReport from "./reports/expiredLicensesReport";
 import Login from "./authentication/login"
 import InfractionsByTypeReport from "./reports/infractionsByTypeReport";
-
+import WorkersTable from "./workers/workersTable";
+import WorkersForm from "./workers/workersForm"
 
 export {
   Dashboard,
@@ -48,5 +49,7 @@ export {
   RegisteredInfractionsReport,
   ExpiredLicensesReport,
   Login,
-  InfractionsByTypeReport
+  InfractionsByTypeReport,
+  WorkersTable,
+  WorkersForm
 };

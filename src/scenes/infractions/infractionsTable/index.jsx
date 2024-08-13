@@ -10,6 +10,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { esES } from '@mui/x-data-grid/locales';
 import { useState } from "react";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
+
 
 function InfractionsTable() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -25,6 +27,8 @@ function InfractionsTable() {
     setDialogOpen(false);
     setRows(rows.filter((row) => row.id !== selectedId));
     //Eliminar de la bd
+
+    enqueueSnackbar('Infracción eliminada', { variant: 'success' })
   };
 
     const navigate = useNavigate();
@@ -127,6 +131,7 @@ function InfractionsTable() {
   
     return (
       <Box m="20px">
+        <SnackbarProvider maxSnack={3}/>
         <Header
           title={"INFRACCIONES"}
           subtitle={"Información de las infracciones"}

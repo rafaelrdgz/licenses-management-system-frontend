@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { InputLabel, Typography } from "@mui/material";
+import { InputLabel } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
 function EntityForm() {
@@ -87,7 +87,8 @@ function EntityForm() {
     email: yup
       .string()
       .email("El correo debe ser un correo válido")
-      .required("El correo es requerido"),
+      .required("El correo es requerido")
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
     type: yup.string().required("El tipo de entidad es requerido"),
   });
 

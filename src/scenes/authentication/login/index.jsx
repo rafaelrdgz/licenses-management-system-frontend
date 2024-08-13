@@ -29,6 +29,18 @@ export default function Login() {
       secondary: {
         main: darkMode ? "#f48fb1" : "#dc004e",
       },
+      background: {
+        default: darkMode ? "#111520" : "#fff", // Color de fondo cuando está en modo oscuro
+      },
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundColor: darkMode ? "#111520" : "#fff",
+          },
+        },
+      },
     },
   });
 
@@ -47,12 +59,13 @@ export default function Login() {
     email: yup
       .string()
       .email("El correo debe ser un correo válido")
-      .required("El correo es requerido"),
+      .required("El correo es requerido")
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
     password: yup.string().required("La contraseña es requerida"),
   });
 
   const handleFormSubmit = async (values) => {
-    console.log(values);
+    navigate("/");
     
   };
 

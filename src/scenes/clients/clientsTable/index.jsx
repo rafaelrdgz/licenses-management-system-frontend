@@ -7,6 +7,7 @@ import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { esES } from "@mui/x-data-grid/locales";
 import { useState } from "react";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 function ClientsTable() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -22,6 +23,8 @@ function ClientsTable() {
     setDialogOpen(false);
     setRows(rows.filter((row) => row.id !== selectedId));
     //Eliminar de la bd
+
+    enqueueSnackbar('Cliente eliminado', { variant: 'success' })
   };
 
   const navigate = useNavigate();
@@ -114,6 +117,7 @@ function ClientsTable() {
 
   return (
     <Box m="20px">
+      <SnackbarProvider maxSnack={3}/>
       <Header title={"CLIENTES"} subtitle={"Información de los clientes"} />
       <Box
         sx={{
@@ -155,7 +159,7 @@ function ClientsTable() {
           }}
         />
         <ConfirmationDialog
-          title={"Desea eliminar la entidad?"}
+          title={"Desea eliminar el cliente?"}
           text={"Tenga en cuenta que esta acción no se puede deshacer"}
           open={dialogOpen}
           handleClose={handleDialogClose}

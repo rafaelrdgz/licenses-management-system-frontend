@@ -24,15 +24,17 @@ import {
   ExamsPerformedReport,
   RegisteredInfractionsReport,
   ExpiredLicensesReport,
-  InfractionsByTypeReport
+  InfractionsByTypeReport,
+  Login,
+  WorkersForm,
+  WorkersTable,
 } from "./scenes";
-
-
 
 const AppRouter = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<App />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/notifications" element={<Notifications />} />
@@ -57,11 +59,29 @@ const AppRouter = () => {
           <Route path="/reports/" element={<Reports />} />
           <Route path="/reports/driver" element={<DriverReport />} />
           <Route path="/reports/entity" element={<EntityReport />} />
-          <Route path="/reports/issuedLicenses" element={<IssuedLicensesReport />} />
-          <Route path="/reports/examsPerformed" element={<ExamsPerformedReport />} />
-          <Route path="/reports/registeredInfractions" element={<RegisteredInfractionsReport />} />
-          <Route path="/reports/expiredLicenses" element={<ExpiredLicensesReport />} />
-          <Route path="/reports/infractionsByType" element={<InfractionsByTypeReport />} />
+          <Route
+            path="/reports/issuedLicenses"
+            element={<IssuedLicensesReport />}
+          />
+          <Route
+            path="/reports/examsPerformed"
+            element={<ExamsPerformedReport />}
+          />
+          <Route
+            path="/reports/registeredInfractions"
+            element={<RegisteredInfractionsReport />}
+          />
+          <Route
+            path="/reports/expiredLicenses"
+            element={<ExpiredLicensesReport />}
+          />
+          <Route
+            path="/reports/infractionsByType"
+            element={<InfractionsByTypeReport />}
+          />
+          <Route path="/workers" element={<WorkersTable />} />
+          <Route path="/workers/new" element={<WorkersForm />} />
+          <Route path="/workers/:id/edit" element={<WorkersForm />} />
         </Route>
       </Routes>
     </Router>

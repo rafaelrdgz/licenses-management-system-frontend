@@ -9,6 +9,7 @@ import { useContext } from "react";
 import {
   DarkModeOutlined,
   LightModeOutlined,
+  LogoutOutlined,
   MenuOutlined,
   NotificationsOutlined,
 } from "@mui/icons-material";
@@ -51,9 +52,9 @@ const Navbar = () => {
           <NotificationsOutlined />
         </IconButton>
         </Link>
-        <Link to="/">
+        <Link to="/login">
           <IconButton>
-            <DashboardOutlined/>
+            <LogoutOutlined />
           </IconButton>
         </Link>
       </Box>

@@ -1,6 +1,6 @@
 import React from "react";
-import { Header } from "../../../components";
-import { Box, Button, useMediaQuery } from "@mui/material";
+import { Header, Select } from "../../../components";
+import { Box, Button, FormControl, FormHelperText, InputLabel, useMediaQuery, MenuItem } from "@mui/material";
 import { TextField } from "../../../components";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -10,16 +10,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { isValidIdDate } from "../../../utils/validations.js";
 
-function ClientsForm() {
+
+function WorkersForm() {
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
     personId: "",
     name: "",
     lastNames: "",
-    address: "",
-    phoneNumber: "",
+    password: "",
     email: "",
+    role: ""
   });
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -40,10 +41,10 @@ function ClientsForm() {
   const initialValues = {
     personId: info.personId,
     name: info.name,
-    address: info.address,
-    phoneNumber: info.phoneNumber,
+    password: info.password,
     email: info.email,
     lastNames: info.lastNames,
+    role: info.role
   };
 
   const checkoutSchema = yup.object().shape({
@@ -66,22 +67,19 @@ function ClientsForm() {
       .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "Los apellidos no deben contener números ni caracteres especiales")
       .min(5, "Los apellidos deben tener al menos 5 caracteres")
       .max(50, "Los apellidos deben tener menos de 50 caracteres"),
-    address: yup
-      .string()
-      .required("La dirección es requerida")
-      .min(10, "La dirección debe tener al menos 10 caracteres")
-      .max(100, "La dirección debe tener menos de 100 caracteres"),
-    phoneNumber: yup
-      .string()
-      .required("El número de teléfono es requerido")
-      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras ni caracteres especiales")
-      .min(6, "El número de teléfono debe tener al menos 6 dígitos")
-      .max(12, "El número de teléfono debe tener menos de 12 dígitos"),
     email: yup
       .string()
       .email("El correo debe ser un correo válido")
       .required("El correo es requerido")
       .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
+    password: yup
+      .string()
+      .required("La contraseña es requerida")
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .max(20, "La contraseña debe tener menos de 20 caracteres"),
+    role: yup
+      .string()
+      .required("El rol es requerido"),
   });
 
   const handleFormSubmit = async (values) => {
@@ -93,12 +91,12 @@ function ClientsForm() {
 
     //aki va el caso en q se debe insertar la nueva entidad en la bd
     console.log(values);
-    navigate("/clients");
+    navigate("/workers");
   };
 
   return (
     <Box m="20px">
-      <Header title={"CLIENTES"} subtitle={editing ? 'Editar cliente' : 'Insertar nuevo cliente'}/>
+      <Header title={"TRABAJADORES"} subtitle={editing ? 'Editar trabajador' : 'Insertar nuevo trabajador'}/>
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -176,29 +174,35 @@ function ClientsForm() {
               <TextField
                 fullWidth
                 variant="filled"
-                type="text"
-                label="Número de teléfono"
+                type="password"
+                label="Contraseña"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.phoneNumber}
-                name="phoneNumber"
-                error={touched.phoneNumber && errors.phoneNumber}
-                helperText={touched.phoneNumber && errors.phoneNumber}
+                value={values.password}
+                name="password"
+                error={touched.password && errors.password}
+                helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 2" }}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Dirección"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address}
-                name="address"
-                error={touched.address && errors.address}
-                helperText={touched.address && errors.address}
-                sx={{ gridColumn: "span 2" }}
-              />
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+                <InputLabel id="demo-simple-select-filled-label">
+                  Rol
+                </InputLabel>
+                <Select
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.role}
+                  name="role"
+                  error={touched.role && errors.role}
+                  helpertext={touched.role && errors.role}
+                >
+                  <MenuItem value={"MANAGER"}>Manager</MenuItem>
+                  <MenuItem value={"Clínica"}>Clínica</MenuItem>
+                </Select>
+                {touched.role && errors.role && (
+                  <FormHelperText sx={{color: '#f44336'}}>{errors.role}</FormHelperText> // Aquí se muestra el mensaje de error
+                )}
+              </FormControl>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
               </LocalizationProvider>
             </Box>
@@ -219,4 +223,4 @@ function ClientsForm() {
   );
 }
 
-export default ClientsForm;
+export default WorkersForm;
