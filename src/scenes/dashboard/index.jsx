@@ -115,7 +115,7 @@ function Dashboard() {
         >
           <StatBox
             title="1,325,134"
-            subtitle="Infracciones"
+            subtitle="Exámenes realizados"
             icon={
               <ArticleOutlinedIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
