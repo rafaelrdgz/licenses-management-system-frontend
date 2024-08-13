@@ -124,7 +124,7 @@ function LicensesForm() {
       .required("El número de licencia es requerido")
       .min(6, "El número de licencia debe tener 6 caracteres")
       .max(6, "El número de licencia debe tener 6 caracteres"),
-    type: yup.string().required("El tipo de entidad es requerido"),
+    type: yup.string().required("El tipo de licencia es requerido"),
     category: yup.string().required("El tipo de categoría es requerido"),
   });
 

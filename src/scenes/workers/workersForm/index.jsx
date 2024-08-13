@@ -197,7 +197,7 @@ function WorkersForm() {
                   helpertext={touched.role && errors.role}
                 >
                   <MenuItem value={"MANAGER"}>Manager</MenuItem>
-                  <MenuItem value={"Clínica"}>Clínica</MenuItem>
+                  <MenuItem value={"COMERCIAL"}>Comercial</MenuItem>
                 </Select>
                 {touched.role && errors.role && (
                   <FormHelperText sx={{color: '#f44336'}}>{errors.role}</FormHelperText> // Aquí se muestra el mensaje de error

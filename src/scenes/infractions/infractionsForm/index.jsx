@@ -104,7 +104,7 @@ function InfractionsForm() {
       .number()
       .required("Los puntos son requeridos")
       .min(1, "Los puntos deben ser al menos 1")
-      .max(36, "Los puntos deben ser menos de 36"),
+      .max(36, "Los puntos deben ser a lo máximo 36"),
     paid: yup
       .boolean()
       .required("El pago es requerido"),
