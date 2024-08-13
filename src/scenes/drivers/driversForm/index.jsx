@@ -209,10 +209,10 @@ function DriversForm() {
                   error={touched.licenseStatus && errors.licenseStatus}
                   helpertext={touched.licenseStatus && errors.licenseStatus}
                 >
-                  <MenuItem value={"Vigente"}>Vigente</MenuItem>
-                  <MenuItem value={"Vencida"}>Vencida</MenuItem>
-                  <MenuItem value={"Suspendida"}>Suspendida</MenuItem>
-                  <MenuItem value={"Revocada"}>Revocada</MenuItem>
+                  <MenuItem value={"VIGENTE"}>Vigente</MenuItem>
+                  <MenuItem value={"VENCIDA"}>Vencida</MenuItem>
+                  <MenuItem value={"SUSPENDIDA"}>Suspendida</MenuItem>
+                  <MenuItem value={"REVOCADA"}>Revocada</MenuItem>
                 </Select>
               </FormControl>
               <LocalizationProvider dateAdapter={AdapterDayjs}>

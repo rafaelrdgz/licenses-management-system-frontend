@@ -200,9 +200,9 @@ function InfractionsForm() {
                   error={touched.type && errors.type}
                   helpertext={touched.type && errors.type}
                 >
-                  <MenuItem value={"Leve"}>Leve</MenuItem>
-                  <MenuItem value={"Grave"}>Grave</MenuItem>
-                  <MenuItem value={"Muy grave"}>Muy grave</MenuItem>
+                  <MenuItem value={"LEVE"}>Leve</MenuItem>
+                  <MenuItem value={"GRAVE"}>Grave</MenuItem>
+                  <MenuItem value={"MUY GRAVE"}>Muy grave</MenuItem>
                 </Select>
                 {touched.type && errors.type && (
                   <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error

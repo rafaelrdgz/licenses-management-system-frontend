@@ -259,10 +259,10 @@ function LicensesForm() {
                   error={touched.category && errors.category}
                   helpertext={touched.category && errors.category}
                 >
-                  <MenuItem value={"Moto"}>Moto</MenuItem>
-                  <MenuItem value={"Automóvil"}>Automóvil</MenuItem>
-                  <MenuItem value={"Camión"}>Camión</MenuItem>
-                  <MenuItem value={"Autobús"}>Autobús</MenuItem>
+                  <MenuItem value={"MOTO"}>Moto</MenuItem>
+                  <MenuItem value={"AUTOMÓVIL"}>Automóvil</MenuItem>
+                  <MenuItem value={"CAMIÓN"}>Camión</MenuItem>
+                  <MenuItem value={"AUTOBÚS"}>Autobús</MenuItem>
                 </Select>
                 {touched.category && errors.category && (
                   <FormHelperText sx={{color: '#f44336'}}>{errors.category}</FormHelperText> // Aquí se muestra el mensaje de error

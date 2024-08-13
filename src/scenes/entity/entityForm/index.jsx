@@ -222,8 +222,8 @@ function EntityForm() {
                   error={touched.type && errors.type}
                   helpertext={touched.type && errors.type}
                 >
-                  <MenuItem value={"Autoescuela"}>Autoescuela</MenuItem>
-                  <MenuItem value={"Clínica"}>Clínica</MenuItem>
+                  <MenuItem value={"AUTOESCUELA"}>Autoescuela</MenuItem>
+                  <MenuItem value={"CLINICA"}>Clínica</MenuItem>
                 </Select>
                 {touched.type && errors.type && (
                   <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
