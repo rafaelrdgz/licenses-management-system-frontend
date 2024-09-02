@@ -1,12 +1,12 @@
-import React from "react";
-import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
-import { Box, Button } from "@mui/material";
+import React, {useState} from "react";
+import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
+import {Box, Button} from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
-import { esES } from "@mui/x-data-grid/locales";
-import { useState } from "react";
+import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
+import {useNavigate} from "react-router-dom";
+import {esES} from "@mui/x-data-grid/locales";
+import {deleteLicense, getLicenses} from "../../../apis/LicensesAPI";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 
@@ -20,39 +20,31 @@ function LicensesTable() {
     setSelectedId(id);
   };
 
-  const handleDialogAgree = () => {
+  const handleDialogAgree = async () => {
     setDialogOpen(false);
-    setRows(rows.filter((row) => row.id !== selectedId));
-    //Eliminar de la bd
-
+    await deleteLicense(selectedId);
+    loadLicenses();
     enqueueSnackbar('Licencia eliminada', { variant: 'success' })
   };
 
   const navigate = useNavigate();
 
   //quitar el objeto y dejar el array vacio al cargar de la bd
-  const [rows, setRows] = React.useState([
-    {
-      id: "135135135351",
-      driverId: "135135135351",
-      type: "A",
-      issueDate: "2021-10-10",
-      expirationDate: "2021-10-10",
-      category: "moto",
-      restrictions: "dsadsadsa dsadsadsadsa dsadsad 131 saddsa",
-      renewed: "si",
-    },
-  ]);
+  const [rows, setRows] = React.useState([]);
 
   //Cargar de la bd los conductores
-  const loadClients = async () => {
-    /*await axios.get("").then((res) => {
-        setRows(res.data);
-      });*/
+  const loadLicenses = async () => {
+    try {
+      const data = await getLicenses();
+      console.log(data);
+      setRows(data);
+    } catch (error) {
+      console.error("Error fetching licenses:", error);
+    }
   };
 
   React.useEffect(() => {
-    loadClients();
+    loadLicenses();
   }, []);
 
   const columns = [
@@ -65,11 +57,6 @@ function LicensesTable() {
       field: "driverId",
       headerName: "CI del conductor",
       flex: 1,
-    },
-    {
-      field: "type",
-      headerName: "Tipo",
-      flex: 0.5,
     },
     {
       field: "issueDate",
@@ -97,22 +84,27 @@ function LicensesTable() {
       flex: 1,
     },
     {
+      field: "points",
+      headerName: "Puntos",
+      flex: 1,
+    },
+    {
       field: "actions",
       type: "actions",
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: ({id}) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={<EditOutlinedIcon/>}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/licenses/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
+            icon={<DeleteOutlinedIcon/>}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -125,11 +117,11 @@ function LicensesTable() {
   return (
     <Box m="20px">
       <SnackbarProvider maxSnack={3}/>
-      <Header title={"LICENCIAS"} subtitle={"Información de las licencias"} />
+      <Header title={"LICENCIAS"} subtitle={"Información de las licencias"}/>
       <Button
         color="secondary"
         variant="contained"
-        sx={{ mb: "10px" }}
+        sx={{mb: "10px"}}
         onClick={() => navigate(`/licenses/new`)}
       >
         Nueva licencia
@@ -150,7 +142,7 @@ function LicensesTable() {
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           initialState={{
             pagination: {
-              paginationModel: { pageSize: 25, page: 0 },
+              paginationModel: {pageSize: 25, page: 0},
             },
           }}
           rows={rows}

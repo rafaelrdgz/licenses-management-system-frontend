@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
-import { Header, AccordionItem } from "../../components";
-import { useState, useEffect } from "react";
+import {Box} from "@mui/material";
+import {AccordionItem, Header} from "../../components";
+import {useEffect, useState} from "react";
 
 
 const Notifications = () => {
@@ -15,11 +15,11 @@ const Notifications = () => {
 
   useEffect(() => {
     loadNotifications
-  } , [])
+  }, [])
 
   return (
     <Box m="20px">
-      <Header title="NOTIFICACIONES" subtitle="Alertas y notificaciones" />
+      <Header title="NOTIFICACIONES" subtitle="Alertas y notificaciones"/>
       {notifications.map((accordion, index) => (
         <AccordionItem key={index} {...accordion} />
       ))}

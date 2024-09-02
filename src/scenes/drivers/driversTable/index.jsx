@@ -1,13 +1,14 @@
-import React from "react";
-import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
-import { Box, Button } from "@mui/material";
+import React, {useState} from "react";
+import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
+import {Box} from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
-import { esES } from "@mui/x-data-grid/locales";
-import { useState } from "react";
+import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
+import {useNavigate} from "react-router-dom";
+import {esES} from "@mui/x-data-grid/locales";
+import {deleteDriver, getDrivers} from "../../../apis/DriversAPI";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+
 
 function DriversTable() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -19,45 +20,37 @@ function DriversTable() {
     setSelectedId(id);
   };
 
-  const handleDialogAgree = () => {
+  const handleDialogAgree = async () => {
     setDialogOpen(false);
-    setRows(rows.filter((row) => row.id !== selectedId));
-    //Eliminar de la bd
-
+    await deleteDriver(selectedId);
+    loadDrivers();
     enqueueSnackbar('Conductor eliminado', { variant: 'success' })
   };
 
   const navigate = useNavigate();
 
   //quitar el objeto y dejar el array vacio al cargar de la bd
-  const [rows, setRows] = React.useState([
-    {
-      id: "135135135351",
-      name: "Rafael",
-      lastNames: "Rodriguez Perez",
-      licenseStatus: "vigente",
-      bornDate: "2021-10-10",
-      address: "dsadsadsa dsadsadsadsa dsadsad 131 saddsa",
-      phoneNumber: "55362350",
-      email: "sadsadsadsadsfadsa",
-    },
-  ]);
+  const [rows, setRows] = React.useState([]);
 
   //Cargar de la bd los conductores
-  const loadClients = async () => {
-    /*await axios.get("").then((res) => {
-        setRows(res.data);
-      });*/
+  const loadDrivers = async () => {
+    try {
+      const data = await getDrivers();
+      console.log(data);
+      setRows(data);
+    } catch (error) {
+      console.error("Error fetching drivers:", error);
+    }
   };
 
   React.useEffect(() => {
-    loadClients();
+    loadDrivers();
   }, []);
 
   const columns = [
     {
       field: "id",
-      headerName: "CI cliente",
+      headerName: "CI conductor",
       flex: 1,
     },
     {
@@ -101,17 +94,17 @@ function DriversTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: ({id}) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={<EditOutlinedIcon/>}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/drivers/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
+            icon={<DeleteOutlinedIcon/>}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -144,7 +137,7 @@ function DriversTable() {
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           initialState={{
             pagination: {
-              paginationModel: { pageSize: 25, page: 0 },
+              paginationModel: {pageSize: 25, page: 0},
             },
           }}
           rows={rows}

@@ -1,19 +1,13 @@
-import React from "react";
-import { Header, Select } from "../../../components/index.jsx";
-import { Box, Button, useMediaQuery, MenuItem, FormHelperText } from "@mui/material";
-import { TextField } from "../../../components/index.jsx";
-import { Formik } from "formik";
+import React, {useEffect, useState} from "react";
+import {Header, Select, TextField} from "../../../components/index.jsx";
+import {Box, Button, FormHelperText, InputLabel, MenuItem, useMediaQuery,} from "@mui/material";
+import {Formik} from "formik";
 import * as yup from "yup";
-import { useState, useEffect } from "react";
 import FormControl from "@mui/material/FormControl";
-import { InputLabel } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import { checkExamsDone, isValidIdDate, isValidPersonID } from "../../../utils/validations.js";
-import { useTheme } from "@emotion/react";
+import {useNavigate, useParams} from "react-router-dom";
+import {checkExamsDone, existsDriver, isValidIdDate, isValidPersonID,} from "../../../utils/validations.js";
+import {useTheme} from "@emotion/react";
+import {createLicense, getLicenseById, updateLicense,} from "../../../apis/LicensesAPI.js";
 
 function LicensesForm() {
   const theme = useTheme();
@@ -42,12 +36,9 @@ function LicensesForm() {
   const [info, setInfo] = useState({
     id: "",
     driverId: "",
-    type: "",
-    issueDate: dayjs(),
-    expirationDate: dayjs().add(10, "year"),
     category: "",
-    restrictions: [],
-    renewed: false,
+    restrictions: "",
+    points: 0,
   });
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -56,39 +47,34 @@ function LicensesForm() {
 
   //Se carga el examen de la bd y se asigna el valor con setInfo
   const loadLicense = async (id) => {
+    const info = await getLicenseById(id);
+    console.log(info);
+    setInfo(info);
     setEditing(true);
   };
 
   const renewLicense = () => {
+    const year = info.expirationDate.substring(0, 4);
+    const date = info.expirationDate.replace(
+      year,
+      (parseInt(year) + 20).toString()
+    );
+    console.log(date);
+
     setInfo((prevInfo) => ({
       ...prevInfo,
-      expirationDate: info.issueDate.add(20, "year"),
+      expirationDate: date,
       renewed: true,
     }));
     console.log(info);
   };
 
-  //funcion para obtener del back el id de licencia, debe retornar el string con el id
-  const getNewLicenseId = () => {};
-
   useEffect(() => {
     if (params.id) {
       loadLicense(params.id);
-    } else {
-      setInfo((prevInfo) => ({
-        ...prevInfo,
-        id: getNewLicenseId(),
-      }));
     }
   }, [params.id]);
 
-  const initialValues = {
-    id: info.id,
-    driverId: info.driverId,
-    type: info.type,
-    category: info.category,
-    restrictions: info.restrictions,
-  };
 
   const checkoutSchema = yup.object().shape({
     driverId: yup
@@ -111,57 +97,49 @@ function LicensesForm() {
         isValidPersonID
       )
       .test(
+        "exist-driver",
+        "La persona con ese Id ya posee una licencia",
+        existsDriver
+      )
+      .test(
         "exams-done",
         "La persona no tiene aprobados los exámenes",
         checkExamsDone
       ),
-    id: yup
-      .string()
-      .matches(
-        /^[0-9]+$/,
-        "El número de licencia no debe contener letras ni caracteres especiales"
-      )
-      .required("El número de licencia es requerido")
-      .min(6, "El número de licencia debe tener 6 caracteres")
-      .max(6, "El número de licencia debe tener 6 caracteres"),
-    type: yup.string().required("El tipo de licencia es requerido"),
     category: yup.string().required("El tipo de categoría es requerido"),
+    points: yup
+      .number()
+      .required("Los puntos son requeridos")
+      .moreThan(-1, "Debe ingresar un valor positivo"),
   });
 
-  const handleFormSubmit = (values) => {
-    const data = {
-      ...values,
-      restrictions: info.restrictions,
-      renewed: info.renewed,
-      issueDate: info.issueDate,
-      expirationDate: info.expirationDate,
-    };
+  const handleFormSubmit = async () => {
+    console.log(info);
 
+    let response;
     if (editing) {
-      //caso en q se edita un examen existente hay q actualizar en la bd
+      response = await updateLicense(params.id, info);
     } else {
-      //aki va el caso en q se debe insertar el nuevo examen en la bd
+      response = await createLicense(info);
     }
 
-    console.log(data);
+    console.log(response);
     navigate("/licenses");
   };
 
   const handleRestrictionsChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-
+    const value = event.target.value;
+    console.log(value);
     setInfo((prevInfo) => ({
       ...prevInfo,
-      restrictions: typeof value === "string" ? value.split(",") : value,
+      restrictions: value.join(","),
     }));
   };
 
   return (
     <Box m="20px">
       <Header
-        title={"LICENCIAS"}
+        title={"LICENCIA " + info.id}
         subtitle={
           editing ? "Editar datos de licencia" : "Insertar nueva licencia"
         }
@@ -170,114 +148,100 @@ function LicensesForm() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
+          sx={{mb: "10px"}}
           onClick={renewLicense}
         >
           Renovar licencia
         </Button>
       )}
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        enableReinitialize
+        validateOnMount
+        initialValues={info}
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
               }}
             >
-              <TextField
-                disabled
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Número de licencia"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.id}
-                name="id"
-                error={touched.id && errors.id}
-                helperText={touched.id && errors.id}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Número de identificación del conductor"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.driverId}
-                name="driverId"
-                error={touched.driverId && errors.driverId}
-                helperText={touched.driverId && errors.driverId}
-                sx={{ gridColumn: "span 2" }}
-              />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
-                <InputLabel id="demo-simple-select-filled-label">
-                  Tipo
-                </InputLabel>
-                <Select
+              {!editing && (
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="text"
+                  label="Número de identificación del conductor"
                   onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.type}
-                  name="type"
-                  error={touched.type && errors.type}
-                  helpertext={touched.type && errors.type}
-                >
-                  <MenuItem value={"A"}>A</MenuItem>
-                  <MenuItem value={"B"}>B</MenuItem>
-                  <MenuItem value={"C"}>C</MenuItem>
-                  <MenuItem value={"D"}>D</MenuItem>
-                  <MenuItem value={"E"}>E</MenuItem>
-                </Select>
-                {touched.type && errors.type && (
-                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
-                )}
-              </FormControl>
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+                  onChange={(event) => {
+                    setInfo((prevInfo) => ({
+                      ...prevInfo,
+                      driverId: event.target.value,
+                    }));
+                  }}
+                  value={values.driverId}
+                  name="driverId"
+                  error={touched.driverId && errors.driverId}
+                  helperText={touched.driverId && errors.driverId}
+                  sx={{gridColumn: "span 2"}}
+                />
+              )}
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Categoría
                 </InputLabel>
                 <Select
                   onBlur={handleBlur}
-                  onChange={handleChange}
+                  onChange={(event) => {
+                    setInfo((prevInfo) => ({
+                      ...prevInfo,
+                      category: event.target.value,
+                    }));
+                  }}
                   value={values.category}
                   name="category"
                   error={touched.category && errors.category}
                   helpertext={touched.category && errors.category}
                 >
-                  <MenuItem value={"MOTO"}>Moto</MenuItem>
-                  <MenuItem value={"AUTOMÓVIL"}>Automóvil</MenuItem>
-                  <MenuItem value={"CAMIÓN"}>Camión</MenuItem>
-                  <MenuItem value={"AUTOBÚS"}>Autobús</MenuItem>
+                  <MenuItem value={"A1"}>Ciclomotor</MenuItem>
+                  <MenuItem value={"A"}>Motocicleta</MenuItem>
+                  <MenuItem value={"B"}>Automóvil</MenuItem>
+                  <MenuItem value={"C1"}>Camión de hasta 7500 kg</MenuItem>
+                  <MenuItem value={"C"}>Camión de más de 7500 kg</MenuItem>
+                  <MenuItem value={"D1"}>Microbus</MenuItem>
+                  <MenuItem value={"D"}>Omnibus</MenuItem>
+                  <MenuItem value={"E"}>Articulado</MenuItem>
+                  <MenuItem value={"F"}>
+                    Agrícola, Industrial o de Construcción
+                  </MenuItem>
+                  <MenuItem value={"FE"}>Tractor con remolque</MenuItem>
                 </Select>
                 {touched.category && errors.category && (
-                  <FormHelperText sx={{color: '#f44336'}}>{errors.category}</FormHelperText> // Aquí se muestra el mensaje de error
+                  <FormHelperText sx={{color: "#f44336"}}>
+                    {errors.category}
+                  </FormHelperText> // Aquí se muestra el mensaje de error
                 )}
               </FormControl>
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Restricciones
                 </InputLabel>
                 <Select
                   multiple
-                  value={info.restrictions}
+                  value={info.restrictions.split(",")}
                   onChange={handleRestrictionsChange}
                   name="restrictions"
-                  renderValue={(selected) => selected.join(", ")}
                   MenuProps={MenuProps}
                 >
                   {restrictionsList.map((name) => (
@@ -291,8 +255,8 @@ function LicensesForm() {
                               ? "green"
                               : "#2f2f2f"
                             : info.restrictions.indexOf(name) > -1
-                            ? "green"
-                            : "#ffffff",
+                              ? "green"
+                              : "#ffffff",
                       }}
                     >
                       {name}
@@ -300,7 +264,27 @@ function LicensesForm() {
                   ))}
                 </Select>
               </FormControl>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {editing && (
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="number"
+                  label="Puntos"
+                  onBlur={handleBlur}
+                  onChange={(event) => {
+                    setInfo((prevInfo) => ({
+                      ...prevInfo,
+                      points: event.target.value,
+                    }));
+                  }}
+                  value={info.points}
+                  name="points"
+                  error={touched.points && errors.points}
+                  helperText={touched.points && errors.points}
+                  sx={{gridColumn: "span 2"}}
+                />
+              )}
+              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   disabled
                   format="DD/MM/YYYY"
@@ -325,7 +309,7 @@ function LicensesForm() {
                     },
                   }}
                 />
-              </LocalizationProvider>
+              </LocalizationProvider> */}
             </Box>
             <Box
               display="flex"
@@ -333,7 +317,21 @@ function LicensesForm() {
               justifyContent="end"
               mt="20px"
             >
-              <Button type="submit" color="secondary" variant="contained">
+              <Button
+                type="text"
+                color="secondary"
+                variant="contained"
+                onClick={() => {
+                  console.log(errors);
+                  if (
+                    Object.keys(errors).length === 0 ||
+                    (editing &&
+                      "driverId" in errors &&
+                      Object.keys(errors).length === 1)
+                  )
+                    handleFormSubmit(values);
+                }}
+              >
                 Guardar
               </Button>
             </Box>

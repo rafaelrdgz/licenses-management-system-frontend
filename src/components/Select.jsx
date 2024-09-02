@@ -1,7 +1,7 @@
-import { Select as MuiSelect } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {Select as MuiSelect} from '@mui/material';
+import {styled} from '@mui/material/styles';
 
-const Select = styled(MuiSelect)(({ theme }) => ({
+const Select = styled(MuiSelect)(({theme}) => ({
   '& .MuiSelect-select': {
     color: theme.palette.mode === 'dark' ? 'white' : 'black',
     fontSize: '1rem',

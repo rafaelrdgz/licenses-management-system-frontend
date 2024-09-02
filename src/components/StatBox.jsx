@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { Box, Typography, useTheme } from "@mui/material";
-import { tokens } from "../theme";
+import {Box, Typography, useTheme} from "@mui/material";
+import {tokens} from "../theme";
 import ProgressCircle from "./ProgressCircle";
 
-const StatBox = ({ title, subtitle, icon, progress, increase, disablePercent = true }) => {
+const StatBox = ({title, subtitle, icon, progress, increase, disablePercent = true}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -16,7 +16,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase, disablePercent = t
           </Typography>
         </Box>
         {!disablePercent && (<Box>
-          <ProgressCircle progress={progress} />
+          <ProgressCircle progress={progress}/>
         </Box>)}
       </Box>
       <Box display="flex" justifyContent="space-between" mt="2px">
@@ -28,7 +28,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase, disablePercent = t
           fontStyle="italic"
           color={colors.greenAccent[600]}
         >
-          {progress*100}%
+          {progress * 100}%
         </Typography>)}
       </Box>
     </Box>

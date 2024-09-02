@@ -1,14 +1,13 @@
-import React from "react";
-import { Header, TableToolbar } from "../../../components";
-import { Box, Button, useMediaQuery, useTheme, Typography } from "@mui/material";
-import { Formik } from "formik";
+import React, {useState} from "react";
+import {Header, TableToolbar} from "../../../components";
+import {Box, Button, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Formik} from "formik";
 import * as yup from "yup";
-import { useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { esES } from "@mui/x-data-grid/locales";
-import { tokens } from "../../../theme.js";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import {DataGrid} from "@mui/x-data-grid";
+import {esES} from "@mui/x-data-grid/locales";
+import {tokens} from "../../../theme.js";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
@@ -45,8 +44,7 @@ function RegisteredInfractionsReport() {
         "La fecha de fin debe ser mayor que la fecha de inicio"
       ),
   });
-  
-  
+
 
   const columns = [
     {
@@ -80,10 +78,10 @@ function RegisteredInfractionsReport() {
       flex: 1,
     },
     {
-        field: "paid",
-        headerName: "Estado de pago",
-        flex: 1,
-      },
+      field: "paid",
+      headerName: "Estado de pago",
+      flex: 1,
+    },
   ];
 
   const handleFormSubmit = async (values) => {
@@ -95,21 +93,21 @@ function RegisteredInfractionsReport() {
       startDate: values.startDate,
       endDate: values.endDate,
     })
-      
+
   };
 
   const handleExportPdf = () => {
     const doc = new jsPDF();
-  
+
     // Título del PDF
     doc.setFontSize(18);
     doc.text("Reporte de Infracciones Registradas en un Período de Tiempo", 20, 20);
-  
+
     // Fechas de inicio y fin
     doc.setFontSize(12);
     doc.text(`Fecha de inicio: ${info.startDate.format('DD/MM/YYYY').toString()}`, 20, 40);
     doc.text(`Fecha de fin: ${info.endDate.format('DD/MM/YYYY').toString()}`, 20, 50);
-  
+
     // Formato de los datos para la tabla
     const infracciones = info.rows.map((row) => [
       row.id,
@@ -120,21 +118,20 @@ function RegisteredInfractionsReport() {
       row.pointsDeducted,
       row.paid,
     ]);
-  
+
     // Generación de la tabla con autoTable
     autoTable(doc, {
       head: [["Código de infracción", "Nombre del conductor", "Tipo", "Fecha", "Lugar", "Puntos deducidos", "Estado de pago"]],
       body: infracciones,
       startY: 60,
       theme: 'striped',
-      headStyles: { fillColor: [22, 160, 133] },
+      headStyles: {fillColor: [22, 160, 133]},
     });
-  
+
     // Guardar el PDF con un nombre específico
     doc.save("Reporte_Infracciones_Registradas.pdf");
   };
-  
-  
+
 
   return (
     <Box m={"20px"}>
@@ -144,7 +141,7 @@ function RegisteredInfractionsReport() {
       />
       {search && (
         <Button
-          sx={{ mb: "10px" }}
+          sx={{mb: "10px"}}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
@@ -158,20 +155,20 @@ function RegisteredInfractionsReport() {
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
               }}
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -179,11 +176,11 @@ function RegisteredInfractionsReport() {
                   maxDate={dayjs().subtract(1, "day")}
                   format="DD/MM/YYYY"
                   label="Fecha de inicio"
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{gridColumn: "span 2"}}
                   value={values.startDate}
                   onChange={(newValue) =>
                     handleChange({
-                      target: { name: "startDate", value: newValue },
+                      target: {name: "startDate", value: newValue},
                     })
                   }
                   slotProps={{
@@ -197,11 +194,11 @@ function RegisteredInfractionsReport() {
                   format="DD/MM/YYYY"
                   maxDate={dayjs()}
                   label="Fecha de fin"
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{gridColumn: "span 2"}}
                   value={values.endDate}
                   onChange={(newValue) =>
                     handleChange({
-                      target: { name: "endDate", value: newValue },
+                      target: {name: "endDate", value: newValue},
                     })
                   }
                   slotProps={{
@@ -214,7 +211,7 @@ function RegisteredInfractionsReport() {
               </LocalizationProvider>
             </Box>
             <Button
-              sx={{ mt: "10px", mb: "30px"}}
+              sx={{mt: "10px", mb: "30px"}}
               type="submit"
               color="secondary"
               variant="contained"
@@ -228,21 +225,21 @@ function RegisteredInfractionsReport() {
       {search && (
         <div>
           <Typography
-          variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
-          color={colors.gray[100]}
-        >
-          {" "}
-          Fecha de inicio: {info.startDate.format('DD/MM/YYYY').toString()}
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
-          color={colors.gray[100]}
-        >
-          {" "}
-          Fecha de fin: {info.endDate.format('DD/MM/YYYY').toString()}
-        </Typography>
+            variant="h4"
+            sx={{mt: "20px", mb: "10px"}}
+            color={colors.gray[100]}
+          >
+            {" "}
+            Fecha de inicio: {info.startDate.format('DD/MM/YYYY').toString()}
+          </Typography>
+          <Typography
+            variant="h4"
+            sx={{mt: "20px", mb: "10px"}}
+            color={colors.gray[100]}
+          >
+            {" "}
+            Fecha de fin: {info.endDate.format('DD/MM/YYYY').toString()}
+          </Typography>
           <Box
             sx={{
               height: "80vh",
@@ -259,7 +256,7 @@ function RegisteredInfractionsReport() {
               localeText={esES.components.MuiDataGrid.defaultProps.localeText}
               initialState={{
                 pagination: {
-                  paginationModel: { pageSize: 25, page: 0 },
+                  paginationModel: {pageSize: 25, page: 0},
                 },
               }}
               rows={info.rows}

@@ -1,14 +1,12 @@
-import React from "react";
-import { Header, Select } from "../../../components";
-import { Box, Button, FormHelperText, useMediaQuery } from "@mui/material";
-import { TextField } from "../../../components";
-import { Formik } from "formik";
+import React, {useEffect, useState} from "react";
+import {Header, Select, TextField} from "../../../components";
+import {Box, Button, FormHelperText, InputLabel, useMediaQuery} from "@mui/material";
+import {Formik} from "formik";
 import * as yup from "yup";
-import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { InputLabel } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {createEntity, getEntityById, updateEntity,} from "../../../apis/EntityAPI.js";
 
 function EntityForm() {
   const [editing, setEditing] = useState(false);
@@ -29,6 +27,9 @@ function EntityForm() {
 
   //Se carga la entidad de la bd y se asigna el valor con setInfo
   const loadEntity = async (id) => {
+    const info = await getEntityById(id);
+    console.log(info);
+    setInfo(info);
     setEditing(true);
   };
 
@@ -38,23 +39,13 @@ function EntityForm() {
     }
   }, [params.id]);
 
-  const initialValues = {
-    code: info.code,
-    name: info.name,
-    address: info.address,
-    phone: info.phone,
-    directorName: info.directorName,
-    email: info.email,
-    type: info.type,
-  };
-
   const checkoutSchema = yup.object().shape({
-    code: yup
-      .string()
-      .matches(/^[0-9]+$/, "El código debe ser un número")
-      .required("El código es requerido")
-      .min(6, "El código debe tener al menos 6 caracteres")
-      .max(16, "El código debe tener menos de 16 caracteres"),
+    // code: yup
+    //   .string()
+    //   .matches(/^[0-9]+$/, "El código debe ser un número")
+    //   .required("El código es requerido")
+    //   .min(6, "El código debe tener al menos 6 caracteres")
+    //   .max(16, "El código debe tener menos de 16 caracteres"),
     name: yup
       .string()
       .matches(
@@ -94,57 +85,44 @@ function EntityForm() {
 
   const handleFormSubmit = async (values) => {
     if (editing) {
-      //caso en q se edita una entidad existente hay q actualizar en la bd
-
-      return;
+      console.log("Actualizando entidad:", values);
+      await updateEntity(params.id, values);
+    } else {
+      console.log("Creando nueva entidad:", values);
+      await createEntity(values);
     }
-
-    //aki va el caso en q se debe insertar la nueva entidad en la bd
-    console.log(values);
     navigate("/entity");
   };
 
   return (
     <Box m="20px">
       <Header
-        title={"ENTIDAD"}
+        title={"ENTIDAD " + info.code}
         subtitle={editing ? "Editar entidad" : "Crear nueva entidad"}
       />
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        enableReinitialize
+        validateOnMount
+        initialValues={info}
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
               }}
             >
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Código de entidad"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.code}
-                name="code"
-                error={touched.code && errors.code}
-                helperText={touched.code && errors.code}
-                sx={{ gridColumn: "span 2" }}
-              />
               <TextField
                 fullWidth
                 variant="filled"
@@ -156,7 +134,7 @@ function EntityForm() {
                 name="name"
                 error={touched.name && errors.name}
                 helperText={touched.name && errors.name}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -169,7 +147,7 @@ function EntityForm() {
                 name="phone"
                 error={touched.phone && errors.phone}
                 helperText={touched.phone && errors.phone}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -182,7 +160,7 @@ function EntityForm() {
                 name="email"
                 error={touched.email && errors.email}
                 helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -195,7 +173,7 @@ function EntityForm() {
                 name="directorName"
                 error={touched.directorName && errors.directorName}
                 helperText={touched.directorName && errors.directorName}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -208,9 +186,9 @@ function EntityForm() {
                 name="address"
                 error={touched.address && errors.address}
                 helperText={touched.address && errors.address}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Tipo
                 </InputLabel>
@@ -226,7 +204,9 @@ function EntityForm() {
                   <MenuItem value={"CLINICA"}>Clínica</MenuItem>
                 </Select>
                 {touched.type && errors.type && (
-                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
+                  <FormHelperText sx={{color: "#f44336"}}>
+                    {errors.type}
+                  </FormHelperText>
                 )}
               </FormControl>
             </Box>
@@ -236,7 +216,15 @@ function EntityForm() {
               justifyContent="end"
               mt="20px"
             >
-              <Button type="submit" color="secondary" variant="contained">
+              <Button
+                type="text"
+                color="secondary"
+                variant="contained"
+                onClick={() => {
+                  if (Object.keys(errors).length === 0)
+                    handleFormSubmit(values);
+                }}
+              >
                 Guardar
               </Button>
             </Box>

@@ -1,34 +1,24 @@
-import React from "react";
-import { Header, Select } from "../../../components";
-import { Box, Button, FormHelperText, useMediaQuery } from "@mui/material";
-import { TextField } from "../../../components";
-import { Formik } from "formik";
+import React, {useEffect, useState} from "react";
+import {Header, Select, TextField} from "../../../components";
+import {Box, Button, FormHelperText, InputLabel, useMediaQuery} from "@mui/material";
+import {Formik} from "formik";
 import * as yup from "yup";
-import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { InputLabel } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import {
-  isValidIdDate,
-  isValidEntity,
-  isValidPersonID,
-} from "../../../utils/validations.js";
+import {useNavigate, useParams} from "react-router-dom";
+import {isValidIdDate, isValidLicense, isValidPersonID,} from "../../../utils/validations.js";
+import {createInfraction, getInfractionById, updateInfraction} from "../../../apis/InfractionAPI.js";
 
 function InfractionsForm() {
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
-    driverId: "",
-    code: "",
-    date: dayjs(),
-    site: "",
+    licenseid: "",
+    id: "",
+    date: "",
+    address: "",
     description: "",
-    points: 1,
+    pointsDeducted: "",
     type: "",
     paid: false,
   });
@@ -39,6 +29,9 @@ function InfractionsForm() {
 
   //Se carga el examen de la bd y se asigna el valor con setInfo
   const loadInfraction = async (id) => {
+    const info = await getInfractionById(id);
+    console.log(info);
+    setInfo(info);
     setEditing(true);
   };
 
@@ -48,43 +41,21 @@ function InfractionsForm() {
     }
   }, [params.id]);
 
-  const initialValues = {
-    driverId: info.driverId,
-    code: info.code,
-    date: info.date,
-    site: info.site,
-    description: info.description,
-    points: info.points,
-    type: info.type,
-    paid: info.paid,
-  };
-
   const checkoutSchema = yup.object().shape({
-    driverId: yup
+    licenseid: yup
       .string()
       .matches(
         /^[0-9]+$/,
-        "El número de indentificación no debe contener letras"
+        "El número de licencia no debe contener letras"
       )
-      .required("El número de indentificación es requerido")
-      .min(11, "El número de indentificación debe tener 11 dígitos")
-      .max(11, "El número de indentificación debe tener 11 dígitos")
+      .required("El número de licencia es requerido")
+      .min(6, "El número de licencia debe tener 6 dígitos")
+      .max(6, "El número de licencia debe tener 6 dígitos")
       .test(
-        "is-valid-id",
-        "El número de indentificación no es válido",
-        isValidIdDate
-      )
-      .test(
-        "is-valid-person",
+        "is-valid-license",
         "El número de identificación no se encuentra en el sistema",
-        isValidPersonID
+        isValidLicense
       ),
-    code: yup
-      .string()
-      .matches(/^[0-9]+$/, "El código debe ser un número")
-      .required("El código es requerido")
-      .min(6, "El código debe tener al menos 6 caracteres")
-      .max(16, "El código debe tener menos de 16 caracteres"),
     description: yup
       .string()
       .min(5, "La descripción debe tener al menos 5 caracteres")
@@ -92,89 +63,91 @@ function InfractionsForm() {
     type: yup
       .string()
       .required("El tipo de infracción es requerido"),
-    site: yup
+    address: yup
       .string()
       .required("El lugar es requerido")
       .min(5, "La descripción debe tener al menos 5 caracteres")
       .max(25, "La descripción debe tener menos de 25 caracteres"),
-    date: yup
-      .string()
-      .required("La fecha es requerida"),
-    points: yup
+    pointsDeducted: yup
       .number()
       .required("Los puntos son requeridos")
       .min(1, "Los puntos deben ser al menos 1")
-      .max(36, "Los puntos deben ser a lo máximo 36"),
+      .max(36, "Los puntos deben ser menos de 36"),
     paid: yup
       .boolean()
       .required("El pago es requerido"),
   });
 
   const handleFormSubmit = async (values) => {
+    let response;
     if (editing) {
-      //caso en q se edita un examen existente hay q actualizar en la bd
+      console.log("Actualizando infracción:", values);
+      response = await updateInfraction(params.id, values);
     } else {
-      //aki va el caso en q se debe insertar el nuevo examen en la bd
+      console.log("Creando nueva infracción:", values);
+      response = await createInfraction(values);
     }
-
-    console.log(values);
+    console.log(response);
     navigate("/infractions");
   };
 
   return (
     <Box m="20px">
       <Header
-        title={"INFRACCIONES"}
+        title={"INFRACCION " + info.id}
         subtitle={editing ? "Editar datos de infracción" : "Insertar nueva infracción"}
       />
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        enableReinitialize
+        validateOnMount
+        initialValues={info}
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
               }}
-            >
+            >{
+              !editing &&
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Número de identificación del conductor"
+                label="Número de licencia"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.driverId}
-                name="driverId"
-                error={touched.driverId && errors.driverId}
-                helperText={touched.driverId && errors.driverId}
-                sx={{ gridColumn: "span 2" }}
+                value={values.licenseid}
+                name="licenseid"
+                error={touched.licenseid && errors.licenseid}
+                helperText={touched.licenseid && errors.licenseid}
+                sx={{gridColumn: "span 2"}}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Código de infracción"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.code}
-                name="code"
-                error={touched.code && errors.code}
-                helperText={touched.code && errors.code}
-                sx={{ gridColumn: "span 2" }}
-              />
+            }
+              {/*<TextField*/}
+              {/*  fullWidth*/}
+              {/*  variant="filled"*/}
+              {/*  type="text"*/}
+              {/*  label="Código de infracción"*/}
+              {/*  onBlur={handleBlur}*/}
+              {/*  onChange={handleChange}*/}
+              {/*  value={values.id}*/}
+              {/*  name="id"*/}
+              {/*  error={touched.id && errors.id}*/}
+              {/*  helperText={touched.id && errors.id}*/}
+              {/*  sx={{ gridColumn: "span 2" }}*/}
+              {/*/>*/}
               <TextField
                 fullWidth
                 variant="filled"
@@ -182,13 +155,13 @@ function InfractionsForm() {
                 label="Lugar"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.site}
-                name="site"
-                error={touched.site && errors.site}
-                helperText={touched.site && errors.site}
-                sx={{ gridColumn: "span 2" }}
+                value={values.address}
+                name="address"
+                error={touched.address && errors.address}
+                helperText={touched.address && errors.address}
+                sx={{gridColumn: "span 2"}}
               />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Tipo
                 </InputLabel>
@@ -200,15 +173,15 @@ function InfractionsForm() {
                   error={touched.type && errors.type}
                   helpertext={touched.type && errors.type}
                 >
-                  <MenuItem value={"LEVE"}>Leve</MenuItem>
-                  <MenuItem value={"GRAVE"}>Grave</MenuItem>
-                  <MenuItem value={"MUY GRAVE"}>Muy grave</MenuItem>
+                  <MenuItem value={"LEVE"}>LEVE</MenuItem>
+                  <MenuItem value={"GRAVE"}>GRAVE</MenuItem>
+                  <MenuItem value={"MUY GRAVE"}>MUY GRAVE</MenuItem>
                 </Select>
                 {touched.type && errors.type && (
                   <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
                 )}
               </FormControl>
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Estado del pago
                 </InputLabel>
@@ -235,7 +208,7 @@ function InfractionsForm() {
                 name="description"
                 error={touched.description && errors.description}
                 helperText={touched.description && errors.description}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -244,25 +217,25 @@ function InfractionsForm() {
                 label="Puntos deducidos"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.points}
-                name="points"
-                error={touched.points && errors.points}
-                helperText={touched.points && errors.points}
-                sx={{ gridColumn: "span 2" }}
+                value={values.pointsDeducted}
+                name="pointsDeducted"
+                error={touched.pointsDeducted && errors.pointsDeducted}
+                helperText={touched.pointsDeducted && errors.pointsDeducted}
+                sx={{gridColumn: "span 2"}}
               />
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  maxDate={dayjs()}
-                  label="Fecha"
-                  sx={{ gridColumn: "span 2" }}
-                  value={values.date}
-                  slotProps={{
-                    textField: {
-                      helperText: "MM/DD/YYYY",
-                    },
-                  }}
-                />
-              </LocalizationProvider>
+              {/*<LocalizationProvider dateAdapter={AdapterDayjs}>*/}
+              {/*  <DatePicker*/}
+              {/*    maxDate={dayjs()}*/}
+              {/*    label="Fecha"*/}
+              {/*    sx={{ gridColumn: "span 2" }}*/}
+              {/*    value={values.date}*/}
+              {/*    slotProps={{*/}
+              {/*      textField: {*/}
+              {/*        helperText: "MM/DD/YYYY",*/}
+              {/*      },*/}
+              {/*    }}*/}
+              {/*  />*/}
+              {/*</LocalizationProvider>*/}
             </Box>
             <Box
               display="flex"
@@ -270,7 +243,21 @@ function InfractionsForm() {
               justifyContent="end"
               mt="20px"
             >
-              <Button type="submit" color="secondary" variant="contained">
+              <Button
+                type="text"
+                color="secondary"
+                variant="contained"
+                onClick={() => {
+                  console.log(errors);
+                  if (
+                    Object.keys(errors).length === 0 ||
+                    (editing &&
+                      "id" in errors &&
+                      Object.keys(errors).length === 1)
+                  )
+                    handleFormSubmit(values);
+                }}
+              >
                 Guardar
               </Button>
             </Box>

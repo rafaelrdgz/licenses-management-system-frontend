@@ -1,14 +1,9 @@
 /* eslint-disable react/prop-types */
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { useContext, useState } from "react";
-import { tokens } from "../../../theme";
-import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
-import {
-  DashboardOutlined,
-  MenuOutlined,
-  PeopleAltOutlined,
-  StoreOutlined
-} from "@mui/icons-material";
+import {Box, IconButton, Typography, useTheme} from "@mui/material";
+import {useContext, useEffect, useState} from "react";
+import {tokens} from "../../../theme";
+import {Menu, MenuItem, Sidebar} from "react-pro-sidebar";
+import {DashboardOutlined, MenuOutlined, PeopleAltOutlined, StoreOutlined} from "@mui/icons-material";
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
@@ -16,19 +11,18 @@ import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFi
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import logoo from "../../../assets/images/logo.png";
 import Item from "./Item";
-import { ToggledContext } from "../../../App";
+import {ToggledContext} from "../../../App";
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
-import { useEffect } from "react";
 import { EngineeringOutlined } from "@mui/icons-material";
 
 const SideBar = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const { toggled, setToggled } = useContext(ToggledContext);
+  const {toggled, setToggled} = useContext(ToggledContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [logo, setLogo] = useState(logoo);
 
-  const loadlogo = async () =>{
+  const loadlogo = async () => {
     //cargar el logo de la bd
   }
 
@@ -36,7 +30,7 @@ const SideBar = () => {
     loadlogo();
   }, []);
 
-  
+
   return (
     <Sidebar
       backgroundColor={colors.primary[400]}
@@ -51,7 +45,7 @@ const SideBar = () => {
     >
       <Menu
         menuItemStyles={{
-          button: { ":hover": { background: "transparent" } },
+          button: {":hover": {background: "transparent"}},
         }}
       >
         <MenuItem
@@ -72,17 +66,17 @@ const SideBar = () => {
                 display="flex"
                 alignItems="center"
                 gap="12px"
-                sx={{ transition: ".3s ease" }}
+                sx={{transition: ".3s ease"}}
               >
                 <img
-                  style={{ width: "30px", height: "30px", borderRadius: "8px", marginLeft: "15px"}}
+                  style={{width: "30px", height: "30px", borderRadius: "8px", marginLeft: "15px"}}
                   src={logo}
                   alt="Argon"
                 />
               </Box>
             )}
             <IconButton onClick={() => setCollapsed(!collapsed)}>
-              <MenuOutlined />
+              <MenuOutlined/>
             </IconButton>
           </Box>
         </MenuItem>
@@ -103,19 +97,19 @@ const SideBar = () => {
             title="Principal"
             path="/"
             colors={colors}
-            icon={<DashboardOutlined />}
+            icon={<DashboardOutlined/>}
           />
           <Item
             title="Reportes"
             path="/reports"
             colors={colors}
-            icon={<SummarizeOutlinedIcon />}
+            icon={<SummarizeOutlinedIcon/>}
           />
         </Menu>
         <Typography
           variant="h6"
           color={colors.gray[300]}
-          sx={{ m: "15px 0 5px 20px" }}
+          sx={{m: "15px 0 5px 20px"}}
         >
           {!collapsed ? "Datos" : " "}
         </Typography>
@@ -134,43 +128,43 @@ const SideBar = () => {
             title="Entidades"
             path="/entity"
             colors={colors}
-            icon={<PeopleAltOutlined />}
+            icon={<PeopleAltOutlined/>}
           />
           <Item
             title="Clientes"
             path="/clients"
             colors={colors}
-            icon={<PermIdentityOutlinedIcon />}
+            icon={<PermIdentityOutlinedIcon/>}
           />
           <Item
             title="Conductores"
             path="/drivers"
             colors={colors}
-            icon={<DirectionsCarFilledOutlinedIcon />}
+            icon={<DirectionsCarFilledOutlinedIcon/>}
           />
           <Item
             title="Licencias"
             path="/licenses"
             colors={colors}
-            icon={<BadgeOutlinedIcon />}
+            icon={<BadgeOutlinedIcon/>}
           />
           <Item
             title="Exámenes"
             path="/exams"
             colors={colors}
-            icon={<ArticleOutlinedIcon />}
+            icon={<ArticleOutlinedIcon/>}
           />
           <Item
             title="Infracciones"
             path="/infractions"
             colors={colors}
-            icon={<PaidOutlinedIcon />}
+            icon={<PaidOutlinedIcon/>}
           />
         </Menu>
         <Typography
           variant="h6"
           color={colors.gray[300]}
-          sx={{ m: "15px 0 5px 20px" }}
+          sx={{m: "15px 0 5px 20px"}}
         >
           {!collapsed ? "Centro" : " "}
         </Typography>
@@ -195,7 +189,7 @@ const SideBar = () => {
             title="Perfil"
             path="/center"
             colors={colors}
-            icon={<StoreOutlined />}
+            icon={<StoreOutlined/>}
           ></Item>
         </Menu>
       </Box>

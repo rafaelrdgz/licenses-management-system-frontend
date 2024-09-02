@@ -1,7 +1,7 @@
-import { TextField as MuiTextField } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {TextField as MuiTextField} from '@mui/material';
+import {styled} from '@mui/material/styles';
 
-const TextField = styled(MuiTextField)(({ theme }) => ({
+const TextField = styled(MuiTextField)(({theme}) => ({
   '& label.Mui-focused': {
     color: theme.palette.mode === 'dark' ? 'white' : 'black',
     fontSize: '1rem',

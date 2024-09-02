@@ -1,9 +1,9 @@
-import { Box, List, ListItem, ListItemText } from "@mui/material";
+import {Box, List, ListItem, ListItemText} from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Header } from "../../components";
-import { useTheme } from "@emotion/react";
-import { tokens } from "../../theme";
+import {useNavigate} from "react-router-dom";
+import {Header} from "../../components";
+import {useTheme} from "@emotion/react";
+import {tokens} from "../../theme";
 
 const reports = [
   {
@@ -14,8 +14,10 @@ const reports = [
     name: "Ficha de un Conductor Determinado",
     url: "/reports/driver",
   },
-  { name: "Ficha de una Entidad Asociada",
-    url: "/reports/entity" },
+  {
+    name: "Ficha de una Entidad Asociada",
+    url: "/reports/entity"
+  },
   {
     name: "Reporte de Licencias Emitidas en un Período de Tiempo",
     url: "/reports/issuedLicenses",
@@ -45,7 +47,7 @@ function Reports() {
 
   return (
     <Box m={"20px"}>
-      <Header title={"REPORTES"} subtitle={"Listado de reportes disponibles"} />
+      <Header title={"REPORTES"} subtitle={"Listado de reportes disponibles"}/>
       <List>
         {reports.map((report, index) => (
           <ListItem
@@ -61,7 +63,7 @@ function Reports() {
               },
             }}
           >
-            <ListItemText primary={report.name} />
+            <ListItemText primary={report.name}/>
           </ListItem>
         ))}
       </List>

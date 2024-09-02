@@ -18,7 +18,11 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [darkMode, setDarkMode] = React.useState(false);
+  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('loginDarkMode') === 'true');
+
+  React.useEffect(() => {
+    localStorage.setItem('loginDarkMode', darkMode);
+  }, [darkMode]);
 
   const theme = createTheme({
     palette: {
@@ -30,7 +34,7 @@ export default function Login() {
         main: darkMode ? "#f48fb1" : "#dc004e",
       },
       background: {
-        default: darkMode ? "#111520" : "#fff", // Color de fondo cuando está en modo oscuro
+        default: darkMode ? "#111520" : "#fff",
       },
     },
     components: {
@@ -66,7 +70,6 @@ export default function Login() {
 
   const handleFormSubmit = async (values) => {
     navigate("/");
-    
   };
 
   return (

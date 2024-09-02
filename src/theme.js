@@ -1,8 +1,5 @@
-import { createTheme } from "@mui/material";
-import { useMemo } from "react";
-import { useState } from "react";
-import { createContext } from "react";
-import { useEffect } from "react";
+import {createTheme} from "@mui/material";
+import {createContext, useEffect, useMemo, useState} from "react";
 
 // Color Design Tokens
 export const tokens = (mode) => ({
@@ -63,7 +60,7 @@ export const tokens = (mode) => ({
         800: "#152d47",
         900: "#0a1624"
       },
-      }
+    }
     : {
       gray: {
         100: "#141414",
@@ -120,7 +117,7 @@ export const tokens = (mode) => ({
         800: "#2a2d64",
         900: "#151632",
       },
-      }),
+    }),
 });
 
 // Mui Theme Settings
@@ -132,37 +129,37 @@ export const themeSettings = (mode) => {
       mode: mode,
       ...(mode === "dark"
         ? {
-            primary: {
-              main: colors.primary[500],
-            },
-            secondary: {
-              main: colors.greenAccent[500],
-            },
-            neutral: {
-              dark: colors.gray[700],
-              main: colors.gray[500],
-              light: colors.gray[100],
-            },
-            background: {
-              default: colors.primary[500],
-            },
-          }
+          primary: {
+            main: colors.primary[500],
+          },
+          secondary: {
+            main: colors.greenAccent[500],
+          },
+          neutral: {
+            dark: colors.gray[700],
+            main: colors.gray[500],
+            light: colors.gray[100],
+          },
+          background: {
+            default: colors.primary[500],
+          },
+        }
         : {
-            primary: {
-              main: colors.primary[100],
-            },
-            secondary: {
-              main: colors.greenAccent[500],
-            },
-            neutral: {
-              dark: colors.gray[700],
-              main: colors.gray[500],
-              light: colors.gray[100],
-            },
-            background: {
-              default: colors.primary[500],
-            },
-          }),
+          primary: {
+            main: colors.primary[100],
+          },
+          secondary: {
+            main: colors.greenAccent[500],
+          },
+          neutral: {
+            dark: colors.gray[700],
+            main: colors.gray[500],
+            light: colors.gray[100],
+          },
+          background: {
+            default: colors.primary[500],
+          },
+        }),
     },
     typography: {
       fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
@@ -197,7 +194,8 @@ export const themeSettings = (mode) => {
 
 // Context For Color Mode
 export const ColorModeContext = createContext({
-  toggleColorMode: () => {},
+  toggleColorMode: () => {
+  },
 });
 
 export const useMode = () => {

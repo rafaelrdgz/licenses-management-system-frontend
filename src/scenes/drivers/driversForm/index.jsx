@@ -1,20 +1,16 @@
-import React from "react";
-import { Header, Select } from "../../../components";
-import { Box, Button, FormControl, InputLabel, MenuItem, useMediaQuery } from "@mui/material";
-import { TextField } from "../../../components";
-import { Formik } from "formik";
+import React, {useEffect, useState} from "react";
+import {Header, Select, TextField} from "../../../components";
+import {Box, Button, FormControl, InputLabel, MenuItem, useMediaQuery,} from "@mui/material";
+import {Formik} from "formik";
 import * as yup from "yup";
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { isValidIdDate } from "../../../utils/validations.js";
+import {useNavigate, useParams} from "react-router-dom";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {getDriverById, updateDriver} from "../../../apis/DriversAPI.js";
 
 function DriversForm() {
-  const [editing, setEditing] = useState(false);
-
   const [info, setInfo] = useState({
-    personId: "",
+    id: "",
     name: "",
     lastNames: "",
     address: "",
@@ -27,45 +23,36 @@ function DriversForm() {
   const navigate = useNavigate();
   const params = useParams();
 
-  //Se carga el cliente de la bd y se asigna el valor con setInfo
-  const loadClient = async (id) => {
-    setEditing(true);
+  //Se carga el conductor de la bd y se asigna el valor con setInfo
+  const loadDriver = async (id) => {
+    const info = await getDriverById(id);
+    console.log(info);
+    setInfo(info);
   };
 
   useEffect(() => {
     if (params.id) {
-      loadClient(params.id);
+      loadDriver(params.id);
     }
   }, [params.id]);
 
-  const initialValues = {
-    personId: info.personId,
-    name: info.name,
-    address: info.address,
-    phoneNumber: info.phoneNumber,
-    email: info.email,
-    lastNames: info.lastNames,
-    licenseStatus: info.licenseStatus,
-  };
-
   const checkoutSchema = yup.object().shape({
-    personId: yup
-      .string()
-      .matches(/^[0-9]+$/, "El número de indentificación no debe contener letras")
-      .required("El número de indentificación es requerido")
-      .min(11, "El número de indentificación debe tener 11 dígitos")
-      .max(11, "El número de indentificación debe tener 11 dígitos")
-      .test('is-valid-id', 'El número de indentificación no es válido', isValidIdDate),
     name: yup
       .string()
       .required("El nombre es requerido")
-      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre no debe contener números ni caracteres especiales")
+      .matches(
+        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        "El nombre no debe contener números ni caracteres especiales"
+      )
       .min(3, "El nombre debe tener al menos 3 caracteres")
       .max(25, "El nombre debe tener menos de 25 caracteres"),
     lastNames: yup
       .string()
       .required("Los apellidos son requeridos")
-      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "Los apellidos no deben contener números ni caracteres especiales")
+      .matches(
+        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        "Los apellidos no deben contener números ni caracteres especiales"
+      )
       .min(5, "Los apellidos deben tener al menos 5 caracteres")
       .max(50, "Los apellidos deben tener menos de 50 caracteres"),
     address: yup
@@ -76,62 +63,55 @@ function DriversForm() {
     phoneNumber: yup
       .string()
       .required("El número de teléfono es requerido")
-      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras ni caracteres especiales")
+      .matches(
+        /^[0-9]+$/,
+        "El número de teléfono no debe contener letras ni caracteres especiales"
+      )
       .min(6, "El número de teléfono debe tener al menos 6 dígitos")
       .max(12, "El número de teléfono debe tener menos de 12 dígitos"),
     email: yup
       .string()
       .email("El correo debe ser un correo válido")
-      .required("El correo es requerido"),
+      .required("El correo es requerido")
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
     licenseStatus: yup
       .string()
       .required("El estado de la licencia es requerido"),
   });
 
-  const handleFormSubmit = (values) => {
-    //se actualiza en la bd al conductor
-    console.log(values);
+  const handleFormSubmit = async (values) => {
+    console.log("Actualizando conductor:", values);
+    const response = await updateDriver(params.id, values);
+    console.log(response);
     navigate("/drivers");
   };
 
   return (
     <Box m="20px">
-      <Header title={"CONDUCTORES"} subtitle={editing ? 'Editar conductor' : 'Insertar nuevo conductor'}/>
+      <Header title={"Conductor " + info.id} subtitle={"Editar conductor"}/>
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        enableReinitialize
+        validateOnMount
+        initialValues={info}
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
               }}
             >
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Número de identidad"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.personId}
-                name="personId"
-                error={touched.personId && errors.personId}
-                helperText={touched.personId && errors.personId}
-                sx={{ gridColumn: "span 2" }}
-              />
               <TextField
                 fullWidth
                 variant="filled"
@@ -142,8 +122,8 @@ function DriversForm() {
                 value={values.name}
                 name="name"
                 error={touched.name && errors.name}
-                //helperText={touched.name && errors.name}
-                sx={{ gridColumn: "span 2" }}
+                helperText={touched.name && errors.name}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -155,8 +135,8 @@ function DriversForm() {
                 value={values.lastNames}
                 name="lastNames"
                 error={touched.lastNames && errors.lastNames}
-                //helperText={touched.lastNames && errors.lastNames}
-                sx={{ gridColumn: "span 2" }}
+                helperText={touched.lastNames && errors.lastNames}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -169,7 +149,7 @@ function DriversForm() {
                 name="email"
                 error={touched.email && errors.email}
                 helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -182,7 +162,7 @@ function DriversForm() {
                 name="phoneNumber"
                 error={touched.phoneNumber && errors.phoneNumber}
                 helperText={touched.phoneNumber && errors.phoneNumber}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -195,9 +175,9 @@ function DriversForm() {
                 name="address"
                 error={touched.address && errors.address}
                 helperText={touched.address && errors.address}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Estado de licencia
                 </InputLabel>
@@ -215,8 +195,9 @@ function DriversForm() {
                   <MenuItem value={"REVOCADA"}>Revocada</MenuItem>
                 </Select>
               </FormControl>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-              </LocalizationProvider>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+              ></LocalizationProvider>
             </Box>
             <Box
               display="flex"
@@ -224,7 +205,16 @@ function DriversForm() {
               justifyContent="end"
               mt="20px"
             >
-              <Button type="submit" color="secondary" variant="contained">
+              <Button
+                type="text"
+                color="secondary"
+                variant="contained"
+                onClick={() => {
+                  console.log(errors);
+                  if (Object.keys(errors).length === 0)
+                    handleFormSubmit(values);
+                }}
+              >
                 Guardar
               </Button>
             </Box>

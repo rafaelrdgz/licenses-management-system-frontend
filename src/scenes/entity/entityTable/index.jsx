@@ -1,12 +1,12 @@
-import React from "react";
-import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
-import { Box, Button } from "@mui/material";
+import React, {useState} from "react";
+import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
+import {Box, Button} from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
-import { esES } from "@mui/x-data-grid/locales";
-import { useState } from "react";
+import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
+import {useNavigate} from "react-router-dom";
+import {esES} from "@mui/x-data-grid/locales";
+import {deleteEntity, getEntities} from "../../../apis/EntityAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 
@@ -17,48 +17,39 @@ function EntityTable() {
 
   const navigate = useNavigate();
 
-  //quitar el objeto y dejar el array vacio al cargar de la bd
-  const [rows, setRows] = React.useState([
-    {
-      id: "213",
-      name: "Rafael Rodriguez Perez",
-      phoneNumber: "55362350",
-      address:
-        "sadsad sad sadsadsadsadsa dsadsadsa dsadsadsad sad sa dsa4546 45645",
-      email: "dasdsadsadsadsadsa",
-      directorName: "dasdsa dsadsadsadsa dasdsadsa",
-      type: "autoescuela",
-    },
-  ]);
+  const [rows, setRows] = React.useState([]);
 
-  //Cargar de la bd las entidades
   const loadEntities = async () => {
-    /*await axios.get("").then((res) => {
-      setRows(res.data);
-    });*/
+    try {
+      const data = await getEntities();
+      console.log(data);
+      setRows(data);
+    } catch (error) {
+      console.error("Error fetching entities:", error);
+    }
   };
 
   React.useEffect(() => {
     loadEntities();
   }, []);
 
-  const handleDeleteClick = (id) => () => {
+  const handleDeleteClick = (code) => () => {
     setDialogOpen(true);
-    setSelectedId(id);
+    setSelectedId(code);
   };
 
-  const handleDialogAgree = () => {
+  const handleDialogAgree = async () => {
     setDialogOpen(false);
-    setRows(rows.filter((row) => row.id !== selectedId));
-    //Eliminar de la bd
-
+    await deleteEntity(selectedId);
+    loadEntities();
     enqueueSnackbar('Entidad eliminada', { variant: 'success' })
   };
 
   const columns = [
-    { field: "name", headerName: "Nombre", flex: 1, editable: false },
+    {field: "code", headerName: "Código", flex: 1, editable: false},
+    {field: "name", headerName: "Nombre", flex: 1, editable: false},
     {
-      field: "phoneNumber",
+      field: "phone",
       headerName: "Número de teléfono",
       flex: 1,
       editable: false,
@@ -93,17 +84,17 @@ function EntityTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: ({id}) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={<EditOutlinedIcon/>}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/entity/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
+            icon={<DeleteOutlinedIcon/>}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -135,30 +126,35 @@ function EntityTable() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
+          sx={{mb: "10px"}}
           onClick={() => navigate(`/entity/new`)}
         >
           Nueva entidad
         </Button>
-        <DataGrid
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
-          initialState={{
-            pagination: {
-              paginationModel: { pageSize: 25, page: 0 },
-            },
-          }}
-          rows={rows}
-          columns={columns}
-          components={{
-            Toolbar: () => (
-              <TableToolbar
-                columns={columns}
-                rows={rows}
-                fileName={"Entidades"}
-              />
-            ),
-          }}
-        />
+        {rows.length >= 0 && (
+          <DataGrid
+            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            initialState={{
+              pagination: {
+                paginationModel: {pageSize: 25, page: 0},
+              },
+            }}
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => {
+              return row.code;
+            }}
+            components={{
+              Toolbar: () => (
+                <TableToolbar
+                  columns={columns}
+                  rows={rows}
+                  fileName={"Entidades"}
+                />
+              ),
+            }}
+          />
+        )}
       </Box>
       <ConfirmationDialog
         title={"Está seguro de querer eliminar la entidad?"}

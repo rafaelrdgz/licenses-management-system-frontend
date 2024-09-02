@@ -50,6 +50,6 @@ export {
   ExpiredLicensesReport,
   Login,
   InfractionsByTypeReport,
-  WorkersTable,
-  WorkersForm
+  WorkersForm,
+  WorkersTable
 };

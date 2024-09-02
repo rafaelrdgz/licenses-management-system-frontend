@@ -1,20 +1,12 @@
-import React from "react";
-import { Header } from "../../../components";
-import {
-  Box,
-  Button,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { TextField } from "../../../components";
-import { Formik } from "formik";
+import React, {useState} from "react";
+import {Header, TextField} from "../../../components";
+import {Box, Button, Typography, useMediaQuery, useTheme,} from "@mui/material";
+import {Formik} from "formik";
 import * as yup from "yup";
-import { isValidEntity } from "../../../utils/validations.js";
-import { useState } from "react";
-import { tokens } from "../../../theme.js";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers";
+import {isValidEntity} from "../../../utils/validations.js";
+import {tokens} from "../../../theme.js";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 
 
@@ -57,15 +49,15 @@ function EntityReport() {
     //se trae de la bd los datos de la entidad y se guardan con setInfo
     console.log(values.entityCode);
     setSearch(true);
-    setInfo({ ...info, entityCode: values.entityCode });
+    setInfo({...info, entityCode: values.entityCode});
   };
 
   const handleExportPdf = () => {
     const doc = new jsPDF();
-  
+
     doc.setFontSize(18);
     doc.text("Ficha de Entidad Asociada", 20, 20);
-  
+
     doc.setFontSize(12);
     doc.text(`Código de entidad: ${info.entityCode}`, 20, 40);
     doc.text(`Nombre: ${info.name}`, 20, 50);
@@ -74,10 +66,10 @@ function EntityReport() {
     doc.text(`Teléfono: ${info.phone}`, 20, 80);
     doc.text(`Email: ${info.email}`, 20, 90);
     doc.text(`Nombre del director: ${info.directorName}`, 20, 100);
-  
+
     doc.save("Ficha de Entidad.pdf");
   };
-  
+
 
   return (
     <Box m={"20px"}>
@@ -94,20 +86,20 @@ function EntityReport() {
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
               }}
             >
               <TextField
@@ -121,13 +113,13 @@ function EntityReport() {
                 name="entityCode"
                 error={touched.entityCode && errors.entityCode}
                 helperText={touched.entityCode && errors.entityCode}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
               </LocalizationProvider>
             </Box>
             <Button
-              sx={{ mt: "10px" }}
+              sx={{mt: "10px"}}
               type="submit"
               color="secondary"
               variant="contained"
@@ -141,59 +133,59 @@ function EntityReport() {
       {search && (<div>
         <Typography
           variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
+          sx={{mt: "20px", mb: "10px"}}
           color={colors.gray[100]}
         >
           {" "}
-            Código: {info.entityCode}
+          Código: {info.entityCode}
         </Typography>
         <Typography
           variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
+          sx={{mt: "20px", mb: "10px"}}
           color={colors.gray[100]}
         >
           {" "}
-            Nombre: {info.name}
+          Nombre: {info.name}
         </Typography>
         <Typography
           variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
+          sx={{mt: "20px", mb: "10px"}}
           color={colors.gray[100]}
         >
           {" "}
-            Tipo: {info.type}
+          Tipo: {info.type}
         </Typography>
         <Typography
           variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
+          sx={{mt: "20px", mb: "10px"}}
           color={colors.gray[100]}
         >
           {" "}
-            Dirección: {info.address}
+          Dirección: {info.address}
         </Typography>
         <Typography
           variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
+          sx={{mt: "20px", mb: "10px"}}
           color={colors.gray[100]}
         >
           {" "}
-            Teléfono: {info.phone}
+          Teléfono: {info.phone}
         </Typography>
         <Typography
           variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
+          sx={{mt: "20px", mb: "10px"}}
           color={colors.gray[100]}
         >
           {" "}
-            Email: {info.email}
+          Email: {info.email}
         </Typography>
         <Typography
           variant="h4"
-          sx={{ mt: "20px", mb: "10px" }}
+          sx={{mt: "20px", mb: "10px"}}
           color={colors.gray[100]}
         >
           {" "}
-            Nombre del director: {info.directorName}
+          Nombre del director: {info.directorName}
         </Typography>
       </div>)}
     </Box>

@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useTheme } from '@mui/material';
+import {useTheme} from '@mui/material';
 
 
 function ConfirmationDialog({title, text, open, handleClose, handleAgree}) {
@@ -22,13 +22,16 @@ function ConfirmationDialog({title, text, open, handleClose, handleAgree}) {
           {title}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}} id="alert-dialog-description">
+          <DialogContentText sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}}
+                             id="alert-dialog-description">
             {text}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}} onClick={handleClose}>Volver</Button>
-          <Button sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}} onClick={handleAgree} autoFocus>
+          <Button sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}}
+                  onClick={handleClose}>Volver</Button>
+          <Button sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}} onClick={handleAgree}
+                  autoFocus>
             Aceptar
           </Button>
         </DialogActions>

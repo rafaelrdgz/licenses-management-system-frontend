@@ -1,31 +1,21 @@
-import React from "react";
-import { Header, Select } from "../../../components";
-import { Box, Button, FormHelperText, useMediaQuery } from "@mui/material";
-import { TextField } from "../../../components";
-import { Formik } from "formik";
+import React, {useEffect, useState} from "react";
+import {Header, Select, TextField} from "../../../components";
+import {Box, Button, FormHelperText, InputLabel, useMediaQuery} from "@mui/material";
+import {Formik} from "formik";
 import * as yup from "yup";
-import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import { InputLabel } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import dayjs from "dayjs";
-import {
-  isValidIdDate,
-  isValidEntity,
-  isValidPersonID,
-} from "../../../utils/validations.js";
+import {useNavigate, useParams} from "react-router-dom";
+import {isValidEntity, isValidIdDate, isValidPersonID,} from "../../../utils/validations.js";
+import {createExam, getExamById, updateExam} from "../../../apis/ExamsAPI.js";
 
 function ExamsForm() {
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
     personId: "",
-    code: "",
-    date: dayjs().subtract(1, "day"),
+    id: "",
+    date: "",
     entityCode: "",
     examinerName: "",
     type: "",
@@ -38,6 +28,9 @@ function ExamsForm() {
 
   //Se carga el examen de la bd y se asigna el valor con setInfo
   const loadExam = async (id) => {
+    const info = await getExamById(id);
+    console.log(info);
+    setInfo(info);
     setEditing(true);
   };
 
@@ -46,16 +39,6 @@ function ExamsForm() {
       loadExam(params.id);
     }
   }, [params.id]);
-
-  const initialValues = {
-    personId: info.personId,
-    code: info.code,
-    date: info.date,
-    entityCode: info.entityCode,
-    examinerName: info.examinerName,
-    type: info.type,
-    result: info.result,
-  };
 
   const checkoutSchema = yup.object().shape({
     personId: yup
@@ -77,12 +60,12 @@ function ExamsForm() {
         "El número de identificación no se encuentra en el sistema",
         isValidPersonID
       ),
-    code: yup
-      .string()
-      .matches(/^[0-9]+$/, "El código debe ser un número")
-      .required("El código es requerido")
-      .min(6, "El código debe tener al menos 6 caracteres")
-      .max(16, "El código debe tener menos de 16 caracteres"),
+    // code: yup
+    //   .string()
+    //   .matches(/^[0-9]+$/, "El código debe ser un número")
+    //   .required("El código es requerido")
+    //   .min(6, "El código debe tener al menos 6 caracteres")
+    //   .max(16, "El código debe tener menos de 16 caracteres"),
     examinerName: yup
       .string()
       .required("El nombre es requerido")
@@ -91,10 +74,9 @@ function ExamsForm() {
       .max(50, "El nombre debe tener menos de 50 caracteres"),
     entityCode: yup
       .string()
-      .matches(/^[0-9]+$/, "El código debe ser un número")
       .required("El código es requerido")
       .min(6, "El código debe tener al menos 6 caracteres")
-      .max(16, "El código debe tener menos de 16 caracteres")
+      .max(36, "El código debe tener menos de 36 caracteres")
       .test(
         "is-valid-entity",
         "El código de la entidad no se encuentra en el sistema",
@@ -102,46 +84,48 @@ function ExamsForm() {
       ),
     type: yup.string().required("El tipo de exámen es requerido"),
     result: yup.string().required("El resultado es requerido"),
-    date: yup.string().required("La fecha es requerida"),
   });
 
   const handleFormSubmit = async (values) => {
+    let response;
     if (editing) {
-      //caso en q se edita un examen existente hay q actualizar en la bd
+      console.log("Actualizando exámen:", values);
+      response = await updateExam(params.id, values);
     } else {
-      //aki va el caso en q se debe insertar el nuevo examen en la bd
+      console.log("Creando nueva exámen:", values);
+      response = await createExam(values);
     }
-
-    console.log(values);
+    console.log(response);
     navigate("/exams");
   };
 
   return (
     <Box m="20px">
       <Header
-        title={"EXAMENES"}
+        title={"EXAMEN " + info.id}
         subtitle={editing ? "Editar datos de exámen" : "Insertar nuevo exámen"}
       />
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        enableReinitialize
+        validateOnMount
+        initialValues={info}
         validationSchema={checkoutSchema}
       >
         {({
-          values,
-          errors,
-          touched,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-        }) => (
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
               }}
             >
               <TextField
@@ -155,21 +139,21 @@ function ExamsForm() {
                 name="personId"
                 error={touched.personId && errors.personId}
                 helperText={touched.personId && errors.personId}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Código del exámen"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.code}
-                name="code"
-                error={touched.code && errors.code}
-                helperText={touched.code && errors.code}
-                sx={{ gridColumn: "span 2" }}
-              />
+              {/*<TextField*/}
+              {/*  fullWidth*/}
+              {/*  variant="filled"*/}
+              {/*  type="text"*/}
+              {/*  label="Código del exámen"*/}
+              {/*  onBlur={handleBlur}*/}
+              {/*  onChange={handleChange}*/}
+              {/*  value={values.code}*/}
+              {/*  name="code"*/}
+              {/*  error={touched.code && errors.code}*/}
+              {/*  helperText={touched.code && errors.code}*/}
+              {/*  sx={{ gridColumn: "span 2" }}*/}
+              {/*/>*/}
               <TextField
                 fullWidth
                 variant="filled"
@@ -181,7 +165,7 @@ function ExamsForm() {
                 name="entityCode"
                 error={touched.entityCode && errors.entityCode}
                 helperText={touched.entityCode && errors.entityCode}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
               <TextField
                 fullWidth
@@ -194,9 +178,9 @@ function ExamsForm() {
                 name="examinerName"
                 error={touched.examinerName && errors.examinerName}
                 helperText={touched.examinerName && errors.examinerName}
-                sx={{ gridColumn: "span 2" }}
+                sx={{gridColumn: "span 2"}}
               />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Tipo
                 </InputLabel>
@@ -208,15 +192,15 @@ function ExamsForm() {
                   error={touched.type && errors.type}
                   helpertext={touched.type && errors.type}
                 >
-                  <MenuItem value={"Teórico"}>Teórico</MenuItem>
-                  <MenuItem value={"Práctico"}>Práctico</MenuItem>
-                  <MenuItem value={"Médico"}>Médico</MenuItem>
+                  <MenuItem value={"TEORICO"}>Teórico</MenuItem>
+                  <MenuItem value={"PRACTICO"}>Práctico</MenuItem>
+                  <MenuItem value={"MEDICO"}>Médico</MenuItem>
                 </Select>
                 {touched.type && errors.type && (
                   <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
                 )}
               </FormControl>
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Resultado
                 </InputLabel>
@@ -228,26 +212,26 @@ function ExamsForm() {
                   error={touched.result && errors.result}
                   helpertext={touched.result && errors.result}
                 >
-                  <MenuItem value={"Aprobado"}>Aprobado</MenuItem>
-                  <MenuItem value={"Reprobado"}>Reprobado</MenuItem>
+                  <MenuItem value={"APROBADO"}>Aprobado</MenuItem>
+                  <MenuItem value={"REPROBADO"}>Reprobado</MenuItem>
                 </Select>
                 {touched.result && errors.result && (
                   <FormHelperText sx={{color: '#f44336'}}>{errors.result}</FormHelperText> // Aquí se muestra el mensaje de error
                 )}
               </FormControl>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  maxDate={dayjs()}
-                  label="Fecha"
-                  sx={{ gridColumn: "span 2" }}
-                  value={values.date}
-                  slotProps={{
-                    textField: {
-                      helperText: "MM/DD/YYYY",
-                    },
-                  }}
-                />
-              </LocalizationProvider>
+              {/*<LocalizationProvider dateAdapter={AdapterDayjs}>*/}
+              {/*  <DatePicker*/}
+              {/*    maxDate={dayjs()}*/}
+              {/*    label="Fecha"*/}
+              {/*    sx={{ gridColumn: "span 2" }}*/}
+              {/*    value={values.date}*/}
+              {/*    slotProps={{*/}
+              {/*      textField: {*/}
+              {/*        helperText: "MM/DD/YYYY",*/}
+              {/*      },*/}
+              {/*    }}*/}
+              {/*  />*/}
+              {/*</LocalizationProvider>*/}
             </Box>
             <Box
               display="flex"
@@ -255,7 +239,21 @@ function ExamsForm() {
               justifyContent="end"
               mt="20px"
             >
-              <Button type="submit" color="secondary" variant="contained">
+              <Button
+                type="text"
+                color="secondary"
+                variant="contained"
+                onClick={() => {
+                  console.log(errors);
+                  if (
+                    Object.keys(errors).length === 0 ||
+                    (editing &&
+                      "id" in errors &&
+                      Object.keys(errors).length === 1)
+                  )
+                    handleFormSubmit(values);
+                }}
+              >
                 Guardar
               </Button>
             </Box>

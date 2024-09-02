@@ -1,8 +1,8 @@
-import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { Header, ProgressCircle, StatBox } from "../../components";
-import { tokens } from "../../theme";
-import { BarChart } from "@mui/x-charts/BarChart";
-import { useEffect, useState } from "react";
+import {Box, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Header, ProgressCircle, StatBox} from "../../components";
+import {tokens} from "../../theme";
+import {BarChart} from "@mui/x-charts/BarChart";
+import {useEffect, useState} from "react";
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
@@ -15,7 +15,7 @@ function Dashboard() {
   const isXlDevices = useMediaQuery("(min-width: 1260px)");
   const isMdDevices = useMediaQuery("(min-width: 724px)");
   const isXsDevices = useMediaQuery("(max-width: 436px)");
-  
+
   const [chartBarInfo, setChartBarInfo] = useState([]) // el array solo debe tener los 4 valores en el orden: Moto, Automóvil, Camión, Autobús
   const [progressCircleInfo, setProgressCircleInfo] = useState(0)//debe darse el valor en probabilidad de 0 a 1
   const [recentLicenses, setRecentLicenses] = useState([]) //debe ser un array de objetos con la siguiente estructura: [{id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}
@@ -24,17 +24,22 @@ function Dashboard() {
     //cargar de la bd y asignar valores con setChartBarInfo , setProgressCircleInfo y setRecentLicenses
     setChartBarInfo([100, 200, 300, 400])
     setProgressCircleInfo(0.75)
-    setRecentLicenses([ {id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}, {id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}])
+    setRecentLicenses([{id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}, {
+      id: "135132",
+      name: "Rafael",
+      date: "2021-10-10",
+      category: "Automovil"
+    }])
   }
 
   useEffect(() => {
     loadData()
   }, [])
-  
+
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between">
-        <Header title="PRINCIPAL" subtitle="Resúmen estadístico del centro" />
+        <Header title="PRINCIPAL" subtitle="Resúmen estadístico del centro"/>
       </Box>
 
       {/* GRID & CHARTS */}
@@ -44,8 +49,8 @@ function Dashboard() {
           isXlDevices
             ? "repeat(12, 1fr)"
             : isMdDevices
-            ? "repeat(6, 1fr)"
-            : "repeat(3, 1fr)"
+              ? "repeat(6, 1fr)"
+              : "repeat(3, 1fr)"
         }
         gridAutoRows="140px"
         gap="20px"
@@ -64,7 +69,7 @@ function Dashboard() {
             subtitle="Clientes registrados"
             icon={
               <PermIdentityOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
               />
             }
           />
@@ -82,7 +87,7 @@ function Dashboard() {
             subtitle="Conductores con licencia vigente"
             icon={
               <DirectionsCarFilledOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
               />
             }
           />
@@ -100,7 +105,7 @@ function Dashboard() {
             subtitle="Licencias emitidas"
             icon={
               <BadgeOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
               />
             }
           />
@@ -118,7 +123,7 @@ function Dashboard() {
             subtitle="Exámenes realizados"
             icon={
               <ArticleOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
               />
             }
           />
@@ -133,7 +138,7 @@ function Dashboard() {
           <Typography
             variant="h5"
             fontWeight="600"
-            sx={{ p: "30px 30px 0 30px" }}
+            sx={{p: "30px 30px 0 30px"}}
             color={"#d1d1d1"}
           >
             Licencias por categoría
@@ -152,8 +157,8 @@ function Dashboard() {
                   data: ["Moto", "Automóvil", "Camión", "Autobús"]
                 },
               ]}
-              series={[{ type: "bar", data: chartBarInfo}]}
-              
+              series={[{type: "bar", data: chartBarInfo}]}
+
             />
           </Box>
         </Box>
@@ -178,10 +183,10 @@ function Dashboard() {
               textAlign="center"
               variant="h5"
               color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
+              sx={{mt: "15px"}}
               fontWeight={'bold'}
             >
-              {progressCircleInfo*100}%
+              {progressCircleInfo * 100}%
             </Typography>
           </Box>
         </Box>
