@@ -11,6 +11,7 @@ import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
+import {getInfractionsByDateRange, getLicensesByDateRange} from "../../../apis/ReportsAPI.js";
 
 function RegisteredInfractionsReport() {
   const theme = useTheme();
@@ -53,8 +54,8 @@ function RegisteredInfractionsReport() {
       flex: 1,
     },
     {
-      field: "driverName",
-      headerName: "Nombre del conductor",
+      field: "licenseId",
+      headerName: "Número de licencia",
       flex: 1,
     },
     {
@@ -68,7 +69,7 @@ function RegisteredInfractionsReport() {
       flex: 1,
     },
     {
-      field: "site",
+      field: "address",
       headerName: "Lugar",
       flex: 1,
     },
@@ -85,15 +86,15 @@ function RegisteredInfractionsReport() {
   ];
 
   const handleFormSubmit = async (values) => {
-    //se trae de la bd los datos de las infracciones y se guardan con setInfo en rows Presentar la información ordenada por fecha de infraccion.
-    console.log(values);
+    const response = await getInfractionsByDateRange(values.startDate, values.endDate)
+    console.log(response);
+
     setSearch(true);
     setInfo({
-      ...info,
+      rows: response,
       startDate: values.startDate,
       endDate: values.endDate,
     })
-
   };
 
   const handleExportPdf = () => {
@@ -111,10 +112,10 @@ function RegisteredInfractionsReport() {
     // Formato de los datos para la tabla
     const infracciones = info.rows.map((row) => [
       row.id,
-      row.driverName,
+      row.licenseId,
       row.type,
       dayjs(row.date).format('DD/MM/YYYY'),
-      row.site,
+      row.address,
       row.pointsDeducted,
       row.paid,
     ]);
@@ -173,6 +174,7 @@ function RegisteredInfractionsReport() {
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  minDate={dayjs('2000-01-01')}
                   maxDate={dayjs().subtract(1, "day")}
                   format="DD/MM/YYYY"
                   label="Fecha de inicio"

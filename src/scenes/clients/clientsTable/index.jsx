@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {esES} from "@mui/x-data-grid/locales";
 import {deleteClient, getClients} from "../../../apis/ClientAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import {deleteWorker} from "../../../apis/WorkerAPI.js";
 
 
 function ClientsTable() {

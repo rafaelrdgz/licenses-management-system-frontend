@@ -16,12 +16,20 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { loginWorker } from "../../../apis/WorkerAPI.js";
+import { useState } from "react";
+import { AuthContext } from "../../../utils/AuthContext.jsx";
+import { useContext } from "react";
+
 
 export default function Login() {
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('loginDarkMode') === 'true');
+  const [darkMode, setDarkMode] = React.useState(
+    localStorage.getItem("loginDarkMode") === "true"
+  );
+  const { setUser } = useContext(AuthContext);
 
   React.useEffect(() => {
-    localStorage.setItem('loginDarkMode', darkMode);
+    localStorage.setItem("loginDarkMode", darkMode);
   }, [darkMode]);
 
   const theme = createTheme({
@@ -57,6 +65,8 @@ export default function Login() {
     password: "",
   };
 
+  const [incorrectData, setIncorrectData] = useState(false);
+
   const navigate = useNavigate();
 
   const checkoutSchema = yup.object().shape({
@@ -69,7 +79,14 @@ export default function Login() {
   });
 
   const handleFormSubmit = async (values) => {
-    navigate("/");
+    //console.log(values);
+    const response = await loginWorker(values.email, values.password);
+    console.log(response);
+    if (response.status === 200) {
+      setUser(response.data);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -113,9 +130,14 @@ export default function Login() {
               handleSubmit,
             }) => (
               <form onSubmit={handleSubmit}>
+                {incorrectData && (
+                  <Typography variant="p" color="error">
+                    Datos Incorrectos
+                  </Typography>
+                )}
                 <TextField
-                onBlur={handleBlur}
-                onChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   value={values.email}
                   error={touched.email && errors.email}
                   helperText={touched.email && errors.email}
@@ -128,8 +150,8 @@ export default function Login() {
                   autoFocus
                 />
                 <TextField
-                onBlur={handleBlur}
-                onChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   value={values.password}
                   error={touched.password && errors.password}
                   helperText={touched.password && errors.password}
@@ -141,15 +163,20 @@ export default function Login() {
                   id="password"
                   autoComplete="current-password"
                 />
-                <FormControlLabel
+                {/*<FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
                   label="Recuérdame"
-                />
+              />*/}
                 <Button
-                  type="submit"
+                  type="text"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={() => {
+                    console.log(errors);
+                    if (Object.keys(errors).length === 0)
+                      handleFormSubmit(values);
+                  }}
                 >
                   Iniciar sesión
                 </Button>

@@ -32,11 +32,19 @@ const isValidPersonID = async (id) => {
   return response;
 };
 
-const existsDriver = async (id) => {
+const existPersonID = async (id) => {
+  return !await isValidPersonID(id)
+};
+
+const existsDriverId = async (id) => {
   const response = await checkIdDriver(id);
   console.log(id);
   console.log(response);
-  return !response;
+  return response;
+};
+
+const existsDriver = async (id) => {
+  return !await existsDriverId(id);
 };
 
 //hay q verificar en la bd si la persona ya realizo los 3 examenes para obtener licencia y en tal caso retornar true
@@ -60,5 +68,7 @@ export {
   isValidPersonID,
   existsDriver,
   checkExamsDone,
-  isValidLicense
+  isValidLicense,
+  existPersonID,
+  existsDriverId
 };

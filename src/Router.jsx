@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import App from "./App";
 import {
   Dashboard,
@@ -29,62 +29,145 @@ import {
   WorkersForm,
   WorkersTable,
 } from "./scenes";
+import { AuthProvider } from "./utils/AuthContext";
+import  ProtectedRoute  from "./utils/ProtectedRoute";
 
 const AppRouter = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/" element={<App />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/center" element={<CenterProfile />} />
-          <Route path="/entity/new" element={<EntityForm />} />
-          <Route path="/entity" element={<EntityTable />} />
-          <Route path="/entity/:id/edit" element={<EntityForm />} />
-          <Route path="/exams/:id/edit" element={<ExamsForm />} />
-          <Route path="/exams/new" element={<ExamsForm />} />
-          <Route path="/exams" element={<ExamsTable />} />
-          <Route path="/clients" element={<ClientsTable />} />
-          <Route path="/clients/:id/edit" element={<ClientsForm />} />
-          <Route path="/clients/new" element={<ClientsForm />} />
-          <Route path="/drivers" element={<DriversTable />} />
-          <Route path="/drivers/:id/edit" element={<DriversForm />} />
-          <Route path="/licenses" element={<LicensesTable />} />
-          <Route path="/licenses/:id/edit" element={<LicensesForm />} />
-          <Route path="/licenses/new" element={<LicensesForm />} />
-          <Route path="/infractions" element={<InfractionsTable />} />
-          <Route path="/infractions/:id/edit" element={<InfractionsForm />} />
-          <Route path="/infractions/new" element={<InfractionsForm />} />
-          <Route path="/reports/" element={<Reports />} />
-          <Route path="/reports/driver" element={<DriverReport />} />
-          <Route path="/reports/entity" element={<EntityReport />} />
-          <Route
-            path="/reports/issuedLicenses"
-            element={<IssuedLicensesReport />}
-          />
-          <Route
-            path="/reports/examsPerformed"
-            element={<ExamsPerformedReport />}
-          />
-          <Route
-            path="/reports/registeredInfractions"
-            element={<RegisteredInfractionsReport />}
-          />
-          <Route
-            path="/reports/expiredLicenses"
-            element={<ExpiredLicensesReport />}
-          />
-          <Route
-            path="/reports/infractionsByType"
-            element={<InfractionsByTypeReport />}
-          />
-          <Route path="/workers" element={<WorkersTable />} />
-          <Route path="/workers/new" element={<WorkersForm />} />
-          <Route path="/workers/:id/edit" element={<WorkersForm />} />
-        </Route>
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/" element={<App />}>
+            <Route
+              path="/dashboard"
+              element={<ProtectedRoute element={<Dashboard />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/notifications"
+              element={<ProtectedRoute element={<Notifications />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/center"
+              element={<ProtectedRoute element={<CenterProfile />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/entity/new"
+              element={<ProtectedRoute element={<EntityForm />} allowedRoles={['MANAGER']} />}
+            />
+            <Route
+              path="/entity"
+              element={<ProtectedRoute element={<EntityTable />} allowedRoles={['MANAGER']} />}
+            />
+            <Route
+              path="/entity/:id/edit"
+              element={<ProtectedRoute element={<EntityForm />} allowedRoles={['MANAGER']} />}
+            />
+            <Route
+              path="/exams/:id/edit"
+              element={<ProtectedRoute element={<ExamsForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/exams/new"
+              element={<ProtectedRoute element={<ExamsForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/exams"
+              element={<ProtectedRoute element={<ExamsTable />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/clients"
+              element={<ProtectedRoute element={<ClientsTable />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/clients/:id/edit"
+              element={<ProtectedRoute element={<ClientsForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/clients/new"
+              element={<ProtectedRoute element={<ClientsForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/drivers"
+              element={<ProtectedRoute element={<DriversTable />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/drivers/:id/edit"
+              element={<ProtectedRoute element={<DriversForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/licenses"
+              element={<ProtectedRoute element={<LicensesTable />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/licenses/:id/edit"
+              element={<ProtectedRoute element={<LicensesForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/licenses/new"
+              element={<ProtectedRoute element={<LicensesForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/infractions"
+              element={<ProtectedRoute element={<InfractionsTable />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/infractions/:id/edit"
+              element={<ProtectedRoute element={<InfractionsForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/infractions/new"
+              element={<ProtectedRoute element={<InfractionsForm />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/"
+              element={<ProtectedRoute element={<Reports />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/driver"
+              element={<ProtectedRoute element={<DriverReport />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/entity"
+              element={<ProtectedRoute element={<EntityReport />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/issuedLicenses"
+              element={<ProtectedRoute element={<IssuedLicensesReport />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/examsPerformed"
+              element={<ProtectedRoute element={<ExamsPerformedReport />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/registeredInfractions"
+              element={<ProtectedRoute element={<RegisteredInfractionsReport />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/expiredLicenses"
+              element={<ProtectedRoute element={<ExpiredLicensesReport />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/reports/infractionsByType"
+              element={<ProtectedRoute element={<InfractionsByTypeReport />} allowedRoles={['MANAGER', 'COMERCIAL']} />}
+            />
+            <Route
+              path="/workers"
+              element={<ProtectedRoute element={<WorkersTable />} allowedRoles={['MANAGER']} />}
+            />
+            <Route
+              path="/workers/new"
+              element={<ProtectedRoute element={<WorkersForm />} allowedRoles={['MANAGER']} />}
+            />
+            <Route
+              path="/workers/:id/edit"
+              element={<ProtectedRoute element={<WorkersForm />} allowedRoles={['MANAGER']} />}
+            />
+          </Route>
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 };
 

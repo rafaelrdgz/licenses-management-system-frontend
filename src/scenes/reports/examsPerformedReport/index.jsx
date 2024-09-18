@@ -11,6 +11,7 @@ import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
+import {getExamsByDateRange} from "../../../apis/ReportsAPI.js";
 
 function ExamsPerformedReport() {
   const theme = useTheme();
@@ -53,8 +54,8 @@ function ExamsPerformedReport() {
       flex: 1,
     },
     {
-      field: "driverName",
-      headerName: "Nombre del conductor",
+      field: "personId",
+      headerName: "ID de la persona",
       flex: 1,
     },
     {
@@ -73,18 +74,18 @@ function ExamsPerformedReport() {
       flex: 1,
     },
     {
-      field: "entityName",
+      field: "entityCode",
       headerName: "Entidad",
       flex: 1,
     },
   ];
 
   const handleFormSubmit = async (values) => {
-    //se trae de la bd los datos de los examanes y se guardan con setInfo en rows Presentar la información ordenada por fecha de examen.
-    console.log(values);
+    const response = await getExamsByDateRange(values.startDate, values.endDate)
+    console.log(response);
     setSearch(true);
     setInfo({
-      ...info,
+      rows: response,
       startDate: values.startDate,
       endDate: values.endDate,
     })
@@ -104,11 +105,11 @@ function ExamsPerformedReport() {
     // Convertir las filas del DataGrid en un formato adecuado para autoTable
     const examenes = info.rows.map((row) => [
       row.id,
-      row.driverName,
+      row.personId,
       row.type,
       dayjs(row.date).format('DD/MM/YYYY'),
       row.result,
-      row.entityName,
+      row.entityCode,
     ]);
 
     autoTable(doc, {
@@ -163,6 +164,7 @@ function ExamsPerformedReport() {
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  minDate={dayjs('2000-01-01')}
                   maxDate={dayjs().subtract(1, "day")}
                   format="DD/MM/YYYY"
                   label="Fecha de inicio"

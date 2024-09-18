@@ -11,6 +11,7 @@ import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
+import {getLicensesByDateRange} from "../../../apis/ReportsAPI.js";
 
 function IssuedLicensesReport() {
   const theme = useTheme();
@@ -22,46 +23,7 @@ function IssuedLicensesReport() {
   const [info, setInfo] = useState({
     startDate: null,
     endDate: dayjs(),
-    rows: [{
-      id: 1,
-      driverName: "Juan Pérez",
-      licenseType: "A",
-      issueDate: "01/01/2021",
-      expirationDate: "01/01/2022",
-      licenseStatus: "Vigente",
-    },
-      {
-        id: 2,
-        driverName: "María Gómez",
-        licenseType: "B",
-        issueDate: "01/01/2021",
-        expirationDate: "01/01/2022",
-        licenseStatus: "Vigente",
-      },
-      {
-        id: 3,
-        driverName: "Pedro Rodríguez",
-        licenseType: "C",
-        issueDate: "01/01/2021",
-        expirationDate: "01/01/2022",
-        licenseStatus: "Vigente",
-      },
-      {
-        id: 4,
-        driverName: "Ana López",
-        licenseType: "D",
-        issueDate: "01/01/2021",
-        expirationDate: "01/01/2022",
-        licenseStatus: "Vigente",
-      },
-      {
-        id: 5,
-        driverName: "José Martínez",
-        licenseType: "E",
-        issueDate: "01/01/2021",
-        expirationDate: "01/01/2022",
-        licenseStatus: "Vigente",
-      }],
+    rows: [],
   });
 
   const initialValues = {
@@ -92,12 +54,12 @@ function IssuedLicensesReport() {
       flex: 1,
     },
     {
-      field: "driverName",
-      headerName: "Nombre del conductor",
+      field: "driverId",
+      headerName: "Id del conductor",
       flex: 1,
     },
     {
-      field: "licenseType",
+      field: "category",
       headerName: "Tipo de licencia",
       flex: 1,
     },
@@ -119,11 +81,11 @@ function IssuedLicensesReport() {
   ];
 
   const handleFormSubmit = async (values) => {
-    //se trae de la bd los datos de las licencias y se guardan con setInfo en rows, Presentar la información ordenada por fecha de emisión.
-    console.log(values);
+    const response = await getLicensesByDateRange(values.startDate, values.endDate)
+    console.log(response);
     setSearch(true);
     setInfo({
-      ...info,
+      rows: response,
       startDate: values.startDate,
       endDate: values.endDate,
     })
@@ -215,6 +177,7 @@ function IssuedLicensesReport() {
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  minDate={dayjs('2000-01-01')}
                   maxDate={dayjs().subtract(1, "day")}
                   format="DD/MM/YYYY"
                   label="Fecha de inicio"
@@ -234,6 +197,7 @@ function IssuedLicensesReport() {
                 />
                 <DatePicker
                   format="DD/MM/YYYY"
+                  minDate={dayjs('2000-01-01')}
                   maxDate={dayjs()}
                   label="Fecha de fin"
                   sx={{gridColumn: "span 2"}}

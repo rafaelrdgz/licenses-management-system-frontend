@@ -11,58 +11,21 @@ import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
+import {getInfractionsByType, getInfractionsByYear} from "../../../apis/ReportsAPI.js";
+import {getInfractions} from "../../../apis/InfractionAPI.js";
 
 function InfractionsByTypeReport() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [noData, setNoData] = useState(false)
 
   const [search, setSearch] = useState(false);
 
   const [info, setInfo] = useState({
     year: null,
-    typesRows: [{
-      id: 'Velocidad',
-      quantity: 10,
-      pointsDeducted: 30,
-      infractionsPaid: 5,
-      infractionsNoPaid: 5,
-    },
-      {
-        id: 'Semáforo',
-        quantity: 8,
-        pointsDeducted: 16,
-        infractionsPaid: 4,
-        infractionsNoPaid: 4,
-      },
-      {
-        id: 'Estacionamiento',
-        quantity: 6,
-        pointsDeducted: 6,
-        infractionsPaid: 3,
-        infractionsNoPaid: 3,
-      },],
-    infractionsRows: [{
-      id: 'INF001',
-      type: 'Velocidad',
-      date: '2022-01-01',
-      pointsDeducted: 3,
-      paid: 'Pagado',
-    },
-      {
-        id: 'INF002',
-        type: 'Semáforo',
-        date: '2022-01-02',
-        pointsDeducted: 2,
-        paid: 'No Pagado',
-      },
-      {
-        id: 'INF003',
-        type: 'Estacionamiento',
-        date: '2022-01-03',
-        pointsDeducted: 1,
-        paid: 'Pagado',
-      }],
+    typesRows: [],
+    infractionsRows: [],
   });
 
   const initialValues = {
@@ -134,11 +97,16 @@ function InfractionsByTypeReport() {
   ];
 
   const handleFormSubmit = async (values) => {
-    //se trae de la bd los datos y se guardan con setInfo
-    console.log(values.year.format("YYYY"));
+    const types = await getInfractionsByType(values.year.$y)
+    const result = await getInfractionsByYear(values.year.$y)
+    console.log(types)
+    if(types === null){
+      setNoData(true)
+      return
+    } 
+    setInfo({year: values.year.$y, typesRows: types, infractionsRows: result});
     setSearch(true);
-    setInfo({...info, year: values.year.format("YYYY").toString()});
-    console.log(info);
+    setNoData(false)
   };
 
   const handleExportPdf = () => {
@@ -263,6 +231,8 @@ function InfractionsByTypeReport() {
         )}
       </Formik>
 
+      {noData && (<Typography variant="h6" color="error" sx={{mt: '10px'}}>No hay registros para mostrar</Typography>)}
+
       {search && (
         <div>
           <Typography
@@ -323,7 +293,7 @@ function InfractionsByTypeReport() {
           </Typography>
           <Box
             sx={{
-              height: "40vh",
+              height: "70vh",
               maxflex: "100%",
               "& .actions": {
                 color: "text.secondary",

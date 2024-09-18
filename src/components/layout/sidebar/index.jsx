@@ -14,21 +14,18 @@ import Item from "./Item";
 import {ToggledContext} from "../../../App";
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import { EngineeringOutlined } from "@mui/icons-material";
+import { AuthContext } from "../../../utils/AuthContext";
+
 
 const SideBar = () => {
+  const {user} = useContext(AuthContext);
+  
   const [collapsed, setCollapsed] = useState(false);
   const {toggled, setToggled} = useContext(ToggledContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [logo, setLogo] = useState(logoo);
 
-  const loadlogo = async () => {
-    //cargar el logo de la bd
-  }
-
-  useEffect(() => {
-    loadlogo();
-  }, []);
 
 
   return (
@@ -68,11 +65,11 @@ const SideBar = () => {
                 gap="12px"
                 sx={{transition: ".3s ease"}}
               >
-                <img
+                {/*<img
                   style={{width: "30px", height: "30px", borderRadius: "8px", marginLeft: "15px"}}
                   src={logo}
                   alt="Argon"
-                />
+            />*/}
               </Box>
             )}
             <IconButton onClick={() => setCollapsed(!collapsed)}>
@@ -95,7 +92,7 @@ const SideBar = () => {
         >
           <Item
             title="Principal"
-            path="/"
+            path="/dashboard"
             colors={colors}
             icon={<DashboardOutlined/>}
           />
@@ -124,12 +121,12 @@ const SideBar = () => {
             },
           }}
         >
-          <Item
+          {user && user.role === 'MANAGER' && (<Item
             title="Entidades"
             path="/entity"
             colors={colors}
             icon={<PeopleAltOutlined/>}
-          />
+          />)}
           <Item
             title="Clientes"
             path="/clients"
@@ -161,14 +158,13 @@ const SideBar = () => {
             icon={<PaidOutlinedIcon/>}
           />
         </Menu>
-        <Typography
+        {user && user.role === 'MANAGER' && (<><Typography
           variant="h6"
           color={colors.gray[300]}
-          sx={{m: "15px 0 5px 20px"}}
+          sx={{ m: "15px 0 5px 20px" }}
         >
           {!collapsed ? "Centro" : " "}
-        </Typography>
-        <Menu
+        </Typography><Menu
           menuItemStyles={{
             button: {
               ":hover": {
@@ -179,19 +175,19 @@ const SideBar = () => {
             },
           }}
         >
-          <Item
-            title="Trabajadores"
-            path="/workers"
-            colors={colors}
-            icon={<EngineeringOutlined />}
-          ></Item>
-          <Item
-            title="Perfil"
-            path="/center"
-            colors={colors}
-            icon={<StoreOutlined/>}
-          ></Item>
-        </Menu>
+            <Item
+              title="Trabajadores"
+              path="/workers"
+              colors={colors}
+              icon={<EngineeringOutlined />}
+            ></Item>
+            <Item
+              title="Perfil"
+              path="/center"
+              colors={colors}
+              icon={<StoreOutlined />}
+            ></Item>
+          </Menu></>)}
       </Box>
     </Sidebar>
   );

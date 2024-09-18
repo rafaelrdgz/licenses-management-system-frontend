@@ -11,6 +11,7 @@ import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
+import {getExamsByDateRange, getExpiredLicensesByDateRange} from "../../../apis/ReportsAPI.js";
 
 function ExpiredLicensesReport() {
   const theme = useTheme();
@@ -52,17 +53,12 @@ function ExpiredLicensesReport() {
       flex: 1,
     },
     {
-      field: "driverName",
-      headerName: "Nombre del conductor",
-      flex: 1,
-    },
-    {
       field: "driverId",
       headerName: "Número de identidad",
       flex: 1,
     },
     {
-      field: "licenseType",
+      field: "category",
       headerName: "Tipo de licencia",
       flex: 1,
     },
@@ -79,11 +75,11 @@ function ExpiredLicensesReport() {
   ];
 
   const handleFormSubmit = async (values) => {
-    //se trae de la bd los datos de las licencias y se guardan con setInfo en rows, Presentar la información ordenada por fecha de emisión.
-    console.log(values);
+    const response = await getExpiredLicensesByDateRange(values.startDate, values.endDate)
+    console.log(response);
     setSearch(true);
     setInfo({
-      ...info,
+      rows: response,
       startDate: values.startDate,
       endDate: values.endDate,
     })
@@ -102,24 +98,30 @@ function ExpiredLicensesReport() {
     doc.text(`Fecha de inicio: ${info.startDate.format('DD/MM/YYYY').toString()}`, 20, 40);
     doc.text(`Fecha de fin: ${info.endDate.format('DD/MM/YYYY').toString()}`, 20, 50);
 
-    // Formato de los datos para la tabla
-    const licencias = info.rows.map((row) => [
-      row.id,
-      row.driverName,
-      row.driverId,
-      row.licenseType,
-      dayjs(row.expirationDate).format('DD/MM/YYYY'),
-      row.licenseStatus,
-    ]);
+    if (info.rows.length > 0) {
 
-    // Generación de la tabla con autoTable
-    autoTable(doc, {
-      head: [["Código de licencia", "Nombre del conductor", "Número de identidad", "Tipo de licencia", "Fecha de vencimiento", "Estado de licencia"]],
-      body: licencias,
-      startY: 60,
-      theme: 'striped',
-      headStyles: {fillColor: [22, 160, 133]},
-    });
+      // Formato de los datos para la tabla
+      const licencias = info.rows.map((row) => [
+        row.id,
+        row.driverId,
+        row.category,
+        dayjs(row.expirationDate).format('DD/MM/YYYY'),
+        row.licenseStatus,
+      ]);
+
+      // Generación de la tabla con autoTable
+      autoTable(doc, {
+        head: [["Código de licencia", "Número de identidad", "Tipo de licencia", "Fecha de vencimiento", "Estado de licencia"]],
+        body: licencias,
+        startY: 60,
+        theme: 'striped',
+        headStyles: {fillColor: [22, 160, 133]},
+      });
+    }
+    else{
+      doc.setFontSize(18)
+      doc.text("No hay datos para mostrar", 20, 70);
+    }
 
     // Guardar el PDF con un nombre específico
     doc.save("Reporte_Licencias_Vencidas.pdf");
@@ -166,6 +168,7 @@ function ExpiredLicensesReport() {
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  minDate={dayjs('2000-01-01')}
                   maxDate={dayjs().subtract(1, "day")}
                   format="DD/MM/YYYY"
                   label="Fecha de inicio"

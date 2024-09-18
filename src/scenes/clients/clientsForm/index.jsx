@@ -6,7 +6,7 @@ import * as yup from "yup";
 import {useNavigate, useParams} from "react-router-dom";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {isValidIdDate} from "../../../utils/validations.js";
+import {isValidIdDate, existPersonID} from "../../../utils/validations.js";
 import {createClient, getClientById, updateClient,} from "../../../apis/ClientAPI.js";
 
 function ClientsForm() {
@@ -53,7 +53,12 @@ function ClientsForm() {
         "is-valid-id",
         "El número de indentificación no es válido",
         isValidIdDate
-      ),
+      )
+     .test(
+      "is-valid-person",
+      "El número de identificación ya pertenece a un cliente",
+      existPersonID
+    ),
     name: yup
       .string()
       .required("El nombre es requerido")

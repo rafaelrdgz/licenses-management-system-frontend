@@ -1,13 +1,15 @@
 import React from "react";
-import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
-import { Box, Button } from "@mui/material";
+import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
+import {Box, Button} from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
-import { esES } from "@mui/x-data-grid/locales";
-import { useState } from "react";
-import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
+import {useNavigate} from "react-router-dom";
+import {esES} from "@mui/x-data-grid/locales";
+import {useState} from "react";
+import {enqueueSnackbar, SnackbarProvider} from "notistack";
+import {deleteClient, getClients} from "../../../apis/ClientAPI.js";
+import {deleteWorker, getWorkers} from "../../../apis/WorkerAPI.js";
 
 function WorkersTable() {
   const navigate = useNavigate();
@@ -21,12 +23,11 @@ function WorkersTable() {
     setSelectedId(id);
   };
 
-  const handleDialogAgree = () => {
+  const handleDialogAgree = async () => {
     setDialogOpen(false);
-    setRows(rows.filter((row) => row.id !== selectedId));
-    //Eliminar de la bd
-
-    enqueueSnackbar('Trabajador eliminado', { variant: 'success' })
+    await deleteWorker(selectedId);
+    loadClients();
+    enqueueSnackbar('Cliente eliminado', {variant: 'success'})
   };
 
   //quitar el objeto y dejar el array vacio al cargar de la bd
@@ -42,9 +43,13 @@ function WorkersTable() {
 
   //Cargar de la bd los clientes
   const loadClients = async () => {
-    /*await axios.get("").then((res) => {
-        setRows(res.data);
-      });*/
+    try {
+      const data = await getWorkers();
+      console.log(data);
+      setRows(data);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    }
   };
 
   React.useEffect(() => {
@@ -83,17 +88,17 @@ function WorkersTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({ id }) => {
+      getActions: ({id}) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={<EditOutlinedIcon/>}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/workers/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
+            icon={<DeleteOutlinedIcon/>}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -125,7 +130,7 @@ function WorkersTable() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
+          sx={{mb: "10px"}}
           onClick={() => navigate(`/workers/new`)}
         >
           Nuevo trabajador
@@ -134,7 +139,7 @@ function WorkersTable() {
           localeText={esES.components.MuiDataGrid.defaultProps.localeText}
           initialState={{
             pagination: {
-              paginationModel: { pageSize: 25, page: 0 },
+              paginationModel: {pageSize: 25, page: 0},
             },
           }}
           rows={rows}

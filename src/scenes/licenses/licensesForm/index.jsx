@@ -8,6 +8,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import {checkExamsDone, existsDriver, isValidIdDate, isValidPersonID,} from "../../../utils/validations.js";
 import {useTheme} from "@emotion/react";
 import {createLicense, getLicenseById, updateLicense,} from "../../../apis/LicensesAPI.js";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
+
 
 function LicensesForm() {
   const theme = useTheme();
@@ -67,6 +69,7 @@ function LicensesForm() {
       renewed: true,
     }));
     console.log(info);
+    enqueueSnackbar('Licencia renovada', { variant: 'success' })
   };
 
   useEffect(() => {
@@ -138,6 +141,7 @@ function LicensesForm() {
 
   return (
     <Box m="20px">
+      <SnackbarProvider maxSnack={3}/>
       <Header
         title={"LICENCIA " + info.id}
         subtitle={

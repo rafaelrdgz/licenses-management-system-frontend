@@ -8,6 +8,7 @@ import {tokens} from "../../../theme.js";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
+import {getEntityById} from "../../../apis/EntityAPI.js";
 
 
 function EntityReport() {
@@ -18,7 +19,7 @@ function EntityReport() {
   const [search, setSearch] = useState(false);
 
   const [info, setInfo] = useState({
-    entityCode: "",
+    code: "",
     name: 'rafael',
     type: 'autoescuela',
     address: 'dsadsa dsadsadsa',
@@ -28,16 +29,13 @@ function EntityReport() {
   });
 
   const initialValues = {
-    entityCode: info.entityCode,
+    code: info.code,
   };
 
   const checkoutSchema = yup.object().shape({
-    entityCode: yup
+    code: yup
       .string()
-      .matches(/^[0-9]+$/, "El código debe ser un número")
       .required("El código es requerido")
-      .min(6, "El código debe tener al menos 6 caracteres")
-      .max(16, "El código debe tener menos de 16 caracteres")
       .test(
         "is-valid-entity",
         "El código de la entidad no se encuentra en el sistema",
@@ -46,10 +44,10 @@ function EntityReport() {
   });
 
   const handleFormSubmit = async (values) => {
-    //se trae de la bd los datos de la entidad y se guardan con setInfo
-    console.log(values.entityCode);
+    const response = await getEntityById(values.code)
+    console.log(response);
     setSearch(true);
-    setInfo({...info, entityCode: values.entityCode});
+    setInfo(response);
   };
 
   const handleExportPdf = () => {
@@ -59,7 +57,7 @@ function EntityReport() {
     doc.text("Ficha de Entidad Asociada", 20, 20);
 
     doc.setFontSize(12);
-    doc.text(`Código de entidad: ${info.entityCode}`, 20, 40);
+    doc.text(`Código de entidad: ${info.code}`, 20, 40);
     doc.text(`Nombre: ${info.name}`, 20, 50);
     doc.text(`Tipo: ${info.type}`, 20, 60);
     doc.text(`Dirección: ${info.address}`, 20, 70);
@@ -109,10 +107,10 @@ function EntityReport() {
                 label="Código de entidad"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.entityCode}
-                name="entityCode"
-                error={touched.entityCode && errors.entityCode}
-                helperText={touched.entityCode && errors.entityCode}
+                value={values.code}
+                name="code"
+                error={touched.code && errors.code}
+                helperText={touched.code && errors.code}
                 sx={{gridColumn: "span 2"}}
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -137,7 +135,7 @@ function EntityReport() {
           color={colors.gray[100]}
         >
           {" "}
-          Código: {info.entityCode}
+          Código: {info.code}
         </Typography>
         <Typography
           variant="h4"

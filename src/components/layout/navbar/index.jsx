@@ -11,8 +11,11 @@ import {
 import {ToggledContext} from "../../../App";
 import {Link} from "react-router-dom";
 import { LogoutOutlined } from "@mui/icons-material";
+import { AuthContext } from "../../../utils/AuthContext";
+
 
 const Navbar = () => {
+  const {setUser} = useContext(AuthContext);
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
   const {toggled, setToggled} = useContext(ToggledContext);
@@ -43,13 +46,16 @@ const Navbar = () => {
             <DarkModeOutlined/>
           )}
         </IconButton>
-        <Link to="/notifications">
+        {/*<Link to="/notifications">
           <IconButton>
             <NotificationsOutlined/>
           </IconButton>
-        </Link>
+        </Link>*/}
         <Link to="/login">
-          <IconButton>
+          <IconButton onClick={() =>{
+            setUser(null);
+            localStorage.removeItem('user');
+          }}>
             <LogoutOutlined />
           </IconButton>
         </Link>
