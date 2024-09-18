@@ -89,8 +89,8 @@ function ClientsForm() {
         /^[0-9]+$/,
         "El número de teléfono no debe contener letras ni caracteres especiales"
       )
-      .min(6, "El número de teléfono debe tener al menos 6 dígitos")
-      .max(12, "El número de teléfono debe tener menos de 12 dígitos"),
+      .min(8, "El número de teléfono debe tener 8 dígitos")
+      .max(8, "El número de teléfono debe tener 8 dígitos"),
     email: yup
       .string()
       .email("El correo debe ser un correo válido")

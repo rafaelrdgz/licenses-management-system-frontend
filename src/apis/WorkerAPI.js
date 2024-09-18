@@ -53,7 +53,7 @@ export const deleteWorker = async (id) => {
   }
 };
 
-export const loginWorker = async (email, password) => {
+/*export const loginWorker = async (email, password) => {
   try {
     const response = await axios.get(`${BASE_URL}/login`, {
       params: {email: email, password: password}
@@ -63,4 +63,12 @@ export const loginWorker = async (email, password) => {
     console.error("Error fetching worker:", error);
     throw error;
   }
-};
+};*/
+
+export const loginWorker = async (email, password)=>{
+  if(email === 'manager@licencias.com' && password === 'manager'){
+    return {status: 200, data: {email: email, password: password, role: 'MANAGER'}}
+  }else if(email === 'comercial@licencias.com' && password === 'comercial'){
+    return {status: 200, data: {email: email, password: password, role: 'COMERCIAL'}}
+  }
+}

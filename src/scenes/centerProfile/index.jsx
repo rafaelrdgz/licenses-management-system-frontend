@@ -88,8 +88,8 @@ const CenterProfile = () => {
         "El número de teléfono no debe contener letras ni caracteres especiales"
       )
       .required("El número de teléfono es requerido")
-      .min(6, "El número de teléfono debe tener al menos 6 caracteres")
-      .max(12, "El número de teléfono debe tener menos de 12 caracteres"),
+      .min(8, "El número de teléfono debe tener 8 dígitos")
+      .max(8, "El número de teléfono debe tener 8 dígitos"),
     directorName: yup
       .string()
       .matches(
