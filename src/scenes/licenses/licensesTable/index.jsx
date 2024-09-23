@@ -41,6 +41,7 @@ function LicensesTable() {
       data.forEach((license) => {
         license.issueDate = dayjs(license.issueDate).format("DD/MM/YYYY");
         license.expirationDate = dayjs(license.expirationDate).format("DD/MM/YYYY");
+        license.renewed = license.renewed ? "Renovado" : "No Renovado";
       } );
       setRows(data);
     } catch (error) {

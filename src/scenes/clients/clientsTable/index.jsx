@@ -159,7 +159,7 @@ function ClientsTable() {
           />
         )}
         <ConfirmationDialog
-          title={"Desea eliminar la entidad?"}
+          title={"Desea eliminar el cliente?"}
           text={"Tenga en cuenta que esta acción no se puede deshacer"}
           open={dialogOpen}
           handleClose={handleDialogClose}
