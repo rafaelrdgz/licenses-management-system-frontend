@@ -1,17 +1,28 @@
-import React, {useEffect, useState} from "react";
-import {Header, Select, TextField} from "../../../components";
-import {Box, Button, FormHelperText, InputLabel, useMediaQuery} from "@mui/material";
-import {Formik} from "formik";
+import React, { useEffect, useState } from "react";
+import { Header, Select, TextField } from "../../../components";
+import {
+  Box,
+  Button,
+  FormHelperText,
+  InputLabel,
+  useMediaQuery,
+} from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import {useNavigate, useParams} from "react-router-dom";
-import {isValidEntity, isValidIdDate, isValidPersonID,} from "../../../utils/validations.js";
-import {createExam, getExamById, updateExam} from "../../../apis/ExamsAPI.js";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  isValidEntity,
+  isValidIdDate,
+  isValidPersonID,
+} from "../../../utils/validations.js";
+import { createExam, getExamById, updateExam } from "../../../apis/ExamsAPI.js";
+import { getEntityById } from "../../../apis/EntityAPI.js";
 
 function ExamsForm() {
   const [editing, setEditing] = useState(false);
-
+  const [invalidType, setInvalidType] = useState(false); // Estado para manejar el error del tipo de examen
   const [info, setInfo] = useState({
     personId: "",
     id: "",
@@ -26,10 +37,8 @@ function ExamsForm() {
   const navigate = useNavigate();
   const params = useParams();
 
-  //Se carga el examen de la bd y se asigna el valor con setInfo
   const loadExam = async (id) => {
     const info = await getExamById(id);
-    console.log(info);
     setInfo(info);
     setEditing(true);
   };
@@ -43,29 +52,12 @@ function ExamsForm() {
   const checkoutSchema = yup.object().shape({
     personId: yup
       .string()
-      .matches(
-        /^[0-9]+$/,
-        "El número de indentificación no debe contener letras"
-      )
+      .matches(/^[0-9]+$/, "El número de indentificación no debe contener letras")
       .required("El número de indentificación es requerido")
       .min(11, "El número de indentificación debe tener 11 dígitos")
       .max(11, "El número de indentificación debe tener 11 dígitos")
-      .test(
-        "is-valid-id",
-        "El número de indentificación no es válido",
-        isValidIdDate
-      )
-      .test(
-        "is-valid-person",
-        "El número de identificación no se encuentra en el sistema",
-        isValidPersonID
-      ),
-    // code: yup
-    //   .string()
-    //   .matches(/^[0-9]+$/, "El código debe ser un número")
-    //   .required("El código es requerido")
-    //   .min(6, "El código debe tener al menos 6 caracteres")
-    //   .max(16, "El código debe tener menos de 16 caracteres"),
+      .test("is-valid-id", "El número de indentificación no es válido", isValidIdDate)
+      .test("is-valid-person", "El número de identificación no se encuentra en el sistema", isValidPersonID),
     examinerName: yup
       .string()
       .required("El nombre es requerido")
@@ -77,25 +69,30 @@ function ExamsForm() {
       .required("El código es requerido")
       .min(6, "El código debe tener al menos 6 caracteres")
       .max(36, "El código debe tener menos de 36 caracteres")
-      .test(
-        "is-valid-entity",
-        "El código de la entidad no se encuentra en el sistema",
-        isValidEntity
-      ),
-    type: yup.string().required("El tipo de exámen es requerido"),
+      .test("is-valid-entity", "El código de la entidad no se encuentra en el sistema", isValidEntity),
+    type: yup.string().required("El tipo de examen es requerido"),
     result: yup.string().required("El resultado es requerido"),
   });
 
   const handleFormSubmit = async (values) => {
+    const entity = await getEntityById(values.entityCode); // Obtener entidad por código
+    if (entity.type === "AUTOESCUELA" && values.type === "MEDICO") {
+      setInvalidType(true); // Mostrar error si el tipo de examen es inválido para la entidad
+      return;
+    }
+    if (entity.type === "CLINICA" && (values.type === "TEORICO" || values.type === "PRACTICO")) {
+      setInvalidType(true);
+      return;
+    }
+
+    setInvalidType(false); // Ocultar el error cuando se corrige el tipo de examen
+
     let response;
     if (editing) {
-      console.log("Actualizando exámen:", values);
       response = await updateExam(params.id, values);
     } else {
-      console.log("Creando nueva exámen:", values);
       response = await createExam(values);
     }
-    console.log(response);
     navigate("/exams");
   };
 
@@ -103,7 +100,7 @@ function ExamsForm() {
     <Box m="20px">
       <Header
         title={"EXAMEN " + info.id}
-        subtitle={editing ? "Editar datos de exámen" : "Insertar nuevo exámen"}
+        subtitle={editing ? "Editar datos de examen" : "Insertar nuevo examen"}
       />
       <Formik
         enableReinitialize
@@ -112,20 +109,20 @@ function ExamsForm() {
         validationSchema={checkoutSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
               <TextField
@@ -139,33 +136,20 @@ function ExamsForm() {
                 name="personId"
                 error={touched.personId && errors.personId}
                 helperText={touched.personId && errors.personId}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
-              {/*<TextField*/}
-              {/*  fullWidth*/}
-              {/*  variant="filled"*/}
-              {/*  type="text"*/}
-              {/*  label="Código del exámen"*/}
-              {/*  onBlur={handleBlur}*/}
-              {/*  onChange={handleChange}*/}
-              {/*  value={values.code}*/}
-              {/*  name="code"*/}
-              {/*  error={touched.code && errors.code}*/}
-              {/*  helperText={touched.code && errors.code}*/}
-              {/*  sx={{ gridColumn: "span 2" }}*/}
-              {/*/>*/}
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Código de la entidad que realizó el exámen"
+                label="Código de la entidad que realizó el examen"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.entityCode}
                 name="entityCode"
                 error={touched.entityCode && errors.entityCode}
                 helperText={touched.entityCode && errors.entityCode}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -178,12 +162,10 @@ function ExamsForm() {
                 name="examinerName"
                 error={touched.examinerName && errors.examinerName}
                 helperText={touched.examinerName && errors.examinerName}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
-              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
-                <InputLabel id="demo-simple-select-filled-label">
-                  Tipo
-                </InputLabel>
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+                <InputLabel id="exam-type-label">Tipo</InputLabel>
                 <Select
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -196,14 +178,19 @@ function ExamsForm() {
                   <MenuItem value={"PRACTICO"}>Práctico</MenuItem>
                   <MenuItem value={"MEDICO"}>Médico</MenuItem>
                 </Select>
+                {invalidType && (
+                  <FormHelperText sx={{ color: "#f44336" }}>
+                    Tipo de examen no válido para la entidad seleccionada.
+                  </FormHelperText>
+                )}
                 {touched.type && errors.type && (
-                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
+                  <FormHelperText sx={{ color: "#f44336" }}>
+                    {errors.type}
+                  </FormHelperText>
                 )}
               </FormControl>
-              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
-                <InputLabel id="demo-simple-select-filled-label">
-                  Resultado
-                </InputLabel>
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+                <InputLabel id="exam-result-label">Resultado</InputLabel>
                 <Select
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -216,41 +203,19 @@ function ExamsForm() {
                   <MenuItem value={"REPROBADO"}>Reprobado</MenuItem>
                 </Select>
                 {touched.result && errors.result && (
-                  <FormHelperText sx={{color: '#f44336'}}>{errors.result}</FormHelperText> // Aquí se muestra el mensaje de error
+                  <FormHelperText sx={{ color: "#f44336" }}>
+                    {errors.result}
+                  </FormHelperText>
                 )}
               </FormControl>
-              {/*<LocalizationProvider dateAdapter={AdapterDayjs}>*/}
-              {/*  <DatePicker*/}
-              {/*    maxDate={dayjs()}*/}
-              {/*    label="Fecha"*/}
-              {/*    sx={{ gridColumn: "span 2" }}*/}
-              {/*    value={values.date}*/}
-              {/*    slotProps={{*/}
-              {/*      textField: {*/}
-              {/*        helperText: "MM/DD/YYYY",*/}
-              {/*      },*/}
-              {/*    }}*/}
-              {/*  />*/}
-              {/*</LocalizationProvider>*/}
             </Box>
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="end"
-              mt="20px"
-            >
+            <Box display="flex" alignItems="center" justifyContent="end" mt="20px">
               <Button
                 type="text"
                 color="secondary"
                 variant="contained"
                 onClick={() => {
-                  console.log(errors);
-                  if (
-                    Object.keys(errors).length === 0 ||
-                    (editing &&
-                      "id" in errors &&
-                      Object.keys(errors).length === 1)
-                  )
+                  if (Object.keys(errors).length === 0 || (editing && "id" in errors && Object.keys(errors).length === 1))
                     handleFormSubmit(values);
                 }}
               >

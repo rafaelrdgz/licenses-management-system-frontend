@@ -9,6 +9,7 @@ import {esES} from "@mui/x-data-grid/locales";
 import {deleteClient} from "../../../apis/ClientAPI.js";
 import {getInfractions} from "../../../apis/InfractionAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import dayjs from "dayjs";
 
 
 function InfractionsTable() {
@@ -38,6 +39,10 @@ function InfractionsTable() {
     try {
       const data = await getInfractions();
       console.log(data);
+      data.forEach((infraction) => {
+        infraction.date = dayjs(infraction.date).format("DD/MM/YYYY");
+        infraction.paid = infraction.paid ? "Pagado" : "Pendiente";
+      });
       setRows(data);
     } catch (error) {
       console.error("Error fetching infractions:", error);

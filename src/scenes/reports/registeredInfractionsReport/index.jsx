@@ -88,7 +88,10 @@ function RegisteredInfractionsReport() {
   const handleFormSubmit = async (values) => {
     const response = await getInfractionsByDateRange(values.startDate, values.endDate)
     console.log(response);
-
+    response.forEach(infraction => {
+      infraction.date = dayjs(infraction.date).format("DD/MM/YYYY");
+      infraction.paid = infraction.paid ? "Pagado" : "Pendiente";
+    });
     setSearch(true);
     setInfo({
       rows: response,
@@ -114,7 +117,7 @@ function RegisteredInfractionsReport() {
       row.id,
       row.licenseId,
       row.type,
-      dayjs(row.date).format('DD/MM/YYYY'),
+      row.date,
       row.address,
       row.pointsDeducted,
       row.paid,
@@ -122,7 +125,7 @@ function RegisteredInfractionsReport() {
 
     // Generación de la tabla con autoTable
     autoTable(doc, {
-      head: [["Código de infracción", "Nombre del conductor", "Tipo", "Fecha", "Lugar", "Puntos deducidos", "Estado de pago"]],
+      head: [["Código de infracción", "ID del conductor", "Tipo", "Fecha", "Lugar", "Puntos deducidos", "Estado de pago"]],
       body: infracciones,
       startY: 60,
       theme: 'striped',

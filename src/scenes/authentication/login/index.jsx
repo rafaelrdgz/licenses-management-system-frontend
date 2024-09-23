@@ -21,7 +21,6 @@ import { useState } from "react";
 import { AuthContext } from "../../../utils/AuthContext.jsx";
 import { useContext } from "react";
 
-
 export default function Login() {
   const [darkMode, setDarkMode] = React.useState(
     localStorage.getItem("loginDarkMode") === "true"
@@ -79,13 +78,20 @@ export default function Login() {
   });
 
   const handleFormSubmit = async (values) => {
-    //console.log(values);
-    const response = await loginWorker(values.email, values.password);
-    console.log(response);
-    if (response.status === 200) {
-      setUser(response.data);
-      localStorage.setItem('user', JSON.stringify(response.data));
-      navigate("/dashboard");
+    try {
+      const response = await loginWorker(values.email, values.password);
+      console.log(response);
+      if (response.status === 200) {
+        setUser(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setIncorrectData(true); // Muestra el mensaje de error cuando no se encuentra el usuario
+      } else {
+        console.error("Error en el login:", error);
+      }
     }
   };
 
@@ -131,8 +137,8 @@ export default function Login() {
             }) => (
               <form onSubmit={handleSubmit}>
                 {incorrectData && (
-                  <Typography variant="p" color="error">
-                    Datos Incorrectos
+                  <Typography variant="body1" color="error">
+                    Usuario o contraseña incorrectos
                   </Typography>
                 )}
                 <TextField
@@ -163,20 +169,11 @@ export default function Login() {
                   id="password"
                   autoComplete="current-password"
                 />
-                {/*<FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Recuérdame"
-              />*/}
                 <Button
-                  type="text"
+                  type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={() => {
-                    console.log(errors);
-                    if (Object.keys(errors).length === 0)
-                      handleFormSubmit(values);
-                  }}
                 >
                   Iniciar sesión
                 </Button>

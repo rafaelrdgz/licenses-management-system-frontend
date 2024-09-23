@@ -55,7 +55,7 @@ function ExamsPerformedReport() {
     },
     {
       field: "personId",
-      headerName: "ID de la persona",
+      headerName: "ID del cliente",
       flex: 1,
     },
     {
@@ -84,6 +84,9 @@ function ExamsPerformedReport() {
     const response = await getExamsByDateRange(values.startDate, values.endDate)
     console.log(response);
     setSearch(true);
+    response.forEach(exam => {
+      exam.date = dayjs(exam.date).format("DD/MM/YYYY");
+    });
     setInfo({
       rows: response,
       startDate: values.startDate,
@@ -107,13 +110,13 @@ function ExamsPerformedReport() {
       row.id,
       row.personId,
       row.type,
-      dayjs(row.date).format('DD/MM/YYYY'),
+      row.date,
       row.result,
       row.entityCode,
     ]);
 
     autoTable(doc, {
-      head: [["Código del exámen", "Nombre del conductor", "Tipo", "Fecha", "Resultado", "Entidad"]],
+      head: [["Código del exámen", "Id del cliente", "Tipo", "Fecha", "Resultado", "Entidad"]],
       body: examenes,
       startY: 60,
       theme: 'striped',

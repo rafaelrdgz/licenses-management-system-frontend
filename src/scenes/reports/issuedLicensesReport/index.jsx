@@ -13,6 +13,7 @@ import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
 import {getLicensesByDateRange} from "../../../apis/ReportsAPI.js";
 
+
 function IssuedLicensesReport() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -83,6 +84,10 @@ function IssuedLicensesReport() {
   const handleFormSubmit = async (values) => {
     const response = await getLicensesByDateRange(values.startDate, values.endDate)
     console.log(response);
+    response.forEach((license) => {
+      license.issueDate = dayjs(license.issueDate).format("DD/MM/YYYY");
+      license.expirationDate = dayjs(license.expirationDate).format("DD/MM/YYYY");
+    } );
     setSearch(true);
     setInfo({
       rows: response,
@@ -106,14 +111,14 @@ function IssuedLicensesReport() {
 
     // Licencias emitidas
     if (info.rows.length > 0) {
-      const tableColumn = ["Código de licencia", "Nombre del conductor", "Tipo de licencia", "Fecha de emisión", "Fecha de vencimiento", "Estado de licencia"];
+      const tableColumn = ["Código de licencia", "ID del conductor", "Categoria", "Fecha de emisión", "Fecha de vencimiento", "Estado de licencia"];
       const tableRows = [];
 
       info.rows.forEach(row => {
         const rowData = [
           row.id,
-          row.driverName,
-          row.licenseType,
+          row.driverId,
+          row.category,
           row.issueDate,
           row.expirationDate,
           row.licenseStatus

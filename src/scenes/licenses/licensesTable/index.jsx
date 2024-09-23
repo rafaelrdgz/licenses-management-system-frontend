@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {esES} from "@mui/x-data-grid/locales";
 import {deleteLicense, getLicenses} from "../../../apis/LicensesAPI";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import dayjs from "dayjs";
 
 
 function LicensesTable() {
@@ -37,6 +38,10 @@ function LicensesTable() {
     try {
       const data = await getLicenses();
       console.log(data);
+      data.forEach((license) => {
+        license.issueDate = dayjs(license.issueDate).format("DD/MM/YYYY");
+        license.expirationDate = dayjs(license.expirationDate).format("DD/MM/YYYY");
+      } );
       setRows(data);
     } catch (error) {
       console.error("Error fetching licenses:", error);

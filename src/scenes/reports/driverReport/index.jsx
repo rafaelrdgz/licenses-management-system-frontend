@@ -72,7 +72,7 @@ function DriverReport() {
       flex: 1,
     },
     {
-      field: "pointsdeDucted",
+      field: "pointsDeducted",
       headerName: "Puntos deducidos",
       flex: 1,
     },

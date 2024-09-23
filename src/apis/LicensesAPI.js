@@ -42,6 +42,16 @@ export const updateLicense = async (id, licenseData) => {
   }
 };
 
+export const updateLicenseWithCategory = async (id, licenseData) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/licenses/${id}/add_category`, licenseData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating license:", error);
+    throw error;
+  }
+};
+
 export const deleteLicense = async (id) => {
   try {
     const response = await axios.delete(`${BASE_URL}/licenses/${id}`);
@@ -59,5 +69,15 @@ export const checkLicense = async (id) => {
   } catch (error) {
     console.error("Error checking license existence:", error);
     return error.response.data.exists;
+  }
+};
+
+export const getMissingCategories = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/licenses/${id}/categories`);
+    return response.data;
+  } catch (error) {
+    console.error("Error checking license existence:", error);
+    return null;
   }
 };

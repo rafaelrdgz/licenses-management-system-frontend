@@ -38,6 +38,7 @@ function Dashboard() {
 
   const loadData = async () => {
     const licenseTypes = await getLicensesByType()
+
     setChartBarInfo(licenseTypes)
 
     const c = await getTotalClients()
@@ -164,7 +165,7 @@ function Dashboard() {
 
         {/* Bar Chart */}
         <Box
-          gridColumn={isXlDevices ? "span 4" : "span 3"}
+          gridColumn={isXlDevices ? "span 6" : "span 3"}
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
         >
@@ -197,7 +198,7 @@ function Dashboard() {
         </Box>
 
         <Box
-          gridColumn={isXlDevices ? "span 4" : "span 3"}
+          gridColumn={isXlDevices ? "span 6" : "span 3"}
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           p="30px"

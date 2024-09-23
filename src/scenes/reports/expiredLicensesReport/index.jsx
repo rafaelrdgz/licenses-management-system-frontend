@@ -78,6 +78,9 @@ function ExpiredLicensesReport() {
     const response = await getExpiredLicensesByDateRange(values.startDate, values.endDate)
     console.log(response);
     setSearch(true);
+    response.forEach((row) => {
+      row.expirationDate = dayjs(row.expirationDate).format('DD/MM/YYYY');
+    });
     setInfo({
       rows: response,
       startDate: values.startDate,
@@ -105,7 +108,7 @@ function ExpiredLicensesReport() {
         row.id,
         row.driverId,
         row.category,
-        dayjs(row.expirationDate).format('DD/MM/YYYY'),
+        row.expirationDate,
         row.licenseStatus,
       ]);
 

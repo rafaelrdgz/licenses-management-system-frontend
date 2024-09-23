@@ -53,7 +53,7 @@ function InfractionsForm() {
       .max(6, "El número de licencia debe tener 6 dígitos")
       .test(
         "is-valid-license",
-        "El número de identificación no se encuentra en el sistema",
+        "El número de licencia no se encuentra en el sistema",
         isValidLicense
       ),
     description: yup

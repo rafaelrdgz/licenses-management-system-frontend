@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {esES} from "@mui/x-data-grid/locales";
 import {getExams} from "../../../apis/ExamsAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import dayjs from "dayjs";
 
 
 function ExamsTable() {
@@ -35,6 +36,9 @@ function ExamsTable() {
     try {
       const data = await getExams();
       console.log(data);
+      data.forEach((exam) => {
+        exam.date = dayjs(exam.date).format("DD/MM/YYYY");
+      });
       setRows(data);
     } catch (error) {
       console.error("Error fetching exams:", error);

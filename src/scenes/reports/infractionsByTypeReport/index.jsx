@@ -99,6 +99,9 @@ function InfractionsByTypeReport() {
   const handleFormSubmit = async (values) => {
     const types = await getInfractionsByType(values.year.$y)
     const result = await getInfractionsByYear(values.year.$y)
+    result.forEach(infraction => {
+      infraction.date = dayjs(infraction.date).format("DD/MM/YYYY");
+    });
     console.log(types)
     if(types === null){
       setNoData(true)

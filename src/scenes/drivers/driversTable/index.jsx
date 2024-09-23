@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {esES} from "@mui/x-data-grid/locales";
 import {deleteDriver, getDrivers} from "../../../apis/DriversAPI";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import dayjs from "dayjs";
 
 
 function DriversTable() {
@@ -37,6 +38,9 @@ function DriversTable() {
     try {
       const data = await getDrivers();
       console.log(data);
+      data.forEach((driver) => {
+        driver.bornDate = dayjs(driver.bornDate).format("DD/MM/YYYY");
+      } );
       setRows(data);
     } catch (error) {
       console.error("Error fetching drivers:", error);

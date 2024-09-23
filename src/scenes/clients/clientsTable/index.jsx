@@ -9,6 +9,7 @@ import {esES} from "@mui/x-data-grid/locales";
 import {deleteClient, getClients} from "../../../apis/ClientAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import {deleteWorker} from "../../../apis/WorkerAPI.js";
+import dayjs from "dayjs";
 
 
 function ClientsTable() {
@@ -37,6 +38,9 @@ function ClientsTable() {
     try {
       const data = await getClients();
       console.log(data);
+      data.forEach((client) => {
+        client.bornDate = dayjs(client.bornDate).format("DD/MM/YYYY");
+      });
       setRows(data);
     } catch (error) {
       console.error("Error fetching clients:", error);
