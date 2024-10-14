@@ -1,10 +1,17 @@
 import axios from "axios";
+import { getToken } from "../utils/AuthContext";
 
 const BASE_URL = "http://localhost:3000"; // Cambia el puerto si es diferente
 
 export const getClients = async () => {
+  const token = getToken(); // Obtener el token
+
   try {
-    const response = await axios.get(`${BASE_URL}/clients`);
+    const response = await axios.get(`${BASE_URL}/clients`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Incluir el token en la solicitud
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching clients:", error);
@@ -13,8 +20,14 @@ export const getClients = async () => {
 };
 
 export const getClientById = async (id) => {
+  const token = getToken();
+
   try {
-    const response = await axios.get(`${BASE_URL}/clients/${id}`);
+    const response = await axios.get(`${BASE_URL}/clients/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Incluir el token en la solicitud
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching client by ID:", error);
@@ -23,8 +36,14 @@ export const getClientById = async (id) => {
 };
 
 export const createClient = async (clientData) => {
+  const token = getToken();
+
   try {
-    const response = await axios.post(`${BASE_URL}/clients`, clientData);
+    const response = await axios.post(`${BASE_URL}/clients`, clientData, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Incluir el token en la solicitud
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error creating client:", error);
@@ -33,8 +52,14 @@ export const createClient = async (clientData) => {
 };
 
 export const updateClient = async (id, clientData) => {
+  const token = getToken();
+
   try {
-    const response = await axios.put(`${BASE_URL}/clients/${id}`, clientData);
+    const response = await axios.put(`${BASE_URL}/clients/${id}`, clientData, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Incluir el token en la solicitud
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error updating client:", error);
@@ -43,8 +68,14 @@ export const updateClient = async (id, clientData) => {
 };
 
 export const deleteClient = async (id) => {
+  const token = getToken();
+
   try {
-    const response = await axios.delete(`${BASE_URL}/clients/${id}`);
+    const response = await axios.delete(`${BASE_URL}/clients/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Incluir el token en la solicitud
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error deleting client:", error);
@@ -53,8 +84,14 @@ export const deleteClient = async (id) => {
 };
 
 export const checkId = async (id) => {
+  const token = getToken();
+
   try {
-    const response = await axios.get(`${BASE_URL}/clients/exists/${id}`);
+    const response = await axios.get(`${BASE_URL}/clients/exists/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Incluir el token en la solicitud
+      },
+    });
     return response.data.exists;
   } catch (error) {
     console.error("Error checking person existence:", error);

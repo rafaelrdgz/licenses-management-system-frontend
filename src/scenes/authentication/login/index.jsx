@@ -1,10 +1,7 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -20,16 +17,13 @@ import { loginWorker } from "../../../apis/WorkerAPI.js";
 import { useState } from "react";
 import { AuthContext } from "../../../utils/AuthContext.jsx";
 import { useContext } from "react";
+import React from "react";
 
 export default function Login() {
   const [darkMode, setDarkMode] = React.useState(
-    localStorage.getItem("loginDarkMode") === "true"
+    localStorage.getItem("theme") === "dark"
   );
-  const { setUser } = useContext(AuthContext);
-
-  React.useEffect(() => {
-    localStorage.setItem("loginDarkMode", darkMode);
-  }, [darkMode]);
+  const { login } = useContext(AuthContext);
 
   const theme = createTheme({
     palette: {
@@ -78,20 +72,19 @@ export default function Login() {
   });
 
   const handleFormSubmit = async (values) => {
+    setIncorrectData(false); // Resetea el estado antes de la solicitud
+
     try {
       const response = await loginWorker(values.email, values.password);
-      console.log(response);
+
+      // Verifica que el status sea 200 antes de acceder a response.data
       if (response.status === 200) {
-        setUser(response.data);
-        localStorage.setItem("user", JSON.stringify(response.data));
+        const { token } = response.data;
+        login(token); // Almacenar solo el token
         navigate("/dashboard");
       }
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setIncorrectData(true); // Muestra el mensaje de error cuando no se encuentra el usuario
-      } else {
-        console.error("Error en el login:", error);
-      }
+      setIncorrectData(true);
     }
   };
 

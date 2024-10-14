@@ -1,10 +1,18 @@
 import axios from "axios";
+import { getToken } from "../utils/AuthContext";
 
 const BASE_URL = "http://localhost:3000"; // Cambia el puerto si es diferente
 
+// Funciones con token JWT en el encabezado
+
 export const getEntities = async () => {
+  const token = getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/entities`);
+    const response = await axios.get(`${BASE_URL}/entities`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching entities:", error);
@@ -13,8 +21,13 @@ export const getEntities = async () => {
 };
 
 export const getEntityById = async (id) => {
+  const token = getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/entities/${id}`);
+    const response = await axios.get(`${BASE_URL}/entities/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching entity by ID:", error);
@@ -23,8 +36,13 @@ export const getEntityById = async (id) => {
 };
 
 export const createEntity = async (entityData) => {
+  const token = getToken();
   try {
-    const response = await axios.post(`${BASE_URL}/entities`, entityData);
+    const response = await axios.post(`${BASE_URL}/entities`, entityData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error creating entity:", error);
@@ -33,8 +51,13 @@ export const createEntity = async (entityData) => {
 };
 
 export const updateEntity = async (id, entityData) => {
+  const token = getToken();
   try {
-    const response = await axios.put(`${BASE_URL}/entities/${id}`, entityData);
+    const response = await axios.put(`${BASE_URL}/entities/${id}`, entityData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error updating entity:", error);
@@ -43,8 +66,13 @@ export const updateEntity = async (id, entityData) => {
 };
 
 export const deleteEntity = async (id) => {
+  const token = getToken();
   try {
-    const response = await axios.delete(`${BASE_URL}/entities/${id}`);
+    const response = await axios.delete(`${BASE_URL}/entities/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error deleting entity:", error);
@@ -53,8 +81,13 @@ export const deleteEntity = async (id) => {
 };
 
 export const checkEntity = async (id) => {
+  const token = getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/entities/exists/${id}`);
+    const response = await axios.get(`${BASE_URL}/entities/exists/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data.exists;
   } catch (error) {
     console.error("Error checking entity existence:", error);

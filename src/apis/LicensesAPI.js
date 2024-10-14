@@ -1,10 +1,16 @@
 import axios from "axios";
+import { getToken } from "../utils/AuthContext";
 
 const BASE_URL = "http://localhost:3000"; // Cambia el puerto si es diferente
 
 export const getLicenses = async () => {
+  const token = getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/licenses`);
+    const response = await axios.get(`${BASE_URL}/licenses`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching licenses:", error);
@@ -13,8 +19,13 @@ export const getLicenses = async () => {
 };
 
 export const getLicenseById = async (id) => {
+  const token = getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/licenses/${id}`);
+    const response = await axios.get(`${BASE_URL}/licenses/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching license by ID:", error);
@@ -23,8 +34,13 @@ export const getLicenseById = async (id) => {
 };
 
 export const createLicense = async (licenseData) => {
+  const token = getToken();
   try {
-    const response = await axios.post(`${BASE_URL}/licenses`, licenseData);
+    const response = await axios.post(`${BASE_URL}/licenses`, licenseData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error creating license:", error);
@@ -33,8 +49,13 @@ export const createLicense = async (licenseData) => {
 };
 
 export const updateLicense = async (id, licenseData) => {
+  const token = getToken();
   try {
-    const response = await axios.put(`${BASE_URL}/licenses/${id}`, licenseData);
+    const response = await axios.put(`${BASE_URL}/licenses/${id}`, licenseData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error updating license:", error);
@@ -43,18 +64,28 @@ export const updateLicense = async (id, licenseData) => {
 };
 
 export const updateLicenseWithCategory = async (id, licenseData) => {
+  const token = getToken();
   try {
-    const response = await axios.put(`${BASE_URL}/licenses/${id}/add_category`, licenseData);
+    const response = await axios.put(`${BASE_URL}/licenses/${id}/add_category`, licenseData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error("Error updating license:", error);
+    console.error("Error updating license with category:", error);
     throw error;
   }
 };
 
 export const deleteLicense = async (id) => {
+  const token = getToken();
   try {
-    const response = await axios.delete(`${BASE_URL}/licenses/${id}`);
+    const response = await axios.delete(`${BASE_URL}/licenses/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error("Error deleting license:", error);
@@ -63,8 +94,13 @@ export const deleteLicense = async (id) => {
 };
 
 export const checkLicense = async (id) => {
+  const token = getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/licenses/exists/${id}`);
+    const response = await axios.get(`${BASE_URL}/licenses/exists/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data.exists;
   } catch (error) {
     console.error("Error checking license existence:", error);
@@ -73,11 +109,16 @@ export const checkLicense = async (id) => {
 };
 
 export const getMissingCategories = async (id) => {
+  const token = getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/licenses/${id}/categories`);
+    const response = await axios.get(`${BASE_URL}/licenses/${id}/categories`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error("Error checking license existence:", error);
+    console.error("Error fetching missing categories:", error);
     return null;
   }
 };

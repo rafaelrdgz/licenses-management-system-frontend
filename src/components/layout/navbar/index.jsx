@@ -15,7 +15,7 @@ import { AuthContext } from "../../../utils/AuthContext";
 
 
 const Navbar = () => {
-  const {setUser} = useContext(AuthContext);
+  const {logout} = useContext(AuthContext);
   const theme = useTheme();
   const colorMode = useContext(ColorModeContext);
   const {toggled, setToggled} = useContext(ToggledContext);
@@ -53,7 +53,7 @@ const Navbar = () => {
         </Link>*/}
         <Link to="/login">
           <IconButton onClick={() =>{
-            setUser(null);
+            logout();
             localStorage.removeItem('user');
           }}>
             <LogoutOutlined />
