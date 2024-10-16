@@ -1,19 +1,40 @@
-import React, {useState} from "react";
-import {Header, TableToolbar} from "../../../components";
-import {Box, Button, Typography, useMediaQuery, useTheme} from "@mui/material";
-import {Formik} from "formik";
+import React, { useState } from "react";
+import { Header, TableToolbar } from "../../../components";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
-import {DataGrid} from "@mui/x-data-grid";
-import {esES} from "@mui/x-data-grid/locales";
-import {tokens} from "../../../theme.js";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import { DataGrid } from "@mui/x-data-grid";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { tokens } from "../../../theme.js";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
-import {getExamsByDateRange, getExpiredLicensesByDateRange} from "../../../apis/ReportsAPI.js";
+import {
+  getExamsByDateRange,
+  getExpiredLicensesByDateRange,
+} from "../../../apis/ReportsAPI.js";
+import "dayjs/locale/es-us.js";
+import { useTranslation } from "react-i18next";
 
 function ExpiredLicensesReport() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
+  const adapterLocale = currentLanguage === "es" ? "es-us" : "en";
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -75,18 +96,20 @@ function ExpiredLicensesReport() {
   ];
 
   const handleFormSubmit = async (values) => {
-    const response = await getExpiredLicensesByDateRange(values.startDate, values.endDate)
+    const response = await getExpiredLicensesByDateRange(
+      values.startDate,
+      values.endDate
+    );
     console.log(response);
     setSearch(true);
     response.forEach((row) => {
-      row.expirationDate = dayjs(row.expirationDate).format('DD/MM/YYYY');
+      row.expirationDate = dayjs(row.expirationDate).format("DD/MM/YYYY");
     });
     setInfo({
       rows: response,
       startDate: values.startDate,
       endDate: values.endDate,
-    })
-
+    });
   };
 
   const handleExportPdf = () => {
@@ -98,11 +121,18 @@ function ExpiredLicensesReport() {
 
     // Fechas de inicio y fin
     doc.setFontSize(12);
-    doc.text(`Fecha de inicio: ${info.startDate.format('DD/MM/YYYY').toString()}`, 20, 40);
-    doc.text(`Fecha de fin: ${info.endDate.format('DD/MM/YYYY').toString()}`, 20, 50);
+    doc.text(
+      `Fecha de inicio: ${info.startDate.format("DD/MM/YYYY").toString()}`,
+      20,
+      40
+    );
+    doc.text(
+      `Fecha de fin: ${info.endDate.format("DD/MM/YYYY").toString()}`,
+      20,
+      50
+    );
 
     if (info.rows.length > 0) {
-
       // Formato de los datos para la tabla
       const licencias = info.rows.map((row) => [
         row.id,
@@ -114,15 +144,22 @@ function ExpiredLicensesReport() {
 
       // Generación de la tabla con autoTable
       autoTable(doc, {
-        head: [["Código de licencia", "Número de identidad", "Tipo de licencia", "Fecha de vencimiento", "Estado de licencia"]],
+        head: [
+          [
+            "Código de licencia",
+            "Número de identidad",
+            "Tipo de licencia",
+            "Fecha de vencimiento",
+            "Estado de licencia",
+          ],
+        ],
         body: licencias,
         startY: 60,
-        theme: 'striped',
-        headStyles: {fillColor: [22, 160, 133]},
+        theme: "striped",
+        headStyles: { fillColor: [22, 160, 133] },
       });
-    }
-    else{
-      doc.setFontSize(18)
+    } else {
+      doc.setFontSize(18);
       doc.text("No hay datos para mostrar", 20, 70);
     }
 
@@ -130,16 +167,17 @@ function ExpiredLicensesReport() {
     doc.save("Reporte_Licencias_Vencidas.pdf");
   };
 
-
   return (
     <Box m={"20px"}>
       <Header
         title={"REPORTES"}
-        subtitle={"Reporte de Conductores con Licencias Vencidas en un Período de Tiempo"}
+        subtitle={
+          "Reporte de Conductores con Licencias Vencidas en un Período de Tiempo"
+        }
       />
       {search && (
         <Button
-          sx={{mb: "10px"}}
+          sx={{ mb: "10px" }}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
@@ -153,33 +191,36 @@ function ExpiredLicensesReport() {
         validationSchema={checkoutSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale={adapterLocale}
+              >
                 <DatePicker
-                  minDate={dayjs('2000-01-01')}
+                  minDate={dayjs("2000-01-01")}
                   maxDate={dayjs().subtract(1, "day")}
                   format="DD/MM/YYYY"
                   label="Fecha de inicio"
-                  sx={{gridColumn: "span 2"}}
+                  sx={{ gridColumn: "span 2" }}
                   value={values.startDate}
                   onChange={(newValue) =>
                     handleChange({
-                      target: {name: "startDate", value: newValue},
+                      target: { name: "startDate", value: newValue },
                     })
                   }
                   slotProps={{
@@ -193,11 +234,11 @@ function ExpiredLicensesReport() {
                   format="DD/MM/YYYY"
                   maxDate={dayjs()}
                   label="Fecha de fin"
-                  sx={{gridColumn: "span 2"}}
+                  sx={{ gridColumn: "span 2" }}
                   value={values.endDate}
                   onChange={(newValue) =>
                     handleChange({
-                      target: {name: "endDate", value: newValue},
+                      target: { name: "endDate", value: newValue },
                     })
                   }
                   slotProps={{
@@ -210,7 +251,7 @@ function ExpiredLicensesReport() {
               </LocalizationProvider>
             </Box>
             <Button
-              sx={{mt: "10px", mb: "30px"}}
+              sx={{ mt: "10px", mb: "30px" }}
               type="submit"
               color="secondary"
               variant="contained"
@@ -225,19 +266,19 @@ function ExpiredLicensesReport() {
         <div>
           <Typography
             variant="h4"
-            sx={{mt: "20px", mb: "10px"}}
+            sx={{ mt: "20px", mb: "10px" }}
             color={colors.gray[100]}
           >
             {" "}
-            Fecha de inicio: {info.startDate.format('DD/MM/YYYY').toString()}
+            Fecha de inicio: {info.startDate.format("DD/MM/YYYY").toString()}
           </Typography>
           <Typography
             variant="h4"
-            sx={{mt: "20px", mb: "10px"}}
+            sx={{ mt: "20px", mb: "10px" }}
             color={colors.gray[100]}
           >
             {" "}
-            Fecha de fin: {info.endDate.format('DD/MM/YYYY').toString()}
+            Fecha de fin: {info.endDate.format("DD/MM/YYYY").toString()}
           </Typography>
           <Box
             sx={{
@@ -252,10 +293,10 @@ function ExpiredLicensesReport() {
             }}
           >
             <DataGrid
-              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              localeText={localeText}
               initialState={{
                 pagination: {
-                  paginationModel: {pageSize: 25, page: 0},
+                  paginationModel: { pageSize: 25, page: 0 },
                 },
               }}
               rows={info.rows}

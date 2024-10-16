@@ -1,24 +1,45 @@
-import React, {useState} from "react";
-import {Header, TableToolbar} from "../../../components";
-import {Box, Button, Typography, useMediaQuery, useTheme,} from "@mui/material";
-import {Formik} from "formik";
+import React, { useState } from "react";
+import { Header, TableToolbar } from "../../../components";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
-import {DataGrid} from "@mui/x-data-grid";
-import {esES} from "@mui/x-data-grid/locales";
-import {tokens} from "../../../theme.js";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker, LocalizationProvider} from "@mui/x-date-pickers";
+import { DataGrid } from "@mui/x-data-grid";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { tokens } from "../../../theme.js";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
-import {getInfractionsByType, getInfractionsByYear} from "../../../apis/ReportsAPI.js";
-import {getInfractions} from "../../../apis/InfractionAPI.js";
+import {
+  getInfractionsByType,
+  getInfractionsByYear,
+} from "../../../apis/ReportsAPI.js";
+import { getInfractions } from "../../../apis/InfractionAPI.js";
+import { useTranslation } from "react-i18next";
+import "dayjs/locale/es-us.js";
 
 function InfractionsByTypeReport() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
+  const adapterLocale = currentLanguage === "es" ? "es-us" : "en";
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [noData, setNoData] = useState(false)
+  const [noData, setNoData] = useState(false);
 
   const [search, setSearch] = useState(false);
 
@@ -97,19 +118,23 @@ function InfractionsByTypeReport() {
   ];
 
   const handleFormSubmit = async (values) => {
-    const types = await getInfractionsByType(values.year.$y)
-    const result = await getInfractionsByYear(values.year.$y)
-    result.forEach(infraction => {
+    const types = await getInfractionsByType(values.year.$y);
+    const result = await getInfractionsByYear(values.year.$y);
+    result.forEach((infraction) => {
       infraction.date = dayjs(infraction.date).format("DD/MM/YYYY");
     });
-    console.log(types)
-    if(types === null){
-      setNoData(true)
-      return
-    } 
-    setInfo({year: values.year.$y, typesRows: types, infractionsRows: result});
+    console.log(types);
+    if (types === null) {
+      setNoData(true);
+      return;
+    }
+    setInfo({
+      year: values.year.$y,
+      typesRows: types,
+      infractionsRows: result,
+    });
     setSearch(true);
-    setNoData(false)
+    setNoData(false);
   };
 
   const handleExportPdf = () => {
@@ -128,7 +153,15 @@ function InfractionsByTypeReport() {
     // Tabla de tipos de infracción
     autoTable(doc, {
       startY: 50,
-      head: [["Tipo", "Cantidad", "Total de Puntos Deducidos", "Multas Pagadas", "Multas Pendientes"]],
+      head: [
+        [
+          "Tipo",
+          "Cantidad",
+          "Total de Puntos Deducidos",
+          "Multas Pagadas",
+          "Multas Pendientes",
+        ],
+      ],
       body: info.typesRows.map((row) => [
         row.id,
         row.quantity,
@@ -145,7 +178,15 @@ function InfractionsByTypeReport() {
     // Tabla de infracciones registradas
     autoTable(doc, {
       startY: 110,
-      head: [["Código de Infracción", "Tipo", "Fecha", "Puntos Deducidos", "Estado del Pago"]],
+      head: [
+        [
+          "Código de Infracción",
+          "Tipo",
+          "Fecha",
+          "Puntos Deducidos",
+          "Estado del Pago",
+        ],
+      ],
       body: info.infractionsRows.map((row) => [
         row.id,
         row.type,
@@ -159,7 +200,6 @@ function InfractionsByTypeReport() {
     doc.save(`Reporte_Consolidado_Infracciones_${info.year}.pdf`);
   };
 
-
   return (
     <Box m={"20px"}>
       <Header
@@ -170,7 +210,7 @@ function InfractionsByTypeReport() {
       />
       {search && (
         <Button
-          sx={{mb: "10px"}}
+          sx={{ mb: "10px" }}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
@@ -184,28 +224,31 @@ function InfractionsByTypeReport() {
         validationSchema={checkoutSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale={adapterLocale}
+              >
                 <DatePicker
                   value={values.year}
                   onChange={(newValue) =>
                     handleChange({
-                      target: {name: "year", value: newValue},
+                      target: { name: "year", value: newValue },
                     })
                   }
                   slotProps={{
@@ -216,14 +259,14 @@ function InfractionsByTypeReport() {
                   }}
                   minDate={dayjs("1-1-2015")}
                   maxDate={dayjs()}
-                  sx={{gridColumn: "span 2"}}
+                  sx={{ gridColumn: "span 2" }}
                   label={"Año"}
                   views={["year"]}
                 />
               </LocalizationProvider>
             </Box>
             <Button
-              sx={{mt: "10px"}}
+              sx={{ mt: "10px" }}
               type="submit"
               color="secondary"
               variant="contained"
@@ -234,13 +277,17 @@ function InfractionsByTypeReport() {
         )}
       </Formik>
 
-      {noData && (<Typography variant="h6" color="error" sx={{mt: '10px'}}>No hay registros para mostrar</Typography>)}
+      {noData && (
+        <Typography variant="h6" color="error" sx={{ mt: "10px" }}>
+          No hay registros para mostrar
+        </Typography>
+      )}
 
       {search && (
         <div>
           <Typography
             variant="h4"
-            sx={{mt: "20px", mb: "10px"}}
+            sx={{ mt: "20px", mb: "10px" }}
             color={colors.gray[100]}
           >
             {" "}
@@ -248,7 +295,7 @@ function InfractionsByTypeReport() {
           </Typography>
           <Typography
             variant="h4"
-            sx={{mt: "20px", mb: "10px"}}
+            sx={{ mt: "20px", mb: "10px" }}
             color={colors.gray[100]}
           >
             {" "}
@@ -267,10 +314,10 @@ function InfractionsByTypeReport() {
             }}
           >
             <DataGrid
-              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              localeText={localeText}
               initialState={{
                 pagination: {
-                  paginationModel: {pageSize: 25, page: 0},
+                  paginationModel: { pageSize: 25, page: 0 },
                 },
               }}
               rows={info.typesRows}
@@ -288,7 +335,7 @@ function InfractionsByTypeReport() {
           </Box>
           <Typography
             variant="h4"
-            sx={{mt: "20px", mb: "10px"}}
+            sx={{ mt: "20px", mb: "10px" }}
             color={colors.gray[100]}
           >
             {" "}
@@ -307,10 +354,10 @@ function InfractionsByTypeReport() {
             }}
           >
             <DataGrid
-              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              localeText={localeText}
               initialState={{
                 pagination: {
-                  paginationModel: {pageSize: 25, page: 0},
+                  paginationModel: { pageSize: 25, page: 0 },
                 },
               }}
               rows={info.infractionsRows}

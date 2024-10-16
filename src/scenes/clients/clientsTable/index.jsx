@@ -1,18 +1,26 @@
-import React, {useState} from "react";
-import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
-import {Box, Button} from "@mui/material";
+import React, { useState } from "react";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
+import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {useNavigate} from "react-router-dom";
-import {esES} from "@mui/x-data-grid/locales";
-import {deleteClient, getClients} from "../../../apis/ClientAPI.js";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { deleteClient, getClients } from "../../../apis/ClientAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import {deleteWorker} from "../../../apis/WorkerAPI.js";
+import { deleteWorker } from "../../../apis/WorkerAPI.js";
 import dayjs from "dayjs";
-
+import { useTranslation } from "react-i18next";
 
 function ClientsTable() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleDialogClose = () => setDialogOpen(false);
   const [selectedId, setSelectedId] = React.useState(null);
@@ -26,7 +34,7 @@ function ClientsTable() {
     setDialogOpen(false);
     await deleteClient(selectedId);
     loadClients();
-    enqueueSnackbar('Cliente eliminado', { variant: 'success' })
+    enqueueSnackbar("Cliente eliminado", { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -93,17 +101,17 @@ function ClientsTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({id}) => {
+      getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon/>}
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/clients/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon/>}
+            icon={<DeleteOutlinedIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -115,8 +123,8 @@ function ClientsTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3}/>
-      <Header title={"CLIENTES"} subtitle={"Información de los clientes"}/>
+      <SnackbarProvider maxSnack={3} />
+      <Header title={"CLIENTES"} subtitle={"Información de los clientes"} />
       <Box
         sx={{
           height: "75vh",
@@ -132,17 +140,17 @@ function ClientsTable() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{mb: "10px"}}
+          sx={{ mb: "10px" }}
           onClick={() => navigate(`/clients/new`)}
         >
           Nuevo cliente
         </Button>
         {rows.length >= 0 && (
           <DataGrid
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            localeText={localeText}
             initialState={{
               pagination: {
-                paginationModel: {pageSize: 25, page: 0},
+                paginationModel: { pageSize: 25, page: 0 },
               },
             }}
             rows={rows}

@@ -1,23 +1,23 @@
-import {Box, Typography, useMediaQuery, useTheme} from "@mui/material";
-import {Header, ProgressCircle, StatBox} from "../../components";
-import {tokens} from "../../theme";
-import {BarChart} from "@mui/x-charts/BarChart";
-import {useEffect, useState} from "react";
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
-import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Header, ProgressCircle, StatBox } from "../../components";
+import { tokens } from "../../theme";
+import { BarChart } from "@mui/x-charts/BarChart";
+import { useEffect, useState } from "react";
+import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
+import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import DirectionsCarFilledOutlinedIcon from "@mui/icons-material/DirectionsCarFilledOutlined";
 import {
   getLicensesAboutToExpire,
-  getLicensesByType, getMedicalExams, getNoPaidInfractions, getPercent,
+  getLicensesByType,
+  getMedicalExams,
+  getNoPaidInfractions,
+  getPercent,
   getTotalClients,
   getTotalDrivers,
   getTotalExams,
-  getTotalLicenses
+  getTotalLicenses,
 } from "../../apis/DashboardAPI.js";
-import {getClients} from "../../apis/ClientAPI.js";
-import {getPercentageValue} from "@mui/x-charts/internals/getPercentageValue.js";
-
 
 function Dashboard() {
   const theme = useTheme();
@@ -26,54 +26,54 @@ function Dashboard() {
   const isMdDevices = useMediaQuery("(min-width: 724px)");
   const isXsDevices = useMediaQuery("(max-width: 436px)");
 
-  const [chartBarInfo, setChartBarInfo] = useState([[],[]]) // el array solo debe tener los 4 valores en el orden: Moto, Automóvil, Camión, Autobús
-  const [progressCircleInfo, setProgressCircleInfo] = useState(0)//debe darse el valor en probabilidad de 0 a 1
-  const [recentLicenses, setRecentLicenses] = useState([]) //debe ser un array de objetos con la siguiente estructura: [{id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}
+  const [chartBarInfo, setChartBarInfo] = useState([[], []]); // el array solo debe tener los 4 valores en el orden: Moto, Automóvil, Camión, Autobús
+  const [progressCircleInfo, setProgressCircleInfo] = useState(0); //debe darse el valor en probabilidad de 0 a 1
+  const [recentLicenses, setRecentLicenses] = useState([]); //debe ser un array de objetos con la siguiente estructura: [{id: "135132", name: "Rafael", date: "2021-10-10", category: "Automovil"}
   const [clients, setClients] = useState(0);
   const [drivers, setDrivers] = useState(0);
   const [licenses, setLicenses] = useState(0);
   const [exams, setExams] = useState(0);
-  const [medicalExams, setMedicalExams] = useState([])
-  const [noPaidInfractions, setNoPaidInfractions] = useState([])
+  const [medicalExams, setMedicalExams] = useState([]);
+  const [noPaidInfractions, setNoPaidInfractions] = useState([]);
 
   const loadData = async () => {
-    const licenseTypes = await getLicensesByType()
+    const licenseTypes = await getLicensesByType();
 
-    setChartBarInfo(licenseTypes)
+    setChartBarInfo(licenseTypes);
 
-    const c = await getTotalClients()
-    setClients(c)
+    const c = await getTotalClients();
+    setClients(c);
 
-    const d = await getTotalDrivers()
-    setDrivers(d)
+    const d = await getTotalDrivers();
+    setDrivers(d);
 
-    const l = await getTotalLicenses()
-    setLicenses(l)
+    const l = await getTotalLicenses();
+    setLicenses(l);
 
-    const e = await getTotalExams()
-    setExams(e)
+    const e = await getTotalExams();
+    setExams(e);
 
-    const p = await getPercent()
-    setProgressCircleInfo(parseFloat(p))
+    const p = await getPercent();
+    setProgressCircleInfo(parseFloat(p));
 
-    const response = await getLicensesAboutToExpire()
-    setRecentLicenses(response)
+    const response = await getLicensesAboutToExpire();
+    setRecentLicenses(response);
 
-    const m = await getMedicalExams()
-    setMedicalExams(m)
+    const m = await getMedicalExams();
+    setMedicalExams(m);
 
-    const i = await getNoPaidInfractions()
-    setNoPaidInfractions(i)
-  }
+    const i = await getNoPaidInfractions();
+    setNoPaidInfractions(i);
+  };
 
   useEffect(() => {
-    loadData()
-  }, [])
+    loadData();
+  }, []);
 
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between">
-        <Header title="PRINCIPAL" subtitle="Resúmen estadístico del centro"/>
+        <Header title="PRINCIPAL" subtitle="Resúmen estadístico del centro" />
       </Box>
 
       {/* GRID & CHARTS */}
@@ -83,8 +83,8 @@ function Dashboard() {
           isXlDevices
             ? "repeat(12, 1fr)"
             : isMdDevices
-              ? "repeat(6, 1fr)"
-              : "repeat(3, 1fr)"
+            ? "repeat(6, 1fr)"
+            : "repeat(3, 1fr)"
         }
         gridAutoRows="140px"
         gap="20px"
@@ -103,7 +103,7 @@ function Dashboard() {
             subtitle="Clientes registrados"
             icon={
               <PermIdentityOutlinedIcon
-                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
@@ -121,7 +121,7 @@ function Dashboard() {
             subtitle="Conductores con licencia vigente"
             icon={
               <DirectionsCarFilledOutlinedIcon
-                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
@@ -139,7 +139,7 @@ function Dashboard() {
             subtitle="Licencias emitidas"
             icon={
               <BadgeOutlinedIcon
-                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
@@ -157,7 +157,7 @@ function Dashboard() {
             subtitle="Exámenes realizados"
             icon={
               <ArticleOutlinedIcon
-                sx={{color: colors.greenAccent[600], fontSize: "26px"}}
+                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
             }
           />
@@ -172,7 +172,7 @@ function Dashboard() {
           <Typography
             variant="h5"
             fontWeight="600"
-            sx={{p: "30px 30px 0 30px"}}
+            sx={{ p: "30px 30px 0 30px" }}
             color={colors.gray[100]}
           >
             Licencias por categoría
@@ -188,11 +188,10 @@ function Dashboard() {
               xAxis={[
                 {
                   scaleType: "band",
-                  data: chartBarInfo[0]
+                  data: chartBarInfo[0],
                 },
               ]}
-              series={[{type: "bar", data: chartBarInfo[1]}]}
-
+              series={[{ type: "bar", data: chartBarInfo[1] }]}
             />
           </Box>
         </Box>
@@ -212,13 +211,13 @@ function Dashboard() {
             alignItems="center"
             mt="25px"
           >
-            <ProgressCircle size="125" progress={progressCircleInfo}/>
+            <ProgressCircle size="125" progress={progressCircleInfo} />
             <Typography
               textAlign="center"
               variant="h5"
               color={colors.greenAccent[500]}
-              sx={{mt: "15px"}}
-              fontWeight={'bold'}
+              sx={{ mt: "15px" }}
+              fontWeight={"bold"}
             >
               {(parseFloat(progressCircleInfo) * 100).toFixed(2)}%
             </Typography>
@@ -232,7 +231,7 @@ function Dashboard() {
           overflow="auto"
         >
           <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
-            <Typography color={colors.gray[100]} variant="h5" fontWeight="600" >
+            <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
               Licencias próximas a vencer
             </Typography>
           </Box>
@@ -258,7 +257,7 @@ function Dashboard() {
                 </Typography>
               </Box>
               <Typography color={colors.gray[100]}>
-                {license.expirationDate.substring(0,10)}
+                {license.expirationDate.substring(0, 10)}
               </Typography>
               <Box
                 bgcolor={colors.greenAccent[500]}
@@ -277,7 +276,7 @@ function Dashboard() {
           overflow="auto"
         >
           <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
-            <Typography color={colors.gray[100]} variant="h5" fontWeight="600" >
+            <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
               Exámenes médicos periódicos
             </Typography>
           </Box>
@@ -315,7 +314,7 @@ function Dashboard() {
           overflow="auto"
         >
           <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
-            <Typography color={colors.gray[100]} variant="h5" fontWeight="600" >
+            <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
               Multas pendientes de pago
             </Typography>
           </Box>
@@ -341,7 +340,7 @@ function Dashboard() {
                 </Typography>
               </Box>
               <Typography color={colors.gray[100]}>
-                {infraction.date.substring(0,10)}
+                {infraction.date.substring(0, 10)}
               </Typography>
               <Box
                 bgcolor={colors.greenAccent[500]}

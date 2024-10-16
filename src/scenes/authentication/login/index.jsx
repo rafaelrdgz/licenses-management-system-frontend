@@ -18,8 +18,37 @@ import { useState } from "react";
 import { AuthContext } from "../../../utils/AuthContext.jsx";
 import { useContext } from "react";
 import React from "react";
+import { Menu, MenuItem } from "@mui/material";
+import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
+  const { i18n } = useTranslation();
+  const { t } = useTranslation();
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const setLanguageEn = () => {
+    i18n.changeLanguage("en");
+    console.log(i18n.language);
+    handleClose();
+  };
+
+  const setLanguageEs = () => {
+    i18n.changeLanguage("es");
+    console.log(i18n.language);
+    handleClose();
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const [darkMode, setDarkMode] = React.useState(
     localStorage.getItem("theme") === "dark"
   );
@@ -65,7 +94,7 @@ export default function Login() {
   const checkoutSchema = yup.object().shape({
     email: yup
       .string()
-      .email("El correo debe ser un correo válido")
+      .email("El correo no es válido")
       .required("El correo es requerido")
       .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
     password: yup.string().required("La contraseña es requerida"),
@@ -101,6 +130,32 @@ export default function Login() {
             justifyContent: "center",
           }}
         >
+          <IconButton
+            sx={{ ml: 1, alignSelf: "end", mr: 5, mb: -5 }}
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            <LanguageOutlinedIcon />
+          </IconButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem onClick={setLanguageEs}>
+              {t("navbar.languageES")}
+            </MenuItem>
+            <MenuItem onClick={setLanguageEn}>
+              {t("navbar.languageEN")}
+            </MenuItem>
+          </Menu>
           <IconButton
             sx={{ ml: 1, alignSelf: "end" }}
             onClick={handleThemeToggle}

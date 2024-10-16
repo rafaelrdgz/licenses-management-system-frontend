@@ -6,19 +6,19 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {Header, TextField} from "../../components";
-import React, {useRef, useState} from "react";
-import {Formik} from "formik";
+import { Header, TextField } from "../../components";
+import React, { useRef, useState } from "react";
+import { Formik } from "formik";
 import * as yup from "yup";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import jsPDF from "jspdf";
-import {getCenter, updateCenter} from "../../apis/CenterAPI.js";
+import { getCenter, updateCenter } from "../../apis/CenterAPI.js";
 import axios from "axios";
-import {useContext} from "react";
-import {AuthContext} from "../../utils/AuthContext.jsx";
+import { useContext } from "react";
+import { AuthContext } from "../../utils/AuthContext.jsx";
 
 const CenterProfile = () => {
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [info, setInfo] = useState({
     accountantName: "",
     address: "",
@@ -63,14 +63,14 @@ const CenterProfile = () => {
 
   React.useEffect(() => {
     loadCenter();
-    fetchImage();
+    //fetchImage();
   }, []);
 
   const checkoutSchema = yup.object().shape({
     name: yup
       .string()
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre no debe contener números ni caracteres especiales"
       )
       .required("El nombre es requerido")
@@ -93,7 +93,7 @@ const CenterProfile = () => {
     directorName: yup
       .string()
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre del director no debe contener números ni caracteres especiales"
       )
       .required("El nombre del director es requerido")
@@ -102,7 +102,7 @@ const CenterProfile = () => {
     humanResourcesName: yup
       .string()
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre del jefe de recursos humanos no debe contener números ni caracteres especiales"
       )
       .required("El nombre del jefe de recursos humanos es requerido")
@@ -117,7 +117,7 @@ const CenterProfile = () => {
     accountantName: yup
       .string()
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre del responsable de contabilidad no debe contener números ni caracteres especiales"
       )
       .required("El nombre del responsable de contabilidad es requerido")
@@ -132,7 +132,7 @@ const CenterProfile = () => {
     syndicateSecretaryName: yup
       .string()
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre del secretario del sindicato no debe contener números ni caracteres especiales"
       )
       .required("El nombre del secretario del sindicato es requerido")
@@ -198,9 +198,9 @@ const CenterProfile = () => {
       setImageUrl(imageUrl);
 
       // Guarda la imagen para el form submission
-      setInfo({...info, logoFile: file});
+      setInfo({ ...info, logoFile: file });
     }
-  }
+  };
 
   const handleExportPdf = () => {
     const pdf = new jsPDF();
@@ -210,26 +210,26 @@ const CenterProfile = () => {
     pdf.text("Ficha del Centro", 20, 30);
     //pdf.text('Ficha del Centro', 105, 30, { align: "right" });
 
-    if (info.logo) {
+    /*if (info.logo) {
       pdf.addImage(info.logo, "PNG", 80, 40, 30, 30); // Ajustar la posición y tamaño del logo
-    }
+    }*/
 
     pdf.setFontSize(12);
-    let yPosition = 90;
+    let yPosition = 40;
 
     // Configurar el contenido de los campos
     const fields = [
-      {label: "Nombre:", value: info.name},
+      { label: "Nombre:", value: info.name },
       {
         label: "Dirección:",
         value: info.address,
       },
-      {label: "Teléfono:", value: info.phone},
+      { label: "Teléfono:", value: info.phone },
       {
         label: "Nombre del director:",
         value: info.directorName,
       },
-      {label: "Jefe de Recursos Humanos:", value: info.humanResourcesName},
+      { label: "Jefe de Recursos Humanos:", value: info.humanResourcesName },
       {
         label: "Responsable de Contabilidad:",
         value: info.accountantName,
@@ -252,7 +252,7 @@ const CenterProfile = () => {
 
   return (
     <Box m="20px">
-      <Header title={"CENTRO"} subtitle={"Información del Centro"}/>
+      <Header title={"CENTRO"} subtitle={"Información del Centro"} />
       <Button color="secondary" variant="contained" onClick={handleExportPdf}>
         Exportar PDF
       </Button>
@@ -264,7 +264,7 @@ const CenterProfile = () => {
         position="relative"
         ref={reportRef}
       >
-        <Avatar src={info.logo} sx={{width: 100, height: 100}}/>
+        {/*<Avatar src={info.logo} sx={{ width: 100, height: 100 }} />
         {/*{!disableEdit && (*/}
         {/*  <IconButton*/}
         {/*    sx={{*/}
@@ -294,24 +294,24 @@ const CenterProfile = () => {
         validationSchema={checkoutSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -322,10 +322,10 @@ const CenterProfile = () => {
                 name="code"
                 error={touched.entityCode && errors.entityCode}
                 helperText={touched.entityCode && errors.entityCode}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -336,10 +336,10 @@ const CenterProfile = () => {
                 name="name"
                 error={touched.name && errors.name}
                 helperText={touched.name && errors.name}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -350,10 +350,10 @@ const CenterProfile = () => {
                 name="address"
                 error={touched.address && errors.address}
                 helperText={touched.address && errors.address}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -364,10 +364,10 @@ const CenterProfile = () => {
                 name="phone"
                 error={touched.phone && errors.phone}
                 helperText={touched.phone && errors.phone}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -378,10 +378,10 @@ const CenterProfile = () => {
                 name="directorName"
                 error={touched.directorName && errors.directorName}
                 helperText={touched.directorName && errors.directorName}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -394,10 +394,10 @@ const CenterProfile = () => {
                 helperText={
                   touched.humanResourcesName && errors.humanResourcesName
                 }
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -408,10 +408,10 @@ const CenterProfile = () => {
                 name="accountantName"
                 error={touched.accountantName && errors.accountantName}
                 helperText={touched.accountantName && errors.accountantName}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
-                {...(disableEdit && {disabled: true})}
+                {...(disableEdit && { disabled: true })}
                 fullWidth
                 variant="filled"
                 type="text"
@@ -428,7 +428,7 @@ const CenterProfile = () => {
                   touched.syndicateSecretaryName &&
                   errors.syndicateSecretaryName
                 }
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
             </Box>
             <Box

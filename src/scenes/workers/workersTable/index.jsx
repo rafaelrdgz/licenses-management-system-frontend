@@ -1,17 +1,26 @@
 import React from "react";
-import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
-import {Box, Button} from "@mui/material";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
+import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {useNavigate} from "react-router-dom";
-import {esES} from "@mui/x-data-grid/locales";
-import {useState} from "react";
-import {enqueueSnackbar, SnackbarProvider} from "notistack";
-import {deleteClient, getClients} from "../../../apis/ClientAPI.js";
-import {deleteWorker, getWorkers} from "../../../apis/WorkerAPI.js";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { useState } from "react";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { deleteClient, getClients } from "../../../apis/ClientAPI.js";
+import { deleteWorker, getWorkers } from "../../../apis/WorkerAPI.js";
+import { useTranslation } from "react-i18next";
 
 function WorkersTable() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   const navigate = useNavigate();
 
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -27,7 +36,7 @@ function WorkersTable() {
     setDialogOpen(false);
     await deleteWorker(selectedId);
     loadClients();
-    enqueueSnackbar('Cliente eliminado', {variant: 'success'})
+    enqueueSnackbar("Cliente eliminado", { variant: "success" });
   };
 
   //quitar el objeto y dejar el array vacio al cargar de la bd
@@ -36,7 +45,7 @@ function WorkersTable() {
       id: "135135135351",
       name: "Rafael",
       lastNames: "Rodriguez Perez",
-      role: 'manager',
+      role: "manager",
       email: "sadsadsadsadsfadsa",
     },
   ]);
@@ -88,17 +97,17 @@ function WorkersTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({id}) => {
+      getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon/>}
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/workers/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon/>}
+            icon={<DeleteOutlinedIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -110,7 +119,7 @@ function WorkersTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3}/>
+      <SnackbarProvider maxSnack={3} />
       <Header
         title={"TRABAJADORES"}
         subtitle={"Información de los trabajadores"}
@@ -130,16 +139,16 @@ function WorkersTable() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{mb: "10px"}}
+          sx={{ mb: "10px" }}
           onClick={() => navigate(`/workers/new`)}
         >
           Nuevo trabajador
         </Button>
         <DataGrid
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          localeText={localeText}
           initialState={{
             pagination: {
-              paginationModel: {pageSize: 25, page: 0},
+              paginationModel: { pageSize: 25, page: 0 },
             },
           }}
           rows={rows}

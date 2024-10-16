@@ -1,12 +1,22 @@
-import React, {useEffect, useState} from "react";
-import {Header, Select, TextField} from "../../../components";
-import {Box, Button, FormHelperText, InputLabel, useMediaQuery} from "@mui/material";
-import {Formik} from "formik";
+import React, { useEffect, useState } from "react";
+import { Header, Select, TextField } from "../../../components";
+import {
+  Box,
+  Button,
+  FormHelperText,
+  InputLabel,
+  useMediaQuery,
+} from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import {useNavigate, useParams} from "react-router-dom";
-import {createEntity, getEntityById, updateEntity,} from "../../../apis/EntityAPI.js";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  createEntity,
+  getEntityById,
+  updateEntity,
+} from "../../../apis/EntityAPI.js";
 
 function EntityForm() {
   const [editing, setEditing] = useState(false);
@@ -49,7 +59,7 @@ function EntityForm() {
     name: yup
       .string()
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre no debe contener números ni caracteres especiales"
       )
       .required("El nombre es requerido")
@@ -62,14 +72,17 @@ function EntityForm() {
       .max(100, "La dirección debe tener menos de 100 caracteres"),
     phone: yup
       .string()
-      .matches(/^[0-9]+$/, "El número de teléfono no debe contener letras")
+      .matches(
+        /^[0-9]+$/,
+        "El número de teléfono no debe contener letras ni caracteres especiales"
+      )
       .required("El número de teléfono es requerido")
       .min(8, "El número de teléfono debe tener 8 dígitos")
       .max(8, "El número de teléfono debe tener 8 dígitos"),
     directorName: yup
       .string()
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre del director no debe contener números ni caracteres especiales"
       )
       .required("El nombre del director es requerido")
@@ -107,20 +120,20 @@ function EntityForm() {
         validationSchema={checkoutSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
               <TextField
@@ -134,7 +147,7 @@ function EntityForm() {
                 name="name"
                 error={touched.name && errors.name}
                 helperText={touched.name && errors.name}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -147,7 +160,7 @@ function EntityForm() {
                 name="phone"
                 error={touched.phone && errors.phone}
                 helperText={touched.phone && errors.phone}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -160,7 +173,7 @@ function EntityForm() {
                 name="email"
                 error={touched.email && errors.email}
                 helperText={touched.email && errors.email}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -173,7 +186,7 @@ function EntityForm() {
                 name="directorName"
                 error={touched.directorName && errors.directorName}
                 helperText={touched.directorName && errors.directorName}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -186,9 +199,9 @@ function EntityForm() {
                 name="address"
                 error={touched.address && errors.address}
                 helperText={touched.address && errors.address}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
-              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Tipo
                 </InputLabel>
@@ -204,7 +217,7 @@ function EntityForm() {
                   <MenuItem value={"CLINICA"}>Clínica</MenuItem>
                 </Select>
                 {touched.type && errors.type && (
-                  <FormHelperText sx={{color: "#f44336"}}>
+                  <FormHelperText sx={{ color: "#f44336" }}>
                     {errors.type}
                   </FormHelperText>
                 )}

@@ -1,18 +1,26 @@
-import React, {useState} from "react";
-import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
-import {Box, Button} from "@mui/material";
+import React, { useState } from "react";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
+import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {useNavigate} from "react-router-dom";
-import {esES} from "@mui/x-data-grid/locales";
-import {deleteClient} from "../../../apis/ClientAPI.js";
-import {getInfractions} from "../../../apis/InfractionAPI.js";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { deleteClient } from "../../../apis/ClientAPI.js";
+import { getInfractions } from "../../../apis/InfractionAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
-
+import { useTranslation } from "react-i18next";
 
 function InfractionsTable() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleDialogClose = () => setDialogOpen(false);
   const [selectedId, setSelectedId] = React.useState(null);
@@ -26,7 +34,7 @@ function InfractionsTable() {
     setDialogOpen(false);
     await deleteClient(selectedId);
     loadInfractions();
-    enqueueSnackbar('Infracción eliminada', { variant: 'success' })
+    enqueueSnackbar("Infracción eliminada", { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -105,17 +113,17 @@ function InfractionsTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({id}) => {
+      getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon/>}
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/infractions/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon/>}
+            icon={<DeleteOutlinedIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -127,7 +135,7 @@ function InfractionsTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3}/>
+      <SnackbarProvider maxSnack={3} />
       <Header
         title={"INFRACCIONES"}
         subtitle={"Información de las infracciones"}
@@ -147,16 +155,16 @@ function InfractionsTable() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{mb: "10px"}}
+          sx={{ mb: "10px" }}
           onClick={() => navigate(`/infractions/new`)}
         >
           Nueva infracción
         </Button>
         <DataGrid
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          localeText={localeText}
           initialState={{
             pagination: {
-              paginationModel: {pageSize: 25, page: 0},
+              paginationModel: { pageSize: 25, page: 0 },
             },
           }}
           rows={rows}

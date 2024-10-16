@@ -1,13 +1,17 @@
-import React, {useEffect, useState} from "react";
-import {Header, TextField} from "../../../components";
-import {Box, Button, useMediaQuery} from "@mui/material";
-import {Formik} from "formik";
+import React, { useEffect, useState } from "react";
+import { Header, TextField } from "../../../components";
+import { Box, Button, useMediaQuery } from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
-import {useNavigate, useParams} from "react-router-dom";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {isValidIdDate, existPersonID} from "../../../utils/validations.js";
-import {createClient, getClientById, updateClient,} from "../../../apis/ClientAPI.js";
+import { useNavigate, useParams } from "react-router-dom";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { isValidIdDate, existPersonID } from "../../../utils/validations.js";
+import {
+  createClient,
+  getClientById,
+  updateClient,
+} from "../../../apis/ClientAPI.js";
 
 function ClientsForm() {
   const [editing, setEditing] = useState(false);
@@ -54,16 +58,16 @@ function ClientsForm() {
         "El número de indentificación no es válido",
         isValidIdDate
       )
-     .test(
-      "is-valid-person",
-      "El número de identificación ya pertenece a un cliente",
-      existPersonID
-    ),
+      .test(
+        "is-valid-person",
+        "El número de identificación ya pertenece a un cliente",
+        existPersonID
+      ),
     name: yup
       .string()
       .required("El nombre es requerido")
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre no debe contener números ni caracteres especiales"
       )
       .min(3, "El nombre debe tener al menos 3 caracteres")
@@ -72,7 +76,7 @@ function ClientsForm() {
       .string()
       .required("Los apellidos son requeridos")
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "Los apellidos no deben contener números ni caracteres especiales"
       )
       .min(5, "Los apellidos deben tener al menos 5 caracteres")
@@ -104,7 +108,7 @@ function ClientsForm() {
       console.log("Actualizando cliente:", values);
       response = await updateClient(params.id, values);
     } else {
-      const data = {...values, bornDate: getDate(values.id)};
+      const data = { ...values, bornDate: getDate(values.id) };
       console.log("Creando nueva entidad:", data);
       response = await createClient(data);
     }
@@ -145,20 +149,20 @@ function ClientsForm() {
         validationSchema={checkoutSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
               {!editing && (
@@ -173,7 +177,7 @@ function ClientsForm() {
                   name="id"
                   error={touched.id && errors.id}
                   helperText={touched.id && errors.id}
-                  sx={{gridColumn: "span 2"}}
+                  sx={{ gridColumn: "span 2" }}
                 />
               )}
               <TextField
@@ -187,7 +191,7 @@ function ClientsForm() {
                 name="name"
                 error={touched.name && errors.name}
                 helperText={touched.name && errors.name}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -200,7 +204,7 @@ function ClientsForm() {
                 name="lastNames"
                 error={touched.lastNames && errors.lastNames}
                 helperText={touched.lastNames && errors.lastNames}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -213,7 +217,7 @@ function ClientsForm() {
                 name="email"
                 error={touched.email && errors.email}
                 helperText={touched.email && errors.email}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -226,7 +230,7 @@ function ClientsForm() {
                 name="phoneNumber"
                 error={touched.phoneNumber && errors.phoneNumber}
                 helperText={touched.phoneNumber && errors.phoneNumber}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -239,7 +243,7 @@ function ClientsForm() {
                 name="address"
                 error={touched.address && errors.address}
                 helperText={touched.address && errors.address}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <LocalizationProvider
                 dateAdapter={AdapterDayjs}

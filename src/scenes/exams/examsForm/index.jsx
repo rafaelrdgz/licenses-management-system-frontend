@@ -52,16 +52,30 @@ function ExamsForm() {
   const checkoutSchema = yup.object().shape({
     personId: yup
       .string()
-      .matches(/^[0-9]+$/, "El número de indentificación no debe contener letras")
+      .matches(
+        /^[0-9]+$/,
+        "El número de indentificación no debe contener letras"
+      )
       .required("El número de indentificación es requerido")
       .min(11, "El número de indentificación debe tener 11 dígitos")
       .max(11, "El número de indentificación debe tener 11 dígitos")
-      .test("is-valid-id", "El número de indentificación no es válido", isValidIdDate)
-      .test("is-valid-person", "El número de identificación no se encuentra en el sistema", isValidPersonID),
+      .test(
+        "is-valid-id",
+        "El número de indentificación no es válido",
+        isValidIdDate
+      )
+      .test(
+        "is-valid-person",
+        "El número de identificación no se encuentra en el sistema",
+        isValidPersonID
+      ),
     examinerName: yup
       .string()
       .required("El nombre es requerido")
-      .matches(/^[a-zA-ZÁÉÍÓÚáéíóú ]+$/, "El nombre no debe contener números ni caracteres especiales")
+      .matches(
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
+        "El nombre no debe contener números ni caracteres especiales"
+      )
       .min(5, "El nombre debe tener al menos 5 caracteres")
       .max(50, "El nombre debe tener menos de 50 caracteres"),
     entityCode: yup
@@ -69,7 +83,11 @@ function ExamsForm() {
       .required("El código es requerido")
       .min(6, "El código debe tener al menos 6 caracteres")
       .max(36, "El código debe tener menos de 36 caracteres")
-      .test("is-valid-entity", "El código de la entidad no se encuentra en el sistema", isValidEntity),
+      .test(
+        "is-valid-entity",
+        "El código de la entidad no se encuentra en el sistema",
+        isValidEntity
+      ),
     type: yup.string().required("El tipo de examen es requerido"),
     result: yup.string().required("El resultado es requerido"),
   });
@@ -80,7 +98,10 @@ function ExamsForm() {
       setInvalidType(true); // Mostrar error si el tipo de examen es inválido para la entidad
       return;
     }
-    if (entity.type === "CLINICA" && (values.type === "TEORICO" || values.type === "PRACTICO")) {
+    if (
+      entity.type === "CLINICA" &&
+      (values.type === "TEORICO" || values.type === "PRACTICO")
+    ) {
       setInvalidType(true);
       return;
     }
@@ -209,13 +230,23 @@ function ExamsForm() {
                 )}
               </FormControl>
             </Box>
-            <Box display="flex" alignItems="center" justifyContent="end" mt="20px">
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="end"
+              mt="20px"
+            >
               <Button
                 type="text"
                 color="secondary"
                 variant="contained"
                 onClick={() => {
-                  if (Object.keys(errors).length === 0 || (editing && "id" in errors && Object.keys(errors).length === 1))
+                  if (
+                    Object.keys(errors).length === 0 ||
+                    (editing &&
+                      "id" in errors &&
+                      Object.keys(errors).length === 1)
+                  )
                     handleFormSubmit(values);
                 }}
               >

@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect } from 'react';
-import {jwtDecode} from 'jwt-decode'; // Importar jwt-decode
+import React, { createContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode"; // Importar jwt-decode
 
 export const AuthContext = createContext();
 
@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Cargar el token desde Local Storage
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       const decodedUser = jwtDecode(token); // Decodificar el token para obtener los datos del usuario
       setUser(decodedUser);
@@ -20,12 +20,12 @@ export const AuthProvider = ({ children }) => {
   const login = (token) => {
     const decodedUser = jwtDecode(token); // Decodificar el token al iniciar sesión
     setUser(decodedUser);
-    localStorage.setItem('token', token); // Solo guardar el token
+    localStorage.setItem("token", token); // Solo guardar el token
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token'); // Eliminar el token
+    localStorage.removeItem("token"); // Eliminar el token
   };
 
   return (

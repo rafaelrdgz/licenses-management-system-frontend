@@ -9,17 +9,26 @@ import {
 } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
-import {existsDriverId, isValidIdDate} from "../../../utils/validations.js";
+import { existsDriverId, isValidIdDate } from "../../../utils/validations.js";
 import { DataGrid } from "@mui/x-data-grid";
-import { esES } from "@mui/x-data-grid/locales";
+import { esES, enUS } from "@mui/x-data-grid/locales";
 import { tokens } from "../../../theme.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { getDriverReport } from "../../../apis/ReportsAPI.js";
+import { useTranslation } from "react-i18next";
 
 function DriverReport() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -317,7 +326,7 @@ function DriverReport() {
             }}
           >
             <DataGrid
-              localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+              localeText={localeText}
               initialState={{
                 pagination: {
                   paginationModel: { pageSize: 25, page: 0 },
@@ -337,7 +346,11 @@ function DriverReport() {
             />
           </Box>
           {noDataInfractions && (
-            <Typography variant="h6" color={colors.gray[100]} sx={{ mt: "10px" }}>
+            <Typography
+              variant="h6"
+              color={colors.gray[100]}
+              sx={{ mt: "10px" }}
+            >
               El conductor no ha cometido infracciones
             </Typography>
           )}
@@ -365,9 +378,7 @@ function DriverReport() {
                 }}
               >
                 <DataGrid
-                  localeText={
-                    esES.components.MuiDataGrid.defaultProps.localeText
-                  }
+                  localeText={localeText}
                   initialState={{
                     pagination: {
                       paginationModel: { pageSize: 25, page: 0 },

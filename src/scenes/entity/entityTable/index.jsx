@@ -1,16 +1,24 @@
-import React, {useState} from "react";
-import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
-import {Box, Button} from "@mui/material";
+import React, { useState } from "react";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
+import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {useNavigate} from "react-router-dom";
-import {esES} from "@mui/x-data-grid/locales";
-import {deleteEntity, getEntities} from "../../../apis/EntityAPI.js";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { deleteEntity, getEntities } from "../../../apis/EntityAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-
+import { useTranslation } from "react-i18next";
 
 function EntityTable() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleDialogClose = () => setDialogOpen(false);
   const [selectedId, setSelectedId] = React.useState(null);
@@ -42,12 +50,12 @@ function EntityTable() {
     setDialogOpen(false);
     await deleteEntity(selectedId);
     loadEntities();
-    enqueueSnackbar('Entidad eliminada', { variant: 'success' })
+    enqueueSnackbar("Entidad eliminada", { variant: "success" });
   };
 
   const columns = [
-    {field: "code", headerName: "Código", flex: 1, editable: false},
-    {field: "name", headerName: "Nombre", flex: 1, editable: false},
+    { field: "code", headerName: "Código", flex: 1, editable: false },
+    { field: "name", headerName: "Nombre", flex: 1, editable: false },
     {
       field: "phone",
       headerName: "Número de teléfono",
@@ -84,17 +92,17 @@ function EntityTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({id}) => {
+      getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon/>}
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/entity/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon/>}
+            icon={<DeleteOutlinedIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -106,7 +114,7 @@ function EntityTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3}/>
+      <SnackbarProvider maxSnack={3} />
       <Header
         title={"ENTIDADES"}
         subtitle={"Información de las entidades relacionadas"}
@@ -126,17 +134,17 @@ function EntityTable() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{mb: "10px"}}
+          sx={{ mb: "10px" }}
           onClick={() => navigate(`/entity/new`)}
         >
           Nueva entidad
         </Button>
         {rows.length >= 0 && (
           <DataGrid
-            localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+            localeText={localeText}
             initialState={{
               pagination: {
-                paginationModel: {pageSize: 25, page: 0},
+                paginationModel: { pageSize: 25, page: 0 },
               },
             }}
             rows={rows}

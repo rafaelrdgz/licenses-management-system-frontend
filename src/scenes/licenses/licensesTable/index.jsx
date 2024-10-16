@@ -1,17 +1,25 @@
-import React, {useState} from "react";
-import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
-import {Box, Button} from "@mui/material";
+import React, { useState } from "react";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
+import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {useNavigate} from "react-router-dom";
-import {esES} from "@mui/x-data-grid/locales";
-import {deleteLicense, getLicenses} from "../../../apis/LicensesAPI";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { deleteLicense, getLicenses } from "../../../apis/LicensesAPI";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
-
+import { useTranslation } from "react-i18next";
 
 function LicensesTable() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleDialogClose = () => setDialogOpen(false);
   const [selectedId, setSelectedId] = React.useState(null);
@@ -25,7 +33,7 @@ function LicensesTable() {
     setDialogOpen(false);
     await deleteLicense(selectedId);
     loadLicenses();
-    enqueueSnackbar('Licencia eliminada', { variant: 'success' })
+    enqueueSnackbar("Licencia eliminada", { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -40,9 +48,11 @@ function LicensesTable() {
       console.log(data);
       data.forEach((license) => {
         license.issueDate = dayjs(license.issueDate).format("DD/MM/YYYY");
-        license.expirationDate = dayjs(license.expirationDate).format("DD/MM/YYYY");
+        license.expirationDate = dayjs(license.expirationDate).format(
+          "DD/MM/YYYY"
+        );
         license.renewed = license.renewed ? "Renovado" : "No Renovado";
-      } );
+      });
       setRows(data);
     } catch (error) {
       console.error("Error fetching licenses:", error);
@@ -100,17 +110,17 @@ function LicensesTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({id}) => {
+      getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon/>}
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/licenses/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon/>}
+            icon={<DeleteOutlinedIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -122,12 +132,12 @@ function LicensesTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3}/>
-      <Header title={"LICENCIAS"} subtitle={"Información de las licencias"}/>
+      <SnackbarProvider maxSnack={3} />
+      <Header title={"LICENCIAS"} subtitle={"Información de las licencias"} />
       <Button
         color="secondary"
         variant="contained"
-        sx={{mb: "10px"}}
+        sx={{ mb: "10px" }}
         onClick={() => navigate(`/licenses/new`)}
       >
         Nueva licencia
@@ -145,10 +155,10 @@ function LicensesTable() {
         }}
       >
         <DataGrid
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          localeText={localeText}
           initialState={{
             pagination: {
-              paginationModel: {pageSize: 25, page: 0},
+              paginationModel: { pageSize: 25, page: 0 },
             },
           }}
           rows={rows}

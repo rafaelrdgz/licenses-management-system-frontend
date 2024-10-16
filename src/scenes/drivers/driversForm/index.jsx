@@ -1,12 +1,19 @@
-import React, {useEffect, useState} from "react";
-import {Header, Select, TextField} from "../../../components";
-import {Box, Button, FormControl, InputLabel, MenuItem, useMediaQuery,} from "@mui/material";
-import {Formik} from "formik";
+import React, { useEffect, useState } from "react";
+import { Header, Select, TextField } from "../../../components";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  useMediaQuery,
+} from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
-import {useNavigate, useParams} from "react-router-dom";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {getDriverById, updateDriver} from "../../../apis/DriversAPI.js";
+import { useNavigate, useParams } from "react-router-dom";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { getDriverById, updateDriver } from "../../../apis/DriversAPI.js";
 
 function DriversForm() {
   const [info, setInfo] = useState({
@@ -41,7 +48,7 @@ function DriversForm() {
       .string()
       .required("El nombre es requerido")
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "El nombre no debe contener números ni caracteres especiales"
       )
       .min(3, "El nombre debe tener al menos 3 caracteres")
@@ -50,7 +57,7 @@ function DriversForm() {
       .string()
       .required("Los apellidos son requeridos")
       .matches(
-        /^[a-zA-ZÁÉÍÓÚáéíóú ]+$/,
+        /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
         "Los apellidos no deben contener números ni caracteres especiales"
       )
       .min(5, "Los apellidos deben tener al menos 5 caracteres")
@@ -88,7 +95,7 @@ function DriversForm() {
 
   return (
     <Box m="20px">
-      <Header title={"Conductor " + info.id} subtitle={"Editar conductor"}/>
+      <Header title={"Conductor " + info.id} subtitle={"Editar conductor"} />
       <Formik
         enableReinitialize
         validateOnMount
@@ -96,20 +103,20 @@ function DriversForm() {
         validationSchema={checkoutSchema}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
             >
               <TextField
@@ -123,7 +130,7 @@ function DriversForm() {
                 name="name"
                 error={touched.name && errors.name}
                 helperText={touched.name && errors.name}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -136,7 +143,7 @@ function DriversForm() {
                 name="lastNames"
                 error={touched.lastNames && errors.lastNames}
                 helperText={touched.lastNames && errors.lastNames}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -149,7 +156,7 @@ function DriversForm() {
                 name="email"
                 error={touched.email && errors.email}
                 helperText={touched.email && errors.email}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -162,7 +169,7 @@ function DriversForm() {
                 name="phoneNumber"
                 error={touched.phoneNumber && errors.phoneNumber}
                 helperText={touched.phoneNumber && errors.phoneNumber}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -175,9 +182,9 @@ function DriversForm() {
                 name="address"
                 error={touched.address && errors.address}
                 helperText={touched.address && errors.address}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
-              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Estado de licencia
                 </InputLabel>

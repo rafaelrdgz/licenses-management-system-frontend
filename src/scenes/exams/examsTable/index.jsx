@@ -1,16 +1,24 @@
 import React from "react";
-import {Header, TableToolbar} from "../../../components";
-import {Box, Button} from "@mui/material";
+import { Header, TableToolbar } from "../../../components";
+import { Box, Button } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {useNavigate} from "react-router-dom";
-import {esES} from "@mui/x-data-grid/locales";
-import {getExams} from "../../../apis/ExamsAPI.js";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { getExams } from "../../../apis/ExamsAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
-
+import { useTranslation } from "react-i18next";
 
 function ExamsTable() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   // const [dialogOpen, setDialogOpen] = useState(false);
   // const handleDialogClose = () => setDialogOpen(false);
   const [selectedId, setSelectedId] = React.useState(null);
@@ -91,10 +99,10 @@ function ExamsTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({id}) => {
+      getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon/>}
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/exams/${id}/edit`)}
@@ -113,8 +121,8 @@ function ExamsTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3}/>
-      <Header title={"EXAMENES"} subtitle={"Información de los exámenes"}/>
+      <SnackbarProvider maxSnack={3} />
+      <Header title={"EXAMENES"} subtitle={"Información de los exámenes"} />
       <Box
         sx={{
           height: "75vh",
@@ -130,16 +138,16 @@ function ExamsTable() {
         <Button
           color="secondary"
           variant="contained"
-          sx={{mb: "10px"}}
+          sx={{ mb: "10px" }}
           onClick={() => navigate(`/exams/new`)}
         >
           Nuevo exámen
         </Button>
         <DataGrid
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          localeText={localeText}
           initialState={{
             pagination: {
-              paginationModel: {pageSize: 25, page: 0},
+              paginationModel: { pageSize: 25, page: 0 },
             },
           }}
           rows={rows}

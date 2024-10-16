@@ -1,17 +1,25 @@
-import React, {useState} from "react";
-import {ConfirmationDialog, Header, TableToolbar} from "../../../components";
-import {Box} from "@mui/material";
+import React, { useState } from "react";
+import { ConfirmationDialog, Header, TableToolbar } from "../../../components";
+import { Box } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import {DataGrid, GridActionsCellItem} from "@mui/x-data-grid";
-import {useNavigate} from "react-router-dom";
-import {esES} from "@mui/x-data-grid/locales";
-import {deleteDriver, getDrivers} from "../../../apis/DriversAPI";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import { esES, enUS } from "@mui/x-data-grid/locales";
+import { deleteDriver, getDrivers } from "../../../apis/DriversAPI";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
-
+import { useTranslation } from "react-i18next";
 
 function DriversTable() {
+  const { i18n } = useTranslation();
+  const currentLanguage = i18n.language; // Obtener el idioma actual
+
+  const localeText =
+    currentLanguage === "es"
+      ? esES.components.MuiDataGrid.defaultProps.localeText
+      : enUS.components.MuiDataGrid.defaultProps.localeText;
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const handleDialogClose = () => setDialogOpen(false);
   const [selectedId, setSelectedId] = React.useState(null);
@@ -25,7 +33,7 @@ function DriversTable() {
     setDialogOpen(false);
     await deleteDriver(selectedId);
     loadDrivers();
-    enqueueSnackbar('Conductor eliminado', { variant: 'success' })
+    enqueueSnackbar("Conductor eliminado", { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -40,7 +48,7 @@ function DriversTable() {
       console.log(data);
       data.forEach((driver) => {
         driver.bornDate = dayjs(driver.bornDate).format("DD/MM/YYYY");
-      } );
+      });
       setRows(data);
     } catch (error) {
       console.error("Error fetching drivers:", error);
@@ -98,17 +106,17 @@ function DriversTable() {
       headerName: "Acciones",
       flex: 0.5,
       cellClassName: "actions",
-      getActions: ({id}) => {
+      getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon/>}
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
             onClick={() => navigate(`/drivers/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon/>}
+            icon={<DeleteOutlinedIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"
@@ -120,7 +128,7 @@ function DriversTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3}/>
+      <SnackbarProvider maxSnack={3} />
       <Header
         title={"CONDUCTORES"}
         subtitle={"Información de los conductores"}
@@ -138,10 +146,10 @@ function DriversTable() {
         }}
       >
         <DataGrid
-          localeText={esES.components.MuiDataGrid.defaultProps.localeText}
+          localeText={localeText}
           initialState={{
             pagination: {
-              paginationModel: {pageSize: 25, page: 0},
+              paginationModel: { pageSize: 25, page: 0 },
             },
           }}
           rows={rows}
