@@ -135,7 +135,41 @@
     "directorName": "Director's name",
     "humanResourcesName": "Human resources manager's name",
     "accountantName": "Accountant's name",
-    "syndicateSecretaryName": "Syndicate secretary's name"
+    "syndicateSecretaryName": "Syndicate secretary's name",
+    "role": "Role",
+    "password": "Password",
+    "entityType": {
+      "drivingSchool": "Driving School",
+      "clinic": "Clinic"
+    },
+    "licenseStatusTypes": {
+      "active": "Active",
+      "expired": "Expired",
+      "suspended": "Suspended",
+      "revoked": "Revoked"
+    },
+    "examTypes": {
+      "teoric": "Teoric",
+      "practical": "Practical",
+      "medical": "Medical"
+    },
+    "infractionTypes": {
+      "minor": "Minor",
+      "serious": "Serious",
+      "verySerious": "Very Serious"
+    },
+    "roles": {
+      "manager": "Manager",
+      "comercial": "Commercial"
+    },
+    "restrictionsTypes": {
+      "glasses": "Use of Glasses",
+      "daylight": "Daylight Driving",
+      "drivingAlone": "Driving Alone",
+      "speed": "Speed Limit",
+      "drivingRadioLimit": "Driving Radius Limit",
+      "onlyUrban": "Urban Driving Only"
+    }
   },
   "snackbarMessage": {
     "deleteEntity": "Entity deleted",

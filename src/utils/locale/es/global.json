@@ -135,7 +135,41 @@
     "directorName": "Nombre del director",
     "humanResourcesName": "Nombre del jefe recursos humanos",
     "accountantName": "Nombre del responsable de contabilidad",
-    "syndicateSecretaryName": "Nombre del secretario del sindicato"
+    "syndicateSecretaryName": "Nombre del secretario del sindicato",
+    "role": "Rol",
+    "password": "Contraseña",
+    "entityType": {
+      "drivingSchool": "Autoescuela",
+      "clinic": "Clínica"
+    },
+    "licenseStatusTypes": {
+      "active": "Vigente",
+      "expired": "Vencida",
+      "suspended": "Suspendida",
+      "revoked": "Revocada"
+    },
+    "examTypes": {
+      "teoric": "Teórico",
+      "practical": "Práctico",
+      "medical": "Médico"
+    },
+    "infractionTypes": {
+      "minor": "Leve",
+      "serious": "Grave",
+      "verySerious": "Muy grave"
+    },
+    "roles": {
+      "manager": "Gerente",
+      "comercial": "Comercial"
+    },
+    "restrictionsTypes": {
+      "glasses": "Uso de lentes",
+      "daylight": " Conducción diurna",
+      "drivingAlone": "Conducción sin acompañantes",
+      "speed": "Limitación de velocidad",
+      "drivingRadioLimit": "Límite del radio de conducción",
+      "onlyUrban": "Solo conducción en zonas urbanas"
+    }
   },
   "snackbarMessage": {
     "deleteEntity": "Entidad eliminada",
