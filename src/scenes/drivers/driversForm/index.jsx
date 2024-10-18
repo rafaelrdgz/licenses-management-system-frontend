@@ -128,7 +128,7 @@ function DriversForm() {
                 onChange={handleChange}
                 value={values.name}
                 name="name"
-                error={touched.name && errors.name}
+                error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -141,7 +141,7 @@ function DriversForm() {
                 onChange={handleChange}
                 value={values.lastNames}
                 name="lastNames"
-                error={touched.lastNames && errors.lastNames}
+                error={touched.lastNames && !!errors.lastNames}
                 helperText={touched.lastNames && errors.lastNames}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -154,7 +154,7 @@ function DriversForm() {
                 onChange={handleChange}
                 value={values.email}
                 name="email"
-                error={touched.email && errors.email}
+                error={touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -167,7 +167,7 @@ function DriversForm() {
                 onChange={handleChange}
                 value={values.phoneNumber}
                 name="phoneNumber"
-                error={touched.phoneNumber && errors.phoneNumber}
+                error={touched.phoneNumber && !!errors.phoneNumber}
                 helperText={touched.phoneNumber && errors.phoneNumber}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -180,7 +180,7 @@ function DriversForm() {
                 onChange={handleChange}
                 value={values.address}
                 name="address"
-                error={touched.address && errors.address}
+                error={touched.address && !!errors.address}
                 helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -193,7 +193,7 @@ function DriversForm() {
                   onChange={handleChange}
                   value={values.licenseStatus}
                   name="licenseStatus"
-                  error={touched.licenseStatus && errors.licenseStatus}
+                  error={touched.licenseStatus && !!errors.licenseStatus}
                   helpertext={touched.licenseStatus && errors.licenseStatus}
                 >
                   <MenuItem value={"VIGENTE"}>Vigente</MenuItem>

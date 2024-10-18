@@ -138,6 +138,7 @@ function WorkersForm() {
         validateOnMount
         initialValues={info}
         validationSchema={checkoutSchema}
+        onSubmit={handleFormSubmit}
       >
         {({
           values,
@@ -166,7 +167,7 @@ function WorkersForm() {
                   onChange={handleChange}
                   value={values.id}
                   name="id"
-                  error={touched.id && errors.id}
+                  error={touched.id && !!errors.id}
                   helperText={touched.id && errors.id}
                   sx={{ gridColumn: "span 2" }}
                 />
@@ -180,7 +181,7 @@ function WorkersForm() {
                 onChange={handleChange}
                 value={values.name}
                 name="name"
-                error={touched.name && errors.name}
+                error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -193,7 +194,7 @@ function WorkersForm() {
                 onChange={handleChange}
                 value={values.lastNames}
                 name="lastNames"
-                error={touched.lastNames && errors.lastNames}
+                error={touched.lastNames && !!errors.lastNames}
                 helperText={touched.lastNames && errors.lastNames}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -206,7 +207,7 @@ function WorkersForm() {
                 onChange={handleChange}
                 value={values.email}
                 name="email"
-                error={touched.email && errors.email}
+                error={touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -219,7 +220,7 @@ function WorkersForm() {
                 onChange={handleChange}
                 value={values.password}
                 name="password"
-                error={touched.password && errors.password}
+                error={touched.password && !!errors.password}
                 helperText={touched.password && errors.password}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -232,7 +233,7 @@ function WorkersForm() {
                   onChange={handleChange}
                   value={values.role}
                   name="role"
-                  error={touched.role && errors.role}
+                  error={touched.role && !!errors.role}
                   helpertext={touched.role && errors.role}
                 >
                   <MenuItem value={"MANAGER"}>Manager</MenuItem>
@@ -255,7 +256,7 @@ function WorkersForm() {
               mt="20px"
             >
               <Button
-                type="text"
+                type="submit"
                 color="secondary"
                 variant="contained"
                 onClick={() => {

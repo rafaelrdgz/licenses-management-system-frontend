@@ -1,13 +1,27 @@
-import React, {useEffect, useState} from "react";
-import {Header, Select, TextField} from "../../../components";
-import {Box, Button, FormHelperText, InputLabel, useMediaQuery} from "@mui/material";
-import {Formik} from "formik";
+import React, { useEffect, useState } from "react";
+import { Header, Select, TextField } from "../../../components";
+import {
+  Box,
+  Button,
+  FormHelperText,
+  InputLabel,
+  useMediaQuery,
+} from "@mui/material";
+import { Formik } from "formik";
 import * as yup from "yup";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import {useNavigate, useParams} from "react-router-dom";
-import {isValidIdDate, isValidLicense, isValidPersonID,} from "../../../utils/validations.js";
-import {createInfraction, getInfractionById, updateInfraction} from "../../../apis/InfractionAPI.js";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  isValidIdDate,
+  isValidLicense,
+  isValidPersonID,
+} from "../../../utils/validations.js";
+import {
+  createInfraction,
+  getInfractionById,
+  updateInfraction,
+} from "../../../apis/InfractionAPI.js";
 
 function InfractionsForm() {
   const [editing, setEditing] = useState(false);
@@ -44,10 +58,7 @@ function InfractionsForm() {
   const checkoutSchema = yup.object().shape({
     licenseid: yup
       .string()
-      .matches(
-        /^[0-9]+$/,
-        "El número de licencia no debe contener letras"
-      )
+      .matches(/^[0-9]+$/, "El número de licencia no debe contener letras")
       .required("El número de licencia es requerido")
       .min(6, "El número de licencia debe tener 6 dígitos")
       .max(6, "El número de licencia debe tener 6 dígitos")
@@ -60,9 +71,7 @@ function InfractionsForm() {
       .string()
       .min(5, "La descripción debe tener al menos 5 caracteres")
       .max(50, "La descripción debe tener menos de 50 caracteres"),
-    type: yup
-      .string()
-      .required("El tipo de infracción es requerido"),
+    type: yup.string().required("El tipo de infracción es requerido"),
     address: yup
       .string()
       .required("El lugar es requerido")
@@ -73,9 +82,7 @@ function InfractionsForm() {
       .required("Los puntos son requeridos")
       .min(1, "Los puntos deben ser al menos 1")
       .max(36, "Los puntos deben ser menos de 36"),
-    paid: yup
-      .boolean()
-      .required("El pago es requerido"),
+    paid: yup.boolean().required("El pago es requerido"),
   });
 
   const handleFormSubmit = async (values) => {
@@ -95,46 +102,49 @@ function InfractionsForm() {
     <Box m="20px">
       <Header
         title={"INFRACCION " + info.id}
-        subtitle={editing ? "Editar datos de infracción" : "Insertar nueva infracción"}
+        subtitle={
+          editing ? "Editar datos de infracción" : "Insertar nueva infracción"
+        }
       />
       <Formik
         enableReinitialize
         validateOnMount
         initialValues={info}
         validationSchema={checkoutSchema}
+        onSubmit={handleFormSubmit}
       >
         {({
-            values,
-            errors,
-            touched,
-            handleBlur,
-            handleChange,
-            handleSubmit,
-          }) => (
+          values,
+          errors,
+          touched,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+        }) => (
           <form onSubmit={handleSubmit}>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
               sx={{
-                "& > div": {gridColumn: isNonMobile ? undefined : "span 4"},
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
               }}
-            >{
-              !editing &&
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Número de licencia"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.licenseid}
-                name="licenseid"
-                error={touched.licenseid && errors.licenseid}
-                helperText={touched.licenseid && errors.licenseid}
-                sx={{gridColumn: "span 2"}}
-              />
-            }
+            >
+              {!editing && (
+                <TextField
+                  fullWidth
+                  variant="filled"
+                  type="text"
+                  label="Número de licencia"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.licenseid}
+                  name="licenseid"
+                  error={touched.licenseid && !!errors.licenseid}
+                  helperText={touched.licenseid && errors.licenseid}
+                  sx={{ gridColumn: "span 2" }}
+                />
+              )}
               {/*<TextField*/}
               {/*  fullWidth*/}
               {/*  variant="filled"*/}
@@ -157,11 +167,11 @@ function InfractionsForm() {
                 onChange={handleChange}
                 value={values.address}
                 name="address"
-                error={touched.address && errors.address}
+                error={touched.address && !!errors.address}
                 helperText={touched.address && errors.address}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
-              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Tipo
                 </InputLabel>
@@ -170,7 +180,7 @@ function InfractionsForm() {
                   onChange={handleChange}
                   value={values.type}
                   name="type"
-                  error={touched.type && errors.type}
+                  error={touched.type && !!errors.type}
                   helpertext={touched.type && errors.type}
                 >
                   <MenuItem value={"LEVE"}>LEVE</MenuItem>
@@ -178,10 +188,12 @@ function InfractionsForm() {
                   <MenuItem value={"MUY GRAVE"}>MUY GRAVE</MenuItem>
                 </Select>
                 {touched.type && errors.type && (
-                  <FormHelperText sx={{color: '#f44336'}}>{errors.type}</FormHelperText> // Aquí se muestra el mensaje de error
+                  <FormHelperText sx={{ color: "#f44336" }}>
+                    {errors.type}
+                  </FormHelperText> // Aquí se muestra el mensaje de error
                 )}
               </FormControl>
-              <FormControl variant="filled" sx={{gridColumn: "span 2"}}>
+              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
                 <InputLabel id="demo-simple-select-filled-label">
                   Estado del pago
                 </InputLabel>
@@ -190,7 +202,7 @@ function InfractionsForm() {
                   onChange={handleChange}
                   value={values.paid}
                   name="paid"
-                  error={touched.paid && errors.paid}
+                  error={touched.paid && !!errors.paid}
                   helpertext={touched.paid && errors.paid}
                 >
                   <MenuItem value={true}>Pagado</MenuItem>
@@ -206,9 +218,9 @@ function InfractionsForm() {
                 onChange={handleChange}
                 value={values.description}
                 name="description"
-                error={touched.description && errors.description}
+                error={touched.description && !!errors.description}
                 helperText={touched.description && errors.description}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
@@ -219,9 +231,9 @@ function InfractionsForm() {
                 onChange={handleChange}
                 value={values.pointsDeducted}
                 name="pointsDeducted"
-                error={touched.pointsDeducted && errors.pointsDeducted}
+                error={touched.pointsDeducted && !!errors.pointsDeducted}
                 helperText={touched.pointsDeducted && errors.pointsDeducted}
-                sx={{gridColumn: "span 2"}}
+                sx={{ gridColumn: "span 2" }}
               />
               {/*<LocalizationProvider dateAdapter={AdapterDayjs}>*/}
               {/*  <DatePicker*/}
@@ -244,7 +256,7 @@ function InfractionsForm() {
               mt="20px"
             >
               <Button
-                type="text"
+                type="submit"
                 color="secondary"
                 variant="contained"
                 onClick={() => {

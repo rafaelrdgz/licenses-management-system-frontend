@@ -145,7 +145,7 @@ function EntityForm() {
                 onChange={handleChange}
                 value={values.name}
                 name="name"
-                error={touched.name && errors.name}
+                error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -158,7 +158,7 @@ function EntityForm() {
                 onChange={handleChange}
                 value={values.phone}
                 name="phone"
-                error={touched.phone && errors.phone}
+                error={touched.phone && !!errors.phone}
                 helperText={touched.phone && errors.phone}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -171,7 +171,7 @@ function EntityForm() {
                 onChange={handleChange}
                 value={values.email}
                 name="email"
-                error={touched.email && errors.email}
+                error={touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -184,7 +184,7 @@ function EntityForm() {
                 onChange={handleChange}
                 value={values.directorName}
                 name="directorName"
-                error={touched.directorName && errors.directorName}
+                error={touched.directorName && !!errors.directorName}
                 helperText={touched.directorName && errors.directorName}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -197,7 +197,7 @@ function EntityForm() {
                 onChange={handleChange}
                 value={values.address}
                 name="address"
-                error={touched.address && errors.address}
+                error={touched.address && !!errors.address}
                 helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -210,7 +210,7 @@ function EntityForm() {
                   onChange={handleChange}
                   value={values.type}
                   name="type"
-                  error={touched.type && errors.type}
+                  error={touched.type && !!errors.type}
                   helpertext={touched.type && errors.type}
                 >
                   <MenuItem value={"AUTOESCUELA"}>Autoescuela</MenuItem>

@@ -193,7 +193,7 @@ export default function Login() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.email}
-                  error={touched.email && errors.email}
+                  error={touched.email && !!errors.email}
                   helperText={touched.email && errors.email}
                   margin="normal"
                   fullWidth
@@ -207,7 +207,7 @@ export default function Login() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.password}
-                  error={touched.password && errors.password}
+                  error={touched.password && !!errors.password}
                   helperText={touched.password && errors.password}
                   margin="normal"
                   fullWidth

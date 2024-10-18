@@ -128,6 +128,7 @@ function ExamsForm() {
         validateOnMount
         initialValues={info}
         validationSchema={checkoutSchema}
+        onSubmit={handleFormSubmit}
       >
         {({
           values,
@@ -155,7 +156,7 @@ function ExamsForm() {
                 onChange={handleChange}
                 value={values.personId}
                 name="personId"
-                error={touched.personId && errors.personId}
+                error={touched.personId && !!errors.personId}
                 helperText={touched.personId && errors.personId}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -168,7 +169,7 @@ function ExamsForm() {
                 onChange={handleChange}
                 value={values.entityCode}
                 name="entityCode"
-                error={touched.entityCode && errors.entityCode}
+                error={touched.entityCode && !!errors.entityCode}
                 helperText={touched.entityCode && errors.entityCode}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -181,7 +182,7 @@ function ExamsForm() {
                 onChange={handleChange}
                 value={values.examinerName}
                 name="examinerName"
-                error={touched.examinerName && errors.examinerName}
+                error={touched.examinerName && !!errors.examinerName}
                 helperText={touched.examinerName && errors.examinerName}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -192,7 +193,7 @@ function ExamsForm() {
                   onChange={handleChange}
                   value={values.type}
                   name="type"
-                  error={touched.type && errors.type}
+                  error={touched.type && !!errors.type}
                   helpertext={touched.type && errors.type}
                 >
                   <MenuItem value={"TEORICO"}>Teórico</MenuItem>
@@ -217,7 +218,7 @@ function ExamsForm() {
                   onChange={handleChange}
                   value={values.result}
                   name="result"
-                  error={touched.result && errors.result}
+                  error={touched.result && !!errors.result}
                   helpertext={touched.result && errors.result}
                 >
                   <MenuItem value={"APROBADO"}>Aprobado</MenuItem>
@@ -237,7 +238,7 @@ function ExamsForm() {
               mt="20px"
             >
               <Button
-                type="text"
+                type="submit"
                 color="secondary"
                 variant="contained"
                 onClick={() => {

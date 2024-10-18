@@ -292,6 +292,7 @@ const CenterProfile = () => {
         validateOnMount
         initialValues={info}
         validationSchema={checkoutSchema}
+        onSubmit={handleFormSubmit}
       >
         {({
           values,
@@ -320,7 +321,7 @@ const CenterProfile = () => {
                 onChange={handleChange}
                 value={values.code}
                 name="code"
-                error={touched.entityCode && errors.entityCode}
+                error={touched.entityCode && !!errors.entityCode}
                 helperText={touched.entityCode && errors.entityCode}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -334,7 +335,7 @@ const CenterProfile = () => {
                 onChange={handleChange}
                 value={values.name}
                 name="name"
-                error={touched.name && errors.name}
+                error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -348,7 +349,7 @@ const CenterProfile = () => {
                 onChange={handleChange}
                 value={values.address}
                 name="address"
-                error={touched.address && errors.address}
+                error={touched.address && !!errors.address}
                 helperText={touched.address && errors.address}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -362,7 +363,7 @@ const CenterProfile = () => {
                 onChange={handleChange}
                 value={values.phone}
                 name="phone"
-                error={touched.phone && errors.phone}
+                error={touched.phone && !!errors.phone}
                 helperText={touched.phone && errors.phone}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -376,7 +377,7 @@ const CenterProfile = () => {
                 onChange={handleChange}
                 value={values.directorName}
                 name="directorName"
-                error={touched.directorName && errors.directorName}
+                error={touched.directorName && !!errors.directorName}
                 helperText={touched.directorName && errors.directorName}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -390,7 +391,9 @@ const CenterProfile = () => {
                 onChange={handleChange}
                 value={values.humanResourcesName}
                 name="humanResourcesName"
-                error={touched.humanResourcesName && errors.humanResourcesName}
+                error={
+                  touched.humanResourcesName && !!errors.humanResourcesName
+                }
                 helperText={
                   touched.humanResourcesName && errors.humanResourcesName
                 }
@@ -406,7 +409,7 @@ const CenterProfile = () => {
                 onChange={handleChange}
                 value={values.accountantName}
                 name="accountantName"
-                error={touched.accountantName && errors.accountantName}
+                error={touched.accountantName && !!errors.accountantName}
                 helperText={touched.accountantName && errors.accountantName}
                 sx={{ gridColumn: "span 2" }}
               />
@@ -422,7 +425,7 @@ const CenterProfile = () => {
                 name="syndicateSecretaryName"
                 error={
                   touched.syndicateSecretaryName &&
-                  errors.syndicateSecretaryName
+                  !!errors.syndicateSecretaryName
                 }
                 helperText={
                   touched.syndicateSecretaryName &&
@@ -450,7 +453,7 @@ const CenterProfile = () => {
               )}
               {!disableEdit && (
                 <Button
-                  type="text"
+                  type="submit"
                   color="secondary"
                   variant="contained"
                   onClick={() => {
