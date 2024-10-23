@@ -15,10 +15,9 @@ import { esES, enUS } from "@mui/x-data-grid/locales";
 import { tokens } from "../../../theme.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { getDriverReport } from "../../../apis/ReportsAPI.js";
+import { fetchDriverPdf, getDriverReport } from "../../../apis/ReportsAPI.js";
 import { useTranslation } from "react-i18next";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function DriverReport() {
   const { i18n } = useTranslation();
@@ -36,7 +35,16 @@ function DriverReport() {
   const [search, setSearch] = useState(false);
   const [noDataInfractions, setNoDataInfractions] = useState(false);
   const [noDataLicenses, setNoDataLicenses] = useState(false);
-  const [info, setInfo] = useState({});
+  const [info, setInfo] = useState({
+    id: "",
+    name: "",
+    lastNames: "",
+    address: "",
+    phoneNumber: "",
+    licenseStatus: "",
+    licensesRows: [],
+    infractionsRows: [],
+  });
 
   const initialValues = {
     id: info.id,
@@ -125,67 +133,12 @@ function DriverReport() {
     setInfo(response);
   };
 
-  const handleExportPdf = () => {
-    const doc = new jsPDF();
+  const [loading, setLoading] = useState(false);
 
-    doc.setFontSize(18);
-    doc.text("Ficha de Conductor", 20, 20);
-
-    doc.setFontSize(12);
-    doc.text(`Número de identidad: ${info.id}`, 20, 40);
-    doc.text(`Nombre: ${info.name}`, 20, 50);
-    doc.text(`Apellidos: ${info.lastNames}`, 20, 60);
-    doc.text(`Dirección: ${info.address}`, 20, 70);
-    doc.text(`Teléfono: ${info.phoneNumber}`, 20, 80);
-    doc.text(`Estado de licencia: ${info.licenseStatus}`, 20, 90);
-
-    doc.setFontSize(16);
-    doc.text("Licencias emitidas", 20, 100);
-
-    const licenses = info.licensesRows.map((license) => [
-      license.id,
-      license.category,
-      license.issueDate,
-      license.expirationDate,
-    ]);
-
-    autoTable(doc, {
-      head: [
-        [
-          "Número de licencia",
-          "Tipo",
-          "Fecha de emisión",
-          "Fecha de expiración",
-        ],
-      ],
-      body: licenses,
-      startY: 110,
-      theme: "striped",
-      headStyles: { fillColor: [22, 160, 133] },
-    });
-
-    if (noDataInfractions === false) {
-      doc.addPage();
-      doc.setFontSize(16);
-      doc.text("Infracciones registradas", 20, 20);
-
-      const infractions = info.infractionsRows.map((infraction) => [
-        infraction.id,
-        infraction.type,
-        infraction.date,
-        infraction.pointsdeDucted,
-      ]);
-
-      autoTable(doc, {
-        head: [["Código", "Tipo", "Fecha", "Puntos deducidos"]],
-        body: infractions,
-        startY: 30,
-        theme: "striped",
-        headStyles: { fillColor: [22, 160, 133] },
-      });
-    }
-
-    doc.save("Ficha de Conductor.pdf");
+  const handleExportPdf = async () => {
+    setLoading(true);
+    await fetchDriverPdf(info);
+    setLoading(false);
   };
 
   return (
@@ -195,14 +148,15 @@ function DriverReport() {
         subtitle={"Ficha de un Conductor Determinado"}
       />
       {search && (
-        <Button
+        <LoadingButton
           sx={{ mb: "10px" }}
+          loading={loading}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
         >
           Exportar PDF
-        </Button>
+        </LoadingButton>
       )}
       <Formik
         onSubmit={handleFormSubmit}
@@ -235,7 +189,7 @@ function DriverReport() {
                 onChange={handleChange}
                 value={values.id}
                 name="id"
-                error={touched.id && errors.id}
+                error={touched.id && !!errors.id}
                 helperText={touched.id && errors.id}
                 sx={{ gridColumn: "span 2" }}
               />

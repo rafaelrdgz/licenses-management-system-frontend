@@ -14,14 +14,17 @@ import { esES, enUS } from "@mui/x-data-grid/locales";
 import { tokens } from "../../../theme.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
-import { getExamsByDateRange } from "../../../apis/ReportsAPI.js";
+import {
+  fetchInfractionsByTypeAndYearPdf,
+  getInfractionsByType,
+  getInfractionsByYear,
+} from "../../../apis/ReportsAPI.js";
 import { useTranslation } from "react-i18next";
 import "dayjs/locale/es-us.js";
+import { LoadingButton } from "@mui/lab";
 
-function ExamsPerformedReport() {
+function InfractionsByTypeReport() {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
@@ -35,44 +38,61 @@ function ExamsPerformedReport() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [noData, setNoData] = useState(false);
 
   const [search, setSearch] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [info, setInfo] = useState({
-    startDate: null,
-    endDate: dayjs(),
-    rows: [],
+    year: null,
+    typesRows: [],
+    infractionsRows: [],
   });
 
   const initialValues = {
-    startDate: info.startDate,
-    endDate: info.endDate,
+    year: info.year,
   };
 
   const checkoutSchema = yup.object().shape({
-    startDate: yup
+    year: yup
       .date()
-      .required("La fecha de inicio es requerida")
-      .typeError("Fecha de inicio inválida"),
-    endDate: yup
-      .date()
-      .required("La fecha de fin es requerida")
-      .typeError("Fecha de fin inválida")
-      .min(
-        yup.ref("startDate"),
-        "La fecha de fin debe ser mayor que la fecha de inicio"
-      ),
+      .required("El año es requerido")
+      .min(dayjs("1-1-2015"), "El año debe ser mayor a 2015")
+      .max(dayjs(), "El año no puede ser mayor al actual"),
   });
 
-  const columns = [
+  const typesColumns = [
     {
       field: "id",
-      headerName: "Código del exámen",
+      headerName: "Tipo",
       flex: 1,
     },
     {
-      field: "personId",
-      headerName: "ID del cliente",
+      field: "quantity",
+      headerName: "Cantidad",
+      flex: 1,
+    },
+    {
+      field: "pointsDeducted",
+      headerName: "Puntos totales deducidos",
+      flex: 1,
+    },
+    {
+      field: "infractionsPaid",
+      headerName: "Multas pagadas",
+      flex: 1,
+    },
+    {
+      field: "infractionsNoPaid",
+      headerName: "Multas pendientes",
+      flex: 1,
+    },
+  ];
+
+  const infractionsColumns = [
+    {
+      field: "id",
+      headerName: "Código de infracción",
       flex: 1,
     },
     {
@@ -86,97 +106,61 @@ function ExamsPerformedReport() {
       flex: 1,
     },
     {
-      field: "result",
-      headerName: "Resultado",
+      field: "pointsDeducted",
+      headerName: "Puntos deducidos",
       flex: 1,
     },
     {
-      field: "entityCode",
-      headerName: "Entidad",
+      field: "paid",
+      headerName: "Estado del pago",
       flex: 1,
     },
   ];
 
   const handleFormSubmit = async (values) => {
-    const response = await getExamsByDateRange(
-      values.startDate,
-      values.endDate
-    );
-    console.log(response);
-    setSearch(true);
-    response.forEach((exam) => {
-      exam.date = dayjs(exam.date).format("DD/MM/YYYY");
+    const types = await getInfractionsByType(values.year.$y);
+    const result = await getInfractionsByYear(values.year.$y);
+    result.forEach((infraction) => {
+      infraction.date = dayjs(infraction.date).format("DD/MM/YYYY");
     });
+    console.log(types);
+    if (types === null) {
+      setNoData(true);
+      return;
+    }
     setInfo({
-      rows: response,
-      startDate: values.startDate,
-      endDate: values.endDate,
+      year: values.year.$y,
+      typesRows: types,
+      infractionsRows: result,
     });
+    setSearch(true);
+    setNoData(false);
   };
 
-  const handleExportPdf = () => {
-    const doc = new jsPDF();
-
-    doc.setFontSize(18);
-    doc.text("Reporte de Exámenes Realizados en un Período de Tiempo", 20, 20);
-
-    doc.setFontSize(12);
-    doc.text(
-      `Fecha de inicio: ${info.startDate.format("DD/MM/YYYY").toString()}`,
-      20,
-      40
-    );
-    doc.text(
-      `Fecha de fin: ${info.endDate.format("DD/MM/YYYY").toString()}`,
-      20,
-      50
-    );
-
-    // Convertir las filas del DataGrid en un formato adecuado para autoTable
-    const examenes = info.rows.map((row) => [
-      row.id,
-      row.personId,
-      row.type,
-      row.date,
-      row.result,
-      row.entityCode,
-    ]);
-
-    autoTable(doc, {
-      head: [
-        [
-          "Código del exámen",
-          "Id del cliente",
-          "Tipo",
-          "Fecha",
-          "Resultado",
-          "Entidad",
-        ],
-      ],
-      body: examenes,
-      startY: 60,
-      theme: "striped",
-      headStyles: { fillColor: [22, 160, 133] },
-    });
-
-    doc.save("Reporte_Examenes_Realizados.pdf");
+  const handleExportPdf = async () => {
+    setLoading(true);
+    await fetchInfractionsByTypeAndYearPdf(info);
+    setLoading(false);
   };
 
   return (
     <Box m={"20px"}>
       <Header
         title={"REPORTES"}
-        subtitle={"Reporte de Exámenes Realizados en un Período de Tiempo"}
+        subtitle={
+          "Reporte Consolidado de Infracciones por Tipo en un Año Determinado"
+        }
       />
       {search && (
-        <Button
+        <LoadingButton
+          loading={loading}
           sx={{ mb: "10px" }}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
         >
           Exportar PDF
-        </Button>
+        </LoadingButton>
       )}
       <Formik
         onSubmit={handleFormSubmit}
@@ -205,46 +189,28 @@ function ExamsPerformedReport() {
                 adapterLocale={adapterLocale}
               >
                 <DatePicker
-                  minDate={dayjs("2000-01-01")}
-                  maxDate={dayjs().subtract(1, "day")}
-                  format="DD/MM/YYYY"
-                  label="Fecha de inicio"
-                  sx={{ gridColumn: "span 2" }}
-                  value={values.startDate}
+                  value={values.year}
                   onChange={(newValue) =>
                     handleChange({
-                      target: { name: "startDate", value: newValue },
+                      target: { name: "year", value: newValue },
                     })
                   }
                   slotProps={{
                     textField: {
-                      error: Boolean(touched.startDate && errors.startDate),
-                      helperText: touched.startDate && errors.startDate,
+                      error: Boolean(touched.year && errors.year),
+                      helperText: touched.year && errors.year,
                     },
                   }}
-                />
-                <DatePicker
-                  format="DD/MM/YYYY"
+                  minDate={dayjs("1-1-2015")}
                   maxDate={dayjs()}
-                  label="Fecha de fin"
                   sx={{ gridColumn: "span 2" }}
-                  value={values.endDate}
-                  onChange={(newValue) =>
-                    handleChange({
-                      target: { name: "endDate", value: newValue },
-                    })
-                  }
-                  slotProps={{
-                    textField: {
-                      error: Boolean(touched.endDate && errors.endDate),
-                      helperText: touched.endDate && errors.endDate,
-                    },
-                  }}
+                  label={"Año"}
+                  views={["year"]}
                 />
               </LocalizationProvider>
             </Box>
             <Button
-              sx={{ mt: "10px", mb: "30px" }}
+              sx={{ mt: "10px" }}
               type="submit"
               color="secondary"
               variant="contained"
@@ -255,6 +221,12 @@ function ExamsPerformedReport() {
         )}
       </Formik>
 
+      {noData && (
+        <Typography variant="h6" color="error" sx={{ mt: "10px" }}>
+          No hay registros para mostrar
+        </Typography>
+      )}
+
       {search && (
         <div>
           <Typography
@@ -263,7 +235,7 @@ function ExamsPerformedReport() {
             color={colors.gray[100]}
           >
             {" "}
-            Fecha de inicio: {info.startDate.format("DD/MM/YYYY").toString()}
+            Año: {info.year}
           </Typography>
           <Typography
             variant="h4"
@@ -271,11 +243,11 @@ function ExamsPerformedReport() {
             color={colors.gray[100]}
           >
             {" "}
-            Fecha de fin: {info.endDate.format("DD/MM/YYYY").toString()}
+            Resumen por tipo{" "}
           </Typography>
           <Box
             sx={{
-              height: "80vh",
+              height: "40vh",
               maxflex: "100%",
               "& .actions": {
                 color: "text.secondary",
@@ -292,14 +264,54 @@ function ExamsPerformedReport() {
                   paginationModel: { pageSize: 25, page: 0 },
                 },
               }}
-              rows={info.rows}
-              columns={columns}
+              rows={info.typesRows}
+              columns={typesColumns}
               components={{
                 Toolbar: () => (
                   <TableToolbar
-                    columns={columns}
-                    rows={info.rows}
-                    fileName={"Exámenes"}
+                    columns={typesColumns}
+                    rows={info.typesRows}
+                    fileName={"Tipos de Infracciones"}
+                  />
+                ),
+              }}
+            />
+          </Box>
+          <Typography
+            variant="h4"
+            sx={{ mt: "20px", mb: "10px" }}
+            color={colors.gray[100]}
+          >
+            {" "}
+            Infracciones registradas{" "}
+          </Typography>
+          <Box
+            sx={{
+              height: "70vh",
+              maxflex: "100%",
+              "& .actions": {
+                color: "text.secondary",
+              },
+              "& .textPrimary": {
+                color: "text.primary",
+              },
+            }}
+          >
+            <DataGrid
+              localeText={localeText}
+              initialState={{
+                pagination: {
+                  paginationModel: { pageSize: 25, page: 0 },
+                },
+              }}
+              rows={info.infractionsRows}
+              columns={infractionsColumns}
+              components={{
+                Toolbar: () => (
+                  <TableToolbar
+                    columns={infractionsColumns}
+                    rows={info.infractionsRows}
+                    fileName={"Infracciones"}
                   />
                 ),
               }}
@@ -311,4 +323,4 @@ function ExamsPerformedReport() {
   );
 }
 
-export default ExamsPerformedReport;
+export default InfractionsByTypeReport;

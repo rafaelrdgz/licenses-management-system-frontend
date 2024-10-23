@@ -14,17 +14,16 @@ import { esES, enUS } from "@mui/x-data-grid/locales";
 import { tokens } from "../../../theme.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
 import {
+  fetchExamsByDateRangePdf,
   getExamsByDateRange,
-  getExpiredLicensesByDateRange,
 } from "../../../apis/ReportsAPI.js";
-import "dayjs/locale/es-us.js";
 import { useTranslation } from "react-i18next";
+import "dayjs/locale/es-us.js";
+import { LoadingButton } from "@mui/lab";
 
-function ExpiredLicensesReport() {
+function ExamsPerformedReport() {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
@@ -40,6 +39,7 @@ function ExpiredLicensesReport() {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const [search, setSearch] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [info, setInfo] = useState({
     startDate: null,
@@ -70,40 +70,45 @@ function ExpiredLicensesReport() {
   const columns = [
     {
       field: "id",
-      headerName: "Código de licencia",
+      headerName: "Código del exámen",
       flex: 1,
     },
     {
-      field: "driverId",
-      headerName: "Número de identidad",
+      field: "personId",
+      headerName: "ID del cliente",
       flex: 1,
     },
     {
-      field: "category",
-      headerName: "Tipo de licencia",
+      field: "type",
+      headerName: "Tipo",
       flex: 1,
     },
     {
-      field: "expirationDate",
-      headerName: "Fecha de vencimiento",
+      field: "date",
+      headerName: "Fecha",
       flex: 1,
     },
     {
-      field: "licenseStatus",
-      headerName: "Estado de licencia",
+      field: "result",
+      headerName: "Resultado",
+      flex: 1,
+    },
+    {
+      field: "entityCode",
+      headerName: "Entidad",
       flex: 1,
     },
   ];
 
   const handleFormSubmit = async (values) => {
-    const response = await getExpiredLicensesByDateRange(
+    const response = await getExamsByDateRange(
       values.startDate,
       values.endDate
     );
     console.log(response);
     setSearch(true);
-    response.forEach((row) => {
-      row.expirationDate = dayjs(row.expirationDate).format("DD/MM/YYYY");
+    response.forEach((exam) => {
+      exam.date = dayjs(exam.date).format("DD/MM/YYYY");
     });
     setInfo({
       rows: response,
@@ -112,78 +117,28 @@ function ExpiredLicensesReport() {
     });
   };
 
-  const handleExportPdf = () => {
-    const doc = new jsPDF();
-
-    // Título del PDF
-    doc.setFontSize(18);
-    doc.text("Reporte de Conductores con Licencias Vencidas", 20, 20);
-
-    // Fechas de inicio y fin
-    doc.setFontSize(12);
-    doc.text(
-      `Fecha de inicio: ${info.startDate.format("DD/MM/YYYY").toString()}`,
-      20,
-      40
-    );
-    doc.text(
-      `Fecha de fin: ${info.endDate.format("DD/MM/YYYY").toString()}`,
-      20,
-      50
-    );
-
-    if (info.rows.length > 0) {
-      // Formato de los datos para la tabla
-      const licencias = info.rows.map((row) => [
-        row.id,
-        row.driverId,
-        row.category,
-        row.expirationDate,
-        row.licenseStatus,
-      ]);
-
-      // Generación de la tabla con autoTable
-      autoTable(doc, {
-        head: [
-          [
-            "Código de licencia",
-            "Número de identidad",
-            "Tipo de licencia",
-            "Fecha de vencimiento",
-            "Estado de licencia",
-          ],
-        ],
-        body: licencias,
-        startY: 60,
-        theme: "striped",
-        headStyles: { fillColor: [22, 160, 133] },
-      });
-    } else {
-      doc.setFontSize(18);
-      doc.text("No hay datos para mostrar", 20, 70);
-    }
-
-    // Guardar el PDF con un nombre específico
-    doc.save("Reporte_Licencias_Vencidas.pdf");
+  const handleExportPdf = async () => {
+    setLoading(true);
+    await fetchExamsByDateRangePdf(info);
+    setLoading(false);
   };
 
   return (
     <Box m={"20px"}>
       <Header
         title={"REPORTES"}
-        subtitle={
-          "Reporte de Conductores con Licencias Vencidas en un Período de Tiempo"
-        }
+        subtitle={"Reporte de Exámenes Realizados en un Período de Tiempo"}
       />
       {search && (
-        <Button
+        <LoadingButton
+          loading={loading}
           sx={{ mb: "10px" }}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
         >
           Exportar PDF
-        </Button>
+        </LoadingButton>
       )}
       <Formik
         onSubmit={handleFormSubmit}
@@ -306,7 +261,7 @@ function ExpiredLicensesReport() {
                   <TableToolbar
                     columns={columns}
                     rows={info.rows}
-                    fileName={"Licencias"}
+                    fileName={"Exámenes"}
                   />
                 ),
               }}
@@ -318,4 +273,4 @@ function ExpiredLicensesReport() {
   );
 }
 
-export default ExpiredLicensesReport;
+export default ExamsPerformedReport;

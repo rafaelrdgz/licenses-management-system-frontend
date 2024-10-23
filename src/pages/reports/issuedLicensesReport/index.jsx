@@ -15,11 +15,13 @@ import "dayjs/locale/es-us.js";
 import { tokens } from "../../../theme.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
-import { getLicensesByDateRange } from "../../../apis/ReportsAPI.js";
+import {
+  fetchLicensesByDateRangePdf,
+  getLicensesByDateRange,
+} from "../../../apis/ReportsAPI.js";
 import { useTranslation } from "react-i18next";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 function IssuedLicensesReport() {
   const { i18n } = useTranslation();
@@ -37,6 +39,7 @@ function IssuedLicensesReport() {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const [search, setSearch] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [info, setInfo] = useState({
     startDate: null,
@@ -117,67 +120,10 @@ function IssuedLicensesReport() {
     });
   };
 
-  const handleExportPdf = () => {
-    const doc = new jsPDF();
-
-    // Título del reporte
-    doc.setFontSize(18);
-    doc.text("Reporte de Licencias Emitidas en un Período de Tiempo", 20, 20);
-
-    // Subtítulo con fechas
-    doc.setFontSize(12);
-    doc.text(
-      `Desde: ${info.startDate.format("DD/MM/YYYY").toString()}`,
-      20,
-      30
-    );
-    doc.text(`Hasta: ${info.endDate.format("DD/MM/YYYY").toString()}`, 20, 40);
-
-    // Licencias emitidas
-    if (info.rows.length > 0) {
-      const tableColumn = [
-        "Código de licencia",
-        "ID del conductor",
-        "Categoria",
-        "Fecha de emisión",
-        "Fecha de vencimiento",
-        "Estado de licencia",
-      ];
-      const tableRows = [];
-
-      info.rows.forEach((row) => {
-        const rowData = [
-          row.id,
-          row.driverId,
-          row.category,
-          row.issueDate,
-          row.expirationDate,
-          row.licenseStatus,
-        ];
-        tableRows.push(rowData);
-      });
-
-      autoTable(doc, {
-        head: [tableColumn],
-        body: tableRows,
-        startY: 50,
-        theme: "striped",
-        headStyles: { fillColor: [22, 160, 133] },
-      });
-    } else {
-      doc.text(
-        "No se encontraron registros para el período seleccionado.",
-        20,
-        50
-      );
-    }
-
-    // Guardar el PDF
-    doc.save(
-      `Reporte_Licencias_${info.startDate
-        .format("DDMMYYYY")
-        .toString()}_a_${info.endDate.format("DDMMYYYY").toString()}.pdf`
-    );
+  const handleExportPdf = async () => {
+    setLoading(true);
+    await fetchLicensesByDateRangePdf(info);
+    setLoading(false);
   };
 
   return (
@@ -187,14 +133,15 @@ function IssuedLicensesReport() {
         subtitle={"Reporte de Licencias Emitidas en un Período de Tiempo"}
       />
       {search && (
-        <Button
+        <LoadingButton
+          loading={loading}
           sx={{ mb: "10px" }}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
         >
           Exportar PDF
-        </Button>
+        </LoadingButton>
       )}
       <Formik
         onSubmit={handleFormSubmit}

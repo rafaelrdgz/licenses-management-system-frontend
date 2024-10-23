@@ -10,12 +10,15 @@ import { Header, TextField } from "../../components";
 import React, { useRef, useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import jsPDF from "jspdf";
-import { getCenter, updateCenter } from "../../apis/CenterAPI.js";
+import {
+  fetchCenterPdf,
+  getCenter,
+  updateCenter,
+} from "../../apis/CenterAPI.js";
 import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/AuthContext.jsx";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const CenterProfile = () => {
   const { user } = useContext(AuthContext);
@@ -151,6 +154,8 @@ const CenterProfile = () => {
       .max(36, "El código debe tener menos de 36 caracteres"),
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleFormSubmit = async (values) => {
     // let logoPath = info.logo;
     //
@@ -202,60 +207,23 @@ const CenterProfile = () => {
     }
   };
 
-  const handleExportPdf = () => {
-    const pdf = new jsPDF();
-
-    // Configurar el título y la imagen del logo
-    pdf.setFontSize(20);
-    pdf.text("Ficha del Centro", 20, 30);
-    //pdf.text('Ficha del Centro', 105, 30, { align: "right" });
-
-    /*if (info.logo) {
-      pdf.addImage(info.logo, "PNG", 80, 40, 30, 30); // Ajustar la posición y tamaño del logo
-    }*/
-
-    pdf.setFontSize(12);
-    let yPosition = 40;
-
-    // Configurar el contenido de los campos
-    const fields = [
-      { label: "Nombre:", value: info.name },
-      {
-        label: "Dirección:",
-        value: info.address,
-      },
-      { label: "Teléfono:", value: info.phone },
-      {
-        label: "Nombre del director:",
-        value: info.directorName,
-      },
-      { label: "Jefe de Recursos Humanos:", value: info.humanResourcesName },
-      {
-        label: "Responsable de Contabilidad:",
-        value: info.accountantName,
-      },
-      {
-        label: "Secretario del Sindicato:",
-        value: info.syndicateSecretaryName,
-      },
-    ];
-
-    // Escribir cada campo en el PDF
-    fields.forEach((field) => {
-      pdf.text(`${field.label} ${field.value}`, 20, yPosition);
-      yPosition += 10; // Espacio entre líneas
-    });
-
-    // Guardar el PDF
-    pdf.save("Ficha del Centro.pdf");
+  const handleExportPdf = async () => {
+    setLoading(true);
+    await fetchCenterPdf(info);
+    setLoading(false);
   };
 
   return (
     <Box m="20px">
       <Header title={"CENTRO"} subtitle={"Información del Centro"} />
-      <Button color="secondary" variant="contained" onClick={handleExportPdf}>
+      <LoadingButton
+        loading={loading}
+        color="secondary"
+        variant="contained"
+        onClick={handleExportPdf}
+      >
         Exportar PDF
-      </Button>
+      </LoadingButton>
       <Box
         display="flex"
         flexDirection="column"

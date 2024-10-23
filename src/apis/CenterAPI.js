@@ -34,3 +34,27 @@ export const updateCenter = async (centerData) => {
     throw error;
   }
 };
+
+export const fetchCenterPdf = async (info) => {
+  const token = getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/center/pdf`,
+      { info },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: "blob",
+      }
+    );
+
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute("download", "Ficha_de_Centro.pdf");
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  } catch (error) {
+    console.error("Error al exportar el PDF:", error);
+  }
+};

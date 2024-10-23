@@ -33,7 +33,7 @@ import {
   Login,
   WorkersForm,
   WorkersTable,
-} from "./scenes";
+} from "./pages";
 import { AuthProvider } from "./utils/AuthContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 

@@ -14,17 +14,16 @@ import { esES, enUS } from "@mui/x-data-grid/locales";
 import { tokens } from "../../../theme.js";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import dayjs from "dayjs";
 import {
-  getInfractionsByDateRange,
-  getLicensesByDateRange,
+  fetchExpiredLicensesByDateRangePdf,
+  getExpiredLicensesByDateRange,
 } from "../../../apis/ReportsAPI.js";
-import { useTranslation } from "react-i18next";
 import "dayjs/locale/es-us.js";
+import { useTranslation } from "react-i18next";
+import { LoadingButton } from "@mui/lab";
 
-function RegisteredInfractionsReport() {
+function ExpiredLicensesReport() {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
@@ -40,6 +39,7 @@ function RegisteredInfractionsReport() {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const [search, setSearch] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [info, setInfo] = useState({
     startDate: null,
@@ -70,52 +70,41 @@ function RegisteredInfractionsReport() {
   const columns = [
     {
       field: "id",
-      headerName: "Código de infracción",
+      headerName: "Código de licencia",
       flex: 1,
     },
     {
-      field: "licenseId",
-      headerName: "Número de licencia",
+      field: "driverId",
+      headerName: "Número de identidad",
       flex: 1,
     },
     {
-      field: "type",
-      headerName: "Tipo",
+      field: "category",
+      headerName: "Tipo de licencia",
       flex: 1,
     },
     {
-      field: "date",
-      headerName: "Fecha",
+      field: "expirationDate",
+      headerName: "Fecha de vencimiento",
       flex: 1,
     },
     {
-      field: "address",
-      headerName: "Lugar",
-      flex: 1,
-    },
-    {
-      field: "pointsDeducted",
-      headerName: "Puntos deducidos",
-      flex: 1,
-    },
-    {
-      field: "paid",
-      headerName: "Estado de pago",
+      field: "licenseStatus",
+      headerName: "Estado de licencia",
       flex: 1,
     },
   ];
 
   const handleFormSubmit = async (values) => {
-    const response = await getInfractionsByDateRange(
+    const response = await getExpiredLicensesByDateRange(
       values.startDate,
       values.endDate
     );
     console.log(response);
-    response.forEach((infraction) => {
-      infraction.date = dayjs(infraction.date).format("DD/MM/YYYY");
-      infraction.paid = infraction.paid ? "Pagado" : "Pendiente";
-    });
     setSearch(true);
+    response.forEach((row) => {
+      row.expirationDate = dayjs(row.expirationDate).format("DD/MM/YYYY");
+    });
     setInfo({
       rows: response,
       startDate: values.startDate,
@@ -123,79 +112,30 @@ function RegisteredInfractionsReport() {
     });
   };
 
-  const handleExportPdf = () => {
-    const doc = new jsPDF();
-
-    // Título del PDF
-    doc.setFontSize(18);
-    doc.text(
-      "Reporte de Infracciones Registradas en un Período de Tiempo",
-      20,
-      20
-    );
-
-    // Fechas de inicio y fin
-    doc.setFontSize(12);
-    doc.text(
-      `Fecha de inicio: ${info.startDate.format("DD/MM/YYYY").toString()}`,
-      20,
-      40
-    );
-    doc.text(
-      `Fecha de fin: ${info.endDate.format("DD/MM/YYYY").toString()}`,
-      20,
-      50
-    );
-
-    // Formato de los datos para la tabla
-    const infracciones = info.rows.map((row) => [
-      row.id,
-      row.licenseId,
-      row.type,
-      row.date,
-      row.address,
-      row.pointsDeducted,
-      row.paid,
-    ]);
-
-    // Generación de la tabla con autoTable
-    autoTable(doc, {
-      head: [
-        [
-          "Código de infracción",
-          "ID del conductor",
-          "Tipo",
-          "Fecha",
-          "Lugar",
-          "Puntos deducidos",
-          "Estado de pago",
-        ],
-      ],
-      body: infracciones,
-      startY: 60,
-      theme: "striped",
-      headStyles: { fillColor: [22, 160, 133] },
-    });
-
-    // Guardar el PDF con un nombre específico
-    doc.save("Reporte_Infracciones_Registradas.pdf");
+  const handleExportPdf = async () => {
+    setLoading(true);
+    await fetchExpiredLicensesByDateRangePdf(info);
+    setLoading(false);
   };
 
   return (
     <Box m={"20px"}>
       <Header
         title={"REPORTES"}
-        subtitle={"Reporte de Infracciones Registradas en un Período de Tiempo"}
+        subtitle={
+          "Reporte de Conductores con Licencias Vencidas en un Período de Tiempo"
+        }
       />
       {search && (
-        <Button
+        <LoadingButton
+          loading={loading}
           sx={{ mb: "10px" }}
           color="secondary"
           variant="contained"
           onClick={handleExportPdf}
         >
           Exportar PDF
-        </Button>
+        </LoadingButton>
       )}
       <Formik
         onSubmit={handleFormSubmit}
@@ -318,7 +258,7 @@ function RegisteredInfractionsReport() {
                   <TableToolbar
                     columns={columns}
                     rows={info.rows}
-                    fileName={"Infracciones"}
+                    fileName={"Licencias"}
                   />
                 ),
               }}
@@ -330,4 +270,4 @@ function RegisteredInfractionsReport() {
   );
 }
 
-export default RegisteredInfractionsReport;
+export default ExpiredLicensesReport;

@@ -94,3 +94,27 @@ export const checkEntity = async (id) => {
     return error.response.data.exists;
   }
 };
+
+export const fetchEntityPdf = async (info) => {
+  const token = getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/entities/pdf`,
+      { info },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        responseType: "blob",
+      }
+    );
+
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.setAttribute("download", "Ficha_de_Entidad.pdf");
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  } catch (error) {
+    console.error("Error al exportar el PDF:", error);
+  }
+};
