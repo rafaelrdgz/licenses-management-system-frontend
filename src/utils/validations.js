@@ -1,9 +1,10 @@
 import dayjs from "dayjs";
-import {checkId} from "../apis/ClientAPI.js";
-import {checkIdDriver} from "../apis/DriversAPI.js";
-import {examsDone} from "../apis/ExamsAPI.js";
-import {checkEntity} from "../apis/EntityAPI.js";
-import {checkLicense} from "../apis/LicensesAPI.js";
+import { checkId } from "../apis/ClientAPI.js";
+import { checkIdDriver } from "../apis/DriversAPI.js";
+import { examsDone } from "../apis/ExamsAPI.js";
+import { checkEntity } from "../apis/EntityAPI.js";
+import { checkLicense } from "../apis/LicensesAPI.js";
+import { checkWorkerId } from "../apis/WorkerAPI.js";
 
 const isValidIdDate = (id) => {
   let y = id.substring(0, 2);
@@ -33,7 +34,7 @@ const isValidPersonID = async (id) => {
 };
 
 const existPersonID = async (id) => {
-  return !await isValidPersonID(id)
+  return !(await isValidPersonID(id));
 };
 
 const existsDriverId = async (id) => {
@@ -44,7 +45,7 @@ const existsDriverId = async (id) => {
 };
 
 const existsDriver = async (id) => {
-  return !await existsDriverId(id);
+  return !(await existsDriverId(id));
 };
 
 //hay q verificar en la bd si la persona ya realizo los 3 examenes para obtener licencia y en tal caso retornar true
@@ -62,6 +63,17 @@ const isValidLicense = async (id) => {
   return response;
 };
 
+const isValidWorkerID = async (id) => {
+  const response = await checkWorkerId(id);
+  console.log(id);
+  console.log(response);
+  return response;
+};
+
+const existWorkerID = async (id) => {
+  return !(await isValidWorkerID(id));
+};
+
 export {
   isValidIdDate,
   isValidEntity,
@@ -70,5 +82,7 @@ export {
   checkExamsDone,
   isValidLicense,
   existPersonID,
-  existsDriverId
+  existsDriverId,
+  isValidWorkerID,
+  existWorkerID,
 };

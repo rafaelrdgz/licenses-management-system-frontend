@@ -16,12 +16,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { isValidIdDate } from "../../../utils/validations.js";
-import {
-  createClient,
-  getClientById,
-  updateClient,
-} from "../../../apis/ClientAPI.js";
+import { existWorkerID, isValidIdDate } from "../../../utils/validations.js";
 import {
   createWorker,
   getWorkerById,
@@ -81,6 +76,11 @@ function WorkersForm() {
         "is-valid-id",
         "El número de indentificación no es válido",
         isValidIdDate
+      )
+      .test(
+        "is-valid-person",
+        "El número de identificación ya pertenece a un trabajador",
+        existWorkerID
       ),
     name: yup
       .string()

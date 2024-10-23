@@ -84,3 +84,19 @@ export const loginWorker = async (email, password) => {
     throw error.response?.data?.message || error.message;
   }
 };
+
+export const checkWorkerId = async (id) => {
+  const token = getToken();
+
+  try {
+    const response = await axios.get(`${BASE_URL}/workers/exists/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Incluir el token en la solicitud
+      },
+    });
+    return response.data.exists;
+  } catch (error) {
+    console.error("Error checking worker existence:", error);
+    return error.response.data.exists;
+  }
+};
