@@ -30,6 +30,9 @@
     "periodicMedicalExams": "Exámenes médicos periódicos",
     "unpaidInfractions": "Infracciones pendientes de pago"
   },
+  "error": {
+    "error404": "La página que estás buscando no existe."
+  },
   "reports": {
     "title": "REPORTES",
     "subtitle": "Listado de reportes disponibles",
@@ -385,7 +388,8 @@
         "min": "El número de indentificación debe tener 11 dígitos",
         "max": "El número de indentificación debe tener 11 dígitos",
         "test": {
-          "is-valid-id": "El número de indentificación no es válido"
+          "is-valid-id": "El número de indentificación no es válido",
+          "existWorkerID": "El número de identificación ya pertenece a un trabajador"
         }
       },
       "name": {

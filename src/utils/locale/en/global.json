@@ -30,6 +30,9 @@
     "periodicMedicalExams": "Periodic medical exams",
     "unpaidInfractions": "Unpaid infractions"
   },
+  "error": {
+    "error404": "The page you are looking for does not exist."
+  },
   "reports": {
     "title": "REPORTS",
     "subtitle": "List of available reports",
@@ -385,7 +388,8 @@
         "min": "The identification number must be 11 digits long",
         "max": "The identification number must be 11 digits long",
         "test": {
-          "is-valid-id": "The identification number is not valid"
+          "is-valid-id": "The identification number is not valid",
+          "existWorkerID": "The identification number already belongs to a worker"
         }
       },
       "name": {
