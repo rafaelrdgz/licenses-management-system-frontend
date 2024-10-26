@@ -33,6 +33,7 @@ import {
   Login,
   WorkersForm,
   WorkersTable,
+  Error404,
 } from "./pages";
 import { AuthProvider } from "./utils/AuthContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
@@ -324,6 +325,7 @@ const AppRouter = () => {
                 />
               }
             />
+            <Route path="*" element={<Error404 />} />
           </Route>
         </Routes>
       </Router>

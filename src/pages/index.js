@@ -1,7 +1,7 @@
 import Dashboard from "./dashboard";
 import CenterProfile from "./centerProfile";
 import EntityForm from "./entity/entityForm";
-import EntityTable from "./entity/entityTable"
+import EntityTable from "./entity/entityTable";
 import ExamsForm from "./exams/examsForm";
 import ExamsTable from "./exams/examsTable";
 import ClientsForm from "./clients/clientsForm";
@@ -20,10 +20,11 @@ import IssuedLicensesReport from "./reports/issuedLicensesReport";
 import ExamsPerformedReport from "./reports/examsPerformedReport";
 import RegisteredInfractionsReport from "./reports/registeredInfractionsReport";
 import ExpiredLicensesReport from "./reports/expiredLicensesReport";
-import Login from "./authentication/login"
+import Login from "./authentication/login";
 import InfractionsByTypeReport from "./reports/infractionsByTypeReport";
 import WorkersTable from "./workers/workersTable";
-import WorkersForm from "./workers/workersForm"
+import WorkersForm from "./workers/workersForm";
+import Error404 from "./error404";
 
 export {
   Dashboard,
@@ -51,5 +52,6 @@ export {
   Login,
   InfractionsByTypeReport,
   WorkersForm,
-  WorkersTable
+  WorkersTable,
+  Error404,
 };
