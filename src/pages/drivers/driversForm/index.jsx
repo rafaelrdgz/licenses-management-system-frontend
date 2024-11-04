@@ -15,7 +15,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { getDriverById, updateDriver } from "../../../apis/DriversAPI.js";
 
-function DriversForm() {
+import { useTranslation } from "react-i18next";
+
+function DriversForm () {
   const [info, setInfo] = useState({
     id: "",
     name: "",
@@ -43,47 +45,49 @@ function DriversForm() {
     }
   }, [params.id]);
 
+  const { t } = useTranslation();
+
   const checkoutSchema = yup.object().shape({
     name: yup
       .string()
-      .required("El nombre es requerido")
+      .required(t("form.driver.name.required"))
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre no debe contener números ni caracteres especiales"
+        t("form.driver.name.matches")
       )
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(25, "El nombre debe tener menos de 25 caracteres"),
+      .min(3, t("form.driver.name.min"))
+      .max(25, t("form.driver.name.max")),
     lastNames: yup
       .string()
-      .required("Los apellidos son requeridos")
+      .required(t("form.driver.lastNames.required"))
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "Los apellidos no deben contener números ni caracteres especiales"
+        t("form.driver.lastNames.matches")
       )
-      .min(5, "Los apellidos deben tener al menos 5 caracteres")
-      .max(50, "Los apellidos deben tener menos de 50 caracteres"),
+      .min(5, t("form.driver.lastNames.min"))
+      .max(50, t("form.driver.lastNames.max")),
     address: yup
       .string()
-      .required("La dirección es requerida")
-      .min(10, "La dirección debe tener al menos 10 caracteres")
-      .max(100, "La dirección debe tener menos de 100 caracteres"),
+      .required(t("form.driver.address.required"))
+      .min(10, t("form.driver.address.min"))
+      .max(100, t("form.driver.address.max")),
     phoneNumber: yup
       .string()
-      .required("El número de teléfono es requerido")
+      .required(t("form.driver.phoneNumber.required"))
       .matches(
         /^[0-9]+$/,
-        "El número de teléfono no debe contener letras ni caracteres especiales"
+        t("form.driver.phoneNumber.matches")
       )
-      .min(6, "El número de teléfono debe tener al menos 6 dígitos")
-      .max(12, "El número de teléfono debe tener menos de 12 dígitos"),
+      .min(6, t("form.driver.phoneNumber.min"))
+      .max(12, t("form.driver.phoneNumber.max")),
     email: yup
       .string()
-      .email("El correo debe ser un correo válido")
-      .required("El correo es requerido")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
+      .email(t("form.driver.email.email"))
+      .required(t("form.driver.email.required"))
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, t("form.driver.email.matches")),
     licenseStatus: yup
       .string()
-      .required("El estado de la licencia es requerido"),
+      .required(t("form.driver.licenseStatus.required")),
   });
 
   const handleFormSubmit = async (values) => {
@@ -95,14 +99,14 @@ function DriversForm() {
 
   return (
     <Box m="20px">
-      <Header title={"Conductor " + info.id} subtitle={"Editar conductor"} />
+      <Header title={ t("drivers.title") + " " + info.id } subtitle={ t("drivers.editDriver") } />
       <Formik
         enableReinitialize
         validateOnMount
-        initialValues={info}
-        validationSchema={checkoutSchema}
+        initialValues={ info }
+        validationSchema={ checkoutSchema }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -110,100 +114,100 @@ function DriversForm() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.name}
+                label={ t("types.name") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.name }
                 name="name"
-                error={touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.name && !!errors.name }
+                helperText={ touched.name && errors.name }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Apellidos"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastNames}
+                label={ t("types.lastNames") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.lastNames }
                 name="lastNames"
-                error={touched.lastNames && !!errors.lastNames}
-                helperText={touched.lastNames && errors.lastNames}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.lastNames && !!errors.lastNames }
+                helperText={ touched.lastNames && errors.lastNames }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Correo"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
+                label={ t("types.email") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.email }
                 name="email"
-                error={touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.email && !!errors.email }
+                helperText={ touched.email && errors.email }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Número de teléfono"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.phoneNumber}
+                label={ t("types.phoneNumber") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.phoneNumber }
                 name="phoneNumber"
-                error={touched.phoneNumber && !!errors.phoneNumber}
-                helperText={touched.phoneNumber && errors.phoneNumber}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.phoneNumber && !!errors.phoneNumber }
+                helperText={ touched.phoneNumber && errors.phoneNumber }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Dirección"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address}
+                label={ t("types.address") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.address }
                 name="address"
-                error={touched.address && !!errors.address}
-                helperText={touched.address && errors.address}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.address && !!errors.address }
+                helperText={ touched.address && errors.address }
+                sx={ { gridColumn: "span 2" } }
               />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={ { gridColumn: "span 2" } }>
                 <InputLabel id="demo-simple-select-filled-label">
-                  Estado de licencia
+                  { t("types.licenseStatus") }
                 </InputLabel>
                 <Select
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.licenseStatus}
+                  onBlur={ handleBlur }
+                  onChange={ handleChange }
+                  value={ values.licenseStatus }
                   name="licenseStatus"
-                  error={touched.licenseStatus && !!errors.licenseStatus}
-                  helpertext={touched.licenseStatus && errors.licenseStatus}
+                  error={ touched.licenseStatus && !!errors.licenseStatus }
+                  helpertext={ touched.licenseStatus && errors.licenseStatus }
                 >
-                  <MenuItem value={"VIGENTE"}>Vigente</MenuItem>
-                  <MenuItem value={"VENCIDA"}>Vencida</MenuItem>
-                  <MenuItem value={"SUSPENDIDA"}>Suspendida</MenuItem>
-                  <MenuItem value={"REVOCADA"}>Revocada</MenuItem>
+                  <MenuItem value={ "VIGENTE" }>{ t("types.licenseStatusTypes.active") }</MenuItem>
+                  <MenuItem value={ "VENCIDA" }>{ t("types.licenseStatusTypes.expired") }</MenuItem>
+                  <MenuItem value={ "SUSPENDIDA" }>{ t("types.licenseStatusTypes.suspended") }</MenuItem>
+                  <MenuItem value={ "REVOCADA" }>{ t("types.licenseStatusTypes.revoked") }</MenuItem>
                 </Select>
               </FormControl>
               <LocalizationProvider
-                dateAdapter={AdapterDayjs}
+                dateAdapter={ AdapterDayjs }
               ></LocalizationProvider>
             </Box>
             <Box
@@ -216,17 +220,17 @@ function DriversForm() {
                 type="text"
                 color="secondary"
                 variant="contained"
-                onClick={() => {
+                onClick={ () => {
                   console.log(errors);
                   if (Object.keys(errors).length === 0)
                     handleFormSubmit(values);
-                }}
+                } }
               >
-                Guardar
+                { t("form.save") }
               </Button>
             </Box>
           </form>
-        )}
+        ) }
       </Formik>
     </Box>
   );

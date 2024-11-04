@@ -11,8 +11,8 @@ import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-function DriversTable() {
-  const { i18n } = useTranslation();
+function DriversTable () {
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
   const localeText =
@@ -33,7 +33,7 @@ function DriversTable() {
     setDialogOpen(false);
     await deleteDriver(selectedId);
     loadDrivers();
-    enqueueSnackbar("Conductor eliminado", { variant: "success" });
+    enqueueSnackbar(t("snackbarMessage.deleteDriver"), { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -62,63 +62,63 @@ function DriversTable() {
   const columns = [
     {
       field: "id",
-      headerName: "CI conductor",
+      headerName: t("types.driverID"),
       flex: 1,
     },
     {
       field: "name",
-      headerName: "Nombre",
+      headerName: t("types.name"),
       flex: 1,
     },
     {
       field: "lastNames",
-      headerName: "Apellidos",
+      headerName: t("types.lastNames"),
       flex: 1,
     },
     {
       field: "licenseStatus",
-      headerName: "Estado de licencia",
+      headerName: t("types.licenseStatus"),
       flex: 1,
     },
     {
       field: "bornDate",
-      headerName: "Fecha de nacimiento",
+      headerName: t("types.bornDate"),
       flex: 1,
     },
     {
       field: "address",
-      headerName: "Dirección",
+      headerName: t("types.address"),
       flex: 1,
     },
     {
       field: "phoneNumber",
-      headerName: "Número de teléfono",
+      headerName: t("types.phoneNumber"),
       flex: 1,
     },
     {
       field: "email",
-      headerName: "Correo",
+      headerName: t("types.email"),
       flex: 1,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: t("types.actions"),
       flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
-            label="Edit"
+            icon={ <EditOutlinedIcon /> }
+            label={ t("actions.edit") }
             className="textPrimary"
-            onClick={() => navigate(`/drivers/${id}/edit`)}
+            onClick={ () => navigate(`/drivers/${id}/edit`) }
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
+            icon={ <DeleteOutlinedIcon /> }
+            label={ t("actions.delete") }
+            onClick={ handleDeleteClick(id) }
             color="inherit"
           />,
         ];
@@ -128,13 +128,13 @@ function DriversTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
+      <SnackbarProvider maxSnack={ 3 } />
       <Header
-        title={"CONDUCTORES"}
-        subtitle={"Información de los conductores"}
+        title={ t("drivers.title") }
+        subtitle={ t("drivers.subtitle") }
       />
       <Box
-        sx={{
+        sx={ {
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -143,34 +143,34 @@ function DriversTable() {
           "& .textPrimary": {
             color: "text.primary",
           },
-        }}
+        } }
       >
         <DataGrid
-          localeText={localeText}
-          initialState={{
+          localeText={ localeText }
+          initialState={ {
             pagination: {
               paginationModel: { pageSize: 25, page: 0 },
             },
-          }}
-          rows={rows}
-          columns={columns}
-          components={{
+          } }
+          rows={ rows }
+          columns={ columns }
+          components={ {
             Toolbar: () => (
               <TableToolbar
-                columns={columns}
-                rows={rows}
-                fileName={"Conductores"}
+                columns={ columns }
+                rows={ rows }
+                fileName={ t("drivers.title") }
               />
             ),
-          }}
+          } }
         />
       </Box>
       <ConfirmationDialog
-        title={"Está seguro de querer eliminar el conductor?"}
-        text={"Tenga en cuenta que esta acción no se puede deshacer"}
-        open={dialogOpen}
-        handleClose={handleDialogClose}
-        handleAgree={handleDialogAgree}
+        title={ t("drivers.deleteConfirmationTitle") }
+        text={ t("drivers.deleteConfirmationText") }
+        open={ dialogOpen }
+        handleClose={ handleDialogClose }
+        handleAgree={ handleDialogAgree }
       />
     </Box>
   );

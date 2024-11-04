@@ -90,7 +90,9 @@
 	"drivers": {
 		"title": "DRIVERS",
 		"subtitle": "Information of registered drivers",
-		"editDriver": "Edit driver"
+		"editDriver": "Edit driver",
+		"deleteConfirmationTitle": "Are you sure you want to delete the driver?",
+		"deleteConfirmationText": "Keep in mind that this action cannot be undone"
 	},
 	"licenses": {
 		"title": "LICENSES",
@@ -158,6 +160,7 @@
 		"syndicateSecretaryName": "Syndicate secretary's name",
 		"role": "Role",
 		"password": "Password",
+		"actions": "Actions",
 		"entityType": {
 			"drivingSchool": "Driving School",
 			"clinic": "Clinic"

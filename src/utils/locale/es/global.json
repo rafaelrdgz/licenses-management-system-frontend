@@ -90,7 +90,9 @@
 	"drivers": {
 		"title": "CONDUCTORES",
 		"subtitle": "Información de los conductores registrados",
-		"editDriver": "Editar conductor"
+		"editDriver": "Editar conductor",
+		"deleteConfirmationTitle": "¿Está seguro de querer eliminar el conductor?",
+		"deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
 	},
 	"licenses": {
 		"title": "LICENCIAS",
@@ -158,6 +160,7 @@
 		"syndicateSecretaryName": "Nombre del secretario del sindicato",
 		"role": "Rol",
 		"password": "Contraseña",
+		"actions": "Acciones",
 		"entityType": {
 			"drivingSchool": "Autoescuela",
 			"clinic": "Clínica"
@@ -504,5 +507,9 @@
 				"required": "La contraseña es requerida"
 			}
 		}
+	},
+	"actions": {
+		"edit": "Editar",
+		"delete": "Eliminar"
 	}
 }
