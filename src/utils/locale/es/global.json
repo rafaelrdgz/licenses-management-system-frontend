@@ -516,6 +516,7 @@
 		}
 	},
 	"login": {
+		"title": "Iniciar Sesión",
 		"fields": {
 			"email": "Correo",
 			"password": "Contraseña"

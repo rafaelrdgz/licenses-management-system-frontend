@@ -22,7 +22,7 @@ import { Menu, MenuItem } from "@mui/material";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import { useTranslation } from "react-i18next";
 
-export default function Login() {
+export default function Login () {
   const { i18n } = useTranslation();
   const { t } = useTranslation();
 
@@ -94,10 +94,10 @@ export default function Login() {
   const checkoutSchema = yup.object().shape({
     email: yup
       .string()
-      .email("El correo no es válido")
-      .required("El correo es requerido")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
-    password: yup.string().required("La contraseña es requerida"),
+      .email(t("login.email.email"))
+      .required(t("login.email.required"))
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, t("login.email.matches")),
+    password: yup.string().required(t("login.password.required")),
   });
 
   const handleFormSubmit = async (values) => {
@@ -118,64 +118,64 @@ export default function Login() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={ theme }>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
-          sx={{
+          sx={ {
             height: "100vh",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-          }}
+          } }
         >
           <IconButton
-            sx={{ ml: 1, alignSelf: "end", mr: 5, mb: -5 }}
+            sx={ { ml: 1, alignSelf: "end", mr: 5, mb: -5 } }
             id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
+            aria-controls={ open ? "basic-menu" : undefined }
             aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
+            aria-expanded={ open ? "true" : undefined }
+            onClick={ handleClick }
           >
             <LanguageOutlinedIcon />
           </IconButton>
           <Menu
             id="basic-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
+            anchorEl={ anchorEl }
+            open={ open }
+            onClose={ handleClose }
+            MenuListProps={ {
               "aria-labelledby": "basic-button",
-            }}
+            } }
           >
-            <MenuItem onClick={setLanguageEs}>
-              {t("navbar.languageES")}
+            <MenuItem onClick={ setLanguageEs }>
+              { t("navbar.languageES") }
             </MenuItem>
-            <MenuItem onClick={setLanguageEn}>
-              {t("navbar.languageEN")}
+            <MenuItem onClick={ setLanguageEn }>
+              { t("navbar.languageEN") }
             </MenuItem>
           </Menu>
           <IconButton
-            sx={{ ml: 1, alignSelf: "end" }}
-            onClick={handleThemeToggle}
+            sx={ { ml: 1, alignSelf: "end" } }
+            onClick={ handleThemeToggle }
             color="inherit"
           >
-            {darkMode ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />}
+            { darkMode ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon /> }
           </IconButton>
-          <Avatar sx={{ m: 1, bgcolor: theme.palette.secondary.main }}>
+          <Avatar sx={ { m: 1, bgcolor: theme.palette.secondary.main } }>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Iniciar sesión
+            { t("login.title", "Iniciar sesión") }
           </Typography>
 
           <Formik
-            onSubmit={handleFormSubmit}
-            initialValues={initialValues}
-            validationSchema={checkoutSchema}
+            onSubmit={ handleFormSubmit }
+            initialValues={ initialValues }
+            validationSchema={ checkoutSchema }
           >
-            {({
+            { ({
               values,
               errors,
               touched,
@@ -183,36 +183,36 @@ export default function Login() {
               handleChange,
               handleSubmit,
             }) => (
-              <form onSubmit={handleSubmit}>
-                {incorrectData && (
+              <form onSubmit={ handleSubmit }>
+                { incorrectData && (
                   <Typography variant="body1" color="error">
-                    Usuario o contraseña incorrectos
+                    { t("login.notFound") }
                   </Typography>
-                )}
+                ) }
                 <TextField
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.email}
-                  error={touched.email && !!errors.email}
-                  helperText={touched.email && errors.email}
+                  onBlur={ handleBlur }
+                  onChange={ handleChange }
+                  value={ values.email }
+                  error={ touched.email && !!errors.email }
+                  helperText={ touched.email && errors.email }
                   margin="normal"
                   fullWidth
                   id="email"
-                  label="Correo"
+                  label={ t("login.fields.email") }
                   name="email"
                   autoComplete="email"
                   autoFocus
                 />
                 <TextField
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.password}
-                  error={touched.password && !!errors.password}
-                  helperText={touched.password && errors.password}
+                  onBlur={ handleBlur }
+                  onChange={ handleChange }
+                  value={ values.password }
+                  error={ touched.password && !!errors.password }
+                  helperText={ touched.password && errors.password }
                   margin="normal"
                   fullWidth
                   name="password"
-                  label="Contraseña"
+                  label={ t("login.fields.password") }
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -221,12 +221,12 @@ export default function Login() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={ { mt: 3, mb: 2 } }
                 >
-                  Iniciar sesión
+                  { t("form.save", "Iniciar sesión") }
                 </Button>
               </form>
-            )}
+            ) }
           </Formik>
         </Box>
       </Container>
