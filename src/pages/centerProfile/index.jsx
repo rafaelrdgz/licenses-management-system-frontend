@@ -19,6 +19,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/AuthContext.jsx";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useTranslation } from "react-i18next";
 
 const CenterProfile = () => {
   const { user } = useContext(AuthContext);
@@ -37,7 +38,7 @@ const CenterProfile = () => {
   const [disableEdit, setDisableEdit] = useState(true);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const reportRef = useRef(null);
-
+  const { t } = useTranslation();
   const loadCenter = async () => {
     try {
       const data = await getCenter();
@@ -74,110 +75,89 @@ const CenterProfile = () => {
       .string()
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre no debe contener números ni caracteres especiales"
+        t("form.entity.name.matches")
       )
-      .required("El nombre es requerido")
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(50, "El nombre debe tener menos de 50 caracteres"),
+      .required(t("form.entity.name.required"))
+      .min(3, t("form.entity.name.min"))
+      .max(50, t("form.entity.name.max")),
     address: yup
       .string()
-      .required("La dirección es requerida")
-      .min(10, "La dirección debe tener al menos 10 caracteres")
-      .max(100, "La dirección debe tener menos de 100 caracteres"),
+      .required(t("form.entity.address.required"))
+      .min(10, t("form.entity.address.min"))
+      .max(100, t("form.entity.address.max")),
     phone: yup
       .string()
       .matches(
         /^[0-9]+$/,
-        "El número de teléfono no debe contener letras ni caracteres especiales"
+        t("form.entity.phone.matches")
       )
-      .required("El número de teléfono es requerido")
-      .min(8, "El número de teléfono debe tener 8 dígitos")
-      .max(8, "El número de teléfono debe tener 8 dígitos"),
+      .required(t("form.entity.phone.required"))
+      .min(8, t("form.entity.phone.min"))
+      .max(8, t("form.entity.phone.max")),
     directorName: yup
       .string()
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre del director no debe contener números ni caracteres especiales"
+        t("form.entity.directorName.matches")
       )
-      .required("El nombre del director es requerido")
-      .min(5, "El nombre del director debe tener al menos 5 caracteres")
-      .max(50, "El nombre del director debe tener menos de 50 caracteres"),
+      .required(t("form.entity.directorName.required"))
+      .min(5, t("form.entity.directorName.min"))
+      .max(50, t("form.entity.directorName.max")),
     humanResourcesName: yup
       .string()
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre del jefe de recursos humanos no debe contener números ni caracteres especiales"
+        t("form.entity.humanResourcesName.matches")
       )
-      .required("El nombre del jefe de recursos humanos es requerido")
+      .required(t("form.entity.humanResourcesName.required"))
       .min(
         5,
-        "El nombre del jefe de recursos humanos debe tener al menos 5 caracteres"
+        t("form.entity.humanResourcesName.min")
       )
       .max(
         50,
-        "El nombre del jefe de recursos humanos debe tener menos de 50 caracteres"
+        t("form.entity.humanResourcesName.max")
       ),
     accountantName: yup
       .string()
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre del responsable de contabilidad no debe contener números ni caracteres especiales"
+        t("form.entity.accountantName.matches")
       )
-      .required("El nombre del responsable de contabilidad es requerido")
+      .required(t("form.entity.accountantName.required"))
       .min(
         5,
-        "El nombre del responsable de contabilidad debe tener al menos 5 caracteres"
+        t("form.entity.accountantName.min")
       )
       .max(
         50,
-        "El nombre del responsable de contabilidad debe tener menos de 50 caracteres"
+        t("form.entity.accountantName.max")
       ),
     syndicateSecretaryName: yup
       .string()
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre del secretario del sindicato no debe contener números ni caracteres especiales"
+        t("form.entity.syndicateSecretaryName.matches")
       )
-      .required("El nombre del secretario del sindicato es requerido")
+      .required(t("form.entity.syndicateSecretaryName.required"))
       .min(
         5,
-        "El nombre del secretario del sindicato debe tener al menos 5 caracteres"
+        t("form.entity.syndicateSecretaryName.min")
       )
       .max(
         50,
-        "El nombre del secretario del sindicato debe tener menos de 50 caracteres"
+        t("form.entity.syndicateSecretaryName.max")
       ),
     code: yup
       .string()
-      .required("El código es requerido")
-      .min(6, "El código debe tener al menos 6 caracteres")
-      .max(36, "El código debe tener menos de 36 caracteres"),
+      .required(t("form.entity.code.required"))
+      .min(6, t("form.entity.code.min"))
+      .max(36, t("form.entity.code.max")),
   });
 
   const [loading, setLoading] = useState(false);
 
   const handleFormSubmit = async (values) => {
-    // let logoPath = info.logo;
-    //
-    // // Si hay una nueva imagen seleccionada, súbela al backend
-    // if (info.logoFile) {
-    //   const formData = new FormData();
-    //   formData.append('logo', info.logoFile);
-    //
-    //   try {
-    //     const response = await axios.post('http://localhost:3000/upload-logo', formData, {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data',
-    //       },
-    //     });
-    //     // alert('Imagen subida con éxito');
-    //     console.log(response)
-    //   } catch (err) {
-    //     console.error('Error al subir la imagen', err);
-    //     // alert('Hubo un error al subir la imagen');
-    //   }
-    // }
-
     const data = values;
     try {
       const response = await updateCenter(data);
@@ -215,54 +195,35 @@ const CenterProfile = () => {
 
   return (
     <Box m="20px">
-      <Header title={"CENTRO"} subtitle={"Información del Centro"} />
+      <Header title={ t("centerProfile.title") } subtitle={ t("centerProfile.subtitle") } />
       <LoadingButton
-        loading={loading}
+        loading={ loading }
         color="secondary"
         variant="contained"
-        onClick={handleExportPdf}
+        onClick={ handleExportPdf }
       >
-        Exportar PDF
+        { t("reports.export") }
       </LoadingButton>
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
-        mb={4}
+        mb={ 4 }
         position="relative"
-        ref={reportRef}
+        ref={ reportRef }
       >
-        {/*<Avatar src={info.logo} sx={{ width: 100, height: 100 }} />
-        {/*{!disableEdit && (*/}
-        {/*  <IconButton*/}
-        {/*    sx={{*/}
-        {/*      position: "absolute",*/}
-        {/*      marginLeft: "150px",*/}
-        {/*      cursor: "pointer",*/}
-        {/*    }}*/}
-        {/*    component="label"*/}
-        {/*  >*/}
-        {/*    <EditOutlinedIcon/>*/}
-        {/*    <input*/}
-        {/*      type="file"*/}
-        {/*      accept="image/png, image/jpeg"*/}
-        {/*      hidden*/}
-        {/*      onChange={handleLogoChange}*/}
-        {/*    />*/}
-        {/*  </IconButton>*/}
-        {/*)}*/}
-        <Typography variant="h1" mt={2}>
-          {info.name}
+        <Typography variant="h1" mt={ 2 }>
+          { info.name }
         </Typography>
       </Box>
       <Formik
         enableReinitialize
         validateOnMount
-        initialValues={info}
-        validationSchema={checkoutSchema}
-        onSubmit={handleFormSubmit}
+        initialValues={ info }
+        validationSchema={ checkoutSchema }
+        onSubmit={ handleFormSubmit }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -270,94 +231,94 @@ const CenterProfile = () => {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Código"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.code}
+                label={ t("types.code") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.code }
                 name="code"
-                error={touched.entityCode && !!errors.entityCode}
-                helperText={touched.entityCode && errors.entityCode}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.entityCode && !!errors.entityCode }
+                helperText={ touched.entityCode && errors.entityCode }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.name}
+                label={ t("types.name") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.name }
                 name="name"
-                error={touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.name && !!errors.name }
+                helperText={ touched.name && errors.name }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Dirección"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address}
+                label={ t("types.address") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.address }
                 name="address"
-                error={touched.address && !!errors.address}
-                helperText={touched.address && errors.address}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.address && !!errors.address }
+                helperText={ touched.address && errors.address }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Número de teléfono"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.phone}
+                label={ t("types.phoneNumber") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.phone }
                 name="phone"
-                error={touched.phone && !!errors.phone}
-                helperText={touched.phone && errors.phone}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.phone && !!errors.phone }
+                helperText={ touched.phone && errors.phone }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre del director"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.directorName}
+                label={ t("types.directorName") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.directorName }
                 name="directorName"
-                error={touched.directorName && !!errors.directorName}
-                helperText={touched.directorName && errors.directorName}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.directorName && !!errors.directorName }
+                helperText={ touched.directorName && errors.directorName }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre del jefe de recursos humanos"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.humanResourcesName}
+                label={ t("types.humanResourcesName") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.humanResourcesName }
                 name="humanResourcesName"
                 error={
                   touched.humanResourcesName && !!errors.humanResourcesName
@@ -365,31 +326,31 @@ const CenterProfile = () => {
                 helperText={
                   touched.humanResourcesName && errors.humanResourcesName
                 }
-                sx={{ gridColumn: "span 2" }}
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre del responsable de contabilidad"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.accountantName}
+                label={ t("types.accountantName") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.accountantName }
                 name="accountantName"
-                error={touched.accountantName && !!errors.accountantName}
-                helperText={touched.accountantName && errors.accountantName}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.accountantName && !!errors.accountantName }
+                helperText={ touched.accountantName && errors.accountantName }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
-                {...(disableEdit && { disabled: true })}
+                { ...(disableEdit && { disabled: true }) }
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre del secretario del sindicato"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.syndicateSecretaryName}
+                label={ t("types.syndicateSecretaryName") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.syndicateSecretaryName }
                 name="syndicateSecretaryName"
                 error={
                   touched.syndicateSecretaryName &&
@@ -399,7 +360,7 @@ const CenterProfile = () => {
                   touched.syndicateSecretaryName &&
                   errors.syndicateSecretaryName
                 }
-                sx={{ gridColumn: "span 2" }}
+                sx={ { gridColumn: "span 2" } }
               />
             </Box>
             <Box
@@ -408,34 +369,34 @@ const CenterProfile = () => {
               justifyContent="end"
               mt="20px"
             >
-              {user && user.role === "MANAGER" && disableEdit && (
+              { user && user.role === "MANAGER" && disableEdit && (
                 <Button
-                  onClick={() =>
+                  onClick={ () =>
                     disableEdit ? setDisableEdit(false) : setDisableEdit(true)
                   }
                   color="secondary"
                   variant="contained"
                 >
-                  Editar
+                  { t("actions.edit") }
                 </Button>
-              )}
-              {!disableEdit && (
+              ) }
+              { !disableEdit && (
                 <Button
                   type="submit"
                   color="secondary"
                   variant="contained"
-                  onClick={() => {
+                  onClick={ () => {
                     console.log(errors);
                     if (Object.keys(errors).length === 0)
                       handleFormSubmit(values);
-                  }}
+                  } }
                 >
-                  Guardar
+                  { t("form.save") }
                 </Button>
-              )}
+              ) }
             </Box>
           </form>
-        )}
+        ) }
       </Formik>
     </Box>
   );

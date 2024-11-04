@@ -22,8 +22,9 @@ import {
   getWorkerById,
   updateWorker,
 } from "../../../apis/WorkerAPI.js";
+import { useTranslation } from "react-i18next";
 
-function WorkersForm() {
+function WorkersForm () {
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
@@ -34,6 +35,8 @@ function WorkersForm() {
     email: "",
     role: "",
   });
+
+  const { t } = useTranslation();
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const navigate = useNavigate();
@@ -67,50 +70,50 @@ function WorkersForm() {
       .string()
       .matches(
         /^[0-9]+$/,
-        "El número de indentificación no debe contener letras"
+        t("form.worker.id.matches")
       )
-      .required("El número de indentificación es requerido")
-      .min(11, "El número de indentificación debe tener 11 dígitos")
-      .max(11, "El número de indentificación debe tener 11 dígitos")
+      .required(t("form.worker.id.required"))
+      .min(11, t("form.worker.id.min"))
+      .max(11, t("form.worker.id.max"))
       .test(
         "is-valid-id",
-        "El número de indentificación no es válido",
+        t("form.worker.id.test.is-valid-id"),
         isValidIdDate
       )
       .test(
         "is-valid-person",
-        "El número de identificación ya pertenece a un trabajador",
+        t("form.worker.id.test.existWorkerID"),
         existWorkerID
       ),
     name: yup
       .string()
-      .required("El nombre es requerido")
+      .required(t("form.worker.name.required"))
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre no debe contener números ni caracteres especiales"
+        t("form.worker.name.matches")
       )
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(25, "El nombre debe tener menos de 25 caracteres"),
+      .min(3, t("form.worker.name.min"))
+      .max(25, t("form.worker.name.max")),
     lastNames: yup
       .string()
-      .required("Los apellidos son requeridos")
+      .required(t("form.worker.lastNames.required"))
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "Los apellidos no deben contener números ni caracteres especiales"
+        t("form.worker.lastNames.matches")
       )
-      .min(5, "Los apellidos deben tener al menos 5 caracteres")
-      .max(50, "Los apellidos deben tener menos de 50 caracteres"),
+      .min(5, t("form.worker.lastNames.min"))
+      .max(50, t("form.worker.lastNames.max")),
     email: yup
       .string()
-      .email("El correo debe ser un correo válido")
-      .required("El correo es requerido")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
+      .email(t("form.worker.email.email"))
+      .required(t("form.worker.email.required"))
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, t("form.worker.email.matches")),
     password: yup
       .string()
-      .required("La contraseña es requerida")
-      .min(8, "La contraseña debe tener al menos 8 caracteres")
-      .max(20, "La contraseña debe tener menos de 20 caracteres"),
-    role: yup.string().required("El rol es requerido"),
+      .required(t("form.worker.password.required"))
+      .min(8, t("form.worker.password.min"))
+      .max(20, t("form.worker.password.max")),
+    role: yup.string().required(t("form.worker.role.required")),
   });
 
   const handleFormSubmit = async (values) => {
@@ -130,17 +133,17 @@ function WorkersForm() {
   return (
     <Box m="20px">
       <Header
-        title={"TRABAJADOR " + info.id}
-        subtitle={editing ? "Editar trabajador" : "Insertar nuevo trabajador"}
+        title={ t("workers.title") + " " + info.id }
+        subtitle={ editing ? t("workers.editWorker") : t("workers.createWorker") }
       />
       <Formik
         enableReinitialize
         validateOnMount
-        initialValues={info}
-        validationSchema={checkoutSchema}
-        onSubmit={handleFormSubmit}
+        initialValues={ info }
+        validationSchema={ checkoutSchema }
+        onSubmit={ handleFormSubmit }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -148,105 +151,105 @@ function WorkersForm() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
-              {!editing && (
+              { !editing && (
                 <TextField
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="Número de identidad"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.id}
+                  label={ t("types.workerID") }
+                  onBlur={ handleBlur }
+                  onChange={ handleChange }
+                  value={ values.id }
                   name="id"
-                  error={touched.id && !!errors.id}
-                  helperText={touched.id && errors.id}
-                  sx={{ gridColumn: "span 2" }}
+                  error={ touched.id && !!errors.id }
+                  helperText={ touched.id && errors.id }
+                  sx={ { gridColumn: "span 2" } }
                 />
-              )}
+              ) }
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.name}
+                label={ t("types.name") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.name }
                 name="name"
-                error={touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.name && !!errors.name }
+                helperText={ touched.name && errors.name }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Apellidos"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastNames}
+                label={ t("types.lastNames") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.lastNames }
                 name="lastNames"
-                error={touched.lastNames && !!errors.lastNames}
-                helperText={touched.lastNames && errors.lastNames}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.lastNames && !!errors.lastNames }
+                helperText={ touched.lastNames && errors.lastNames }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Correo"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
+                label={ t("types.email") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.email }
                 name="email"
-                error={touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.email && !!errors.email }
+                helperText={ touched.email && errors.email }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="password"
-                label="Contraseña"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.password}
+                label={ t("types.password") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.password }
                 name="password"
-                error={touched.password && !!errors.password}
-                helperText={touched.password && errors.password}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.password && !!errors.password }
+                helperText={ touched.password && errors.password }
+                sx={ { gridColumn: "span 2" } }
               />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={ { gridColumn: "span 2" } }>
                 <InputLabel id="demo-simple-select-filled-label">
-                  Rol
+                  { t("types.role") }
                 </InputLabel>
                 <Select
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.role}
+                  onBlur={ handleBlur }
+                  onChange={ handleChange }
+                  value={ values.role }
                   name="role"
-                  error={touched.role && !!errors.role}
-                  helpertext={touched.role && errors.role}
+                  error={ touched.role && !!errors.role }
+                  helpertext={ touched.role && errors.role }
                 >
-                  <MenuItem value={"MANAGER"}>Manager</MenuItem>
-                  <MenuItem value={"COMERCIAL"}>Comercial</MenuItem>
+                  <MenuItem value={ "MANAGER" }>{ t("types.roles.manager") }</MenuItem>
+                  <MenuItem value={ "COMERCIAL" }>{ t("types.roles.comercial") }</MenuItem>
                 </Select>
-                {touched.role && errors.role && (
-                  <FormHelperText sx={{ color: "#f44336" }}>
-                    {errors.role}
+                { touched.role && errors.role && (
+                  <FormHelperText sx={ { color: "#f44336" } }>
+                    { errors.role }
                   </FormHelperText> // Aquí se muestra el mensaje de error
-                )}
+                ) }
               </FormControl>
               <LocalizationProvider
-                dateAdapter={AdapterDayjs}
+                dateAdapter={ AdapterDayjs }
               ></LocalizationProvider>
             </Box>
             <Box
@@ -259,7 +262,7 @@ function WorkersForm() {
                 type="submit"
                 color="secondary"
                 variant="contained"
-                onClick={() => {
+                onClick={ () => {
                   console.log(errors);
                   if (
                     Object.keys(errors).length === 0 ||
@@ -268,13 +271,13 @@ function WorkersForm() {
                       Object.keys(errors).length === 1)
                   )
                     handleFormSubmit(values);
-                }}
+                } }
               >
-                Guardar
+                { t("form.save") }
               </Button>
             </Box>
           </form>
-        )}
+        ) }
       </Formik>
     </Box>
   );

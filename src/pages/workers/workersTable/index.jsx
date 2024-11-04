@@ -12,8 +12,8 @@ import { deleteClient, getClients } from "../../../apis/ClientAPI.js";
 import { deleteWorker, getWorkers } from "../../../apis/WorkerAPI.js";
 import { useTranslation } from "react-i18next";
 
-function WorkersTable() {
-  const { i18n } = useTranslation();
+function WorkersTable () {
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
   const localeText =
@@ -36,7 +36,7 @@ function WorkersTable() {
     setDialogOpen(false);
     await deleteWorker(selectedId);
     loadClients();
-    enqueueSnackbar("Cliente eliminado", { variant: "success" });
+    enqueueSnackbar(t("snackbarMessage.deleteWorker"), { variant: "success" });
   };
 
   //quitar el objeto y dejar el array vacio al cargar de la bd
@@ -73,43 +73,43 @@ function WorkersTable() {
     },
     {
       field: "name",
-      headerName: "Nombre",
+      headerName: t("types.name"),
       flex: 1,
     },
     {
       field: "lastNames",
-      headerName: "Apellidos",
+      headerName: t("types.lastNames"),
       flex: 1,
     },
     {
       field: "role",
-      headerName: "Rol",
+      headerName: t("types.role"),
       flex: 1,
     },
     {
       field: "email",
-      headerName: "Correo",
+      headerName: t("types.email"),
       flex: 1,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: t("types.actions"),
       flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={ <EditOutlinedIcon /> }
             label="Edit"
             className="textPrimary"
-            onClick={() => navigate(`/workers/${id}/edit`)}
+            onClick={ () => navigate(`/workers/${id}/edit`) }
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
+            icon={ <DeleteOutlinedIcon /> }
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={ handleDeleteClick(id) }
             color="inherit"
           />,
         ];
@@ -119,13 +119,13 @@ function WorkersTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
+      <SnackbarProvider maxSnack={ 3 } />
       <Header
-        title={"TRABAJADORES"}
-        subtitle={"Información de los trabajadores"}
+        title={ t("workers.title") }
+        subtitle={ t("workers.subtitle") }
       />
       <Box
-        sx={{
+        sx={ {
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -134,41 +134,41 @@ function WorkersTable() {
           "& .textPrimary": {
             color: "text.primary",
           },
-        }}
+        } }
       >
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
-          onClick={() => navigate(`/workers/new`)}
+          sx={ { mb: "10px" } }
+          onClick={ () => navigate(`/workers/new`) }
         >
-          Nuevo trabajador
+          { t("workers.newWorker") }
         </Button>
         <DataGrid
-          localeText={localeText}
-          initialState={{
+          localeText={ localeText }
+          initialState={ {
             pagination: {
               paginationModel: { pageSize: 25, page: 0 },
             },
-          }}
-          rows={rows}
-          columns={columns}
-          components={{
+          } }
+          rows={ rows }
+          columns={ columns }
+          components={ {
             Toolbar: () => (
               <TableToolbar
-                columns={columns}
-                rows={rows}
-                fileName={"Clientes"}
+                columns={ columns }
+                rows={ rows }
+                fileName={ "Clientes" }
               />
             ),
-          }}
+          } }
         />
         <ConfirmationDialog
-          title={"Está seguro de querer eliminar el trabajador?"}
-          text={"Tenga en cuenta que esta acción no se puede deshacer"}
-          open={dialogOpen}
-          handleClose={handleDialogClose}
-          handleAgree={handleDialogAgree}
+          title={ t("workers.deleteConfirmationTitle") }
+          text={ t("workers.deleteConfirmationText") }
+          open={ dialogOpen }
+          handleClose={ handleDialogClose }
+          handleAgree={ handleDialogAgree }
         />
       </Box>
     </Box>

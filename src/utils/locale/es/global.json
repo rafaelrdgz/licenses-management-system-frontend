@@ -122,7 +122,9 @@
 		"subtitle": "Información de los trabajadores del centro",
 		"newWorker": "NUEVO TRABAJADOR",
 		"createWorker": "Insertar nuevo trabajador",
-		"editWorker": "Editar trabajador"
+		"editWorker": "Editar trabajador",
+		"deleteConfirmationTitle": "¿Está seguro de querer eliminar el trabajador?",
+		"deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
 	},
 	"centerProfile": {
 		"title": "CENTRO",
@@ -164,6 +166,7 @@
 		"role": "Rol",
 		"password": "Contraseña",
 		"actions": "Acciones",
+		"workerID": "CI Trabajador",
 		"entityType": {
 			"drivingSchool": "Autoescuela",
 			"clinic": "Clínica"
@@ -510,21 +513,21 @@
 				"min": "El código debe tener al menos 6 caracteres",
 				"max": "El código debe tener menos de 36 caracteres"
 			}
+		}
+	},
+	"login": {
+		"fields": {
+			"email": "Correo",
+			"password": "Contraseña"
 		},
-		"login": {
-			"fields": {
-				"email": "Correo",
-				"password": "Contraseña"
-			},
-			"notFound": "Usuario o contraseña incorrectos",
-			"email": {
-				"email": "El correo no es válido",
-				"required": "El correo es requerido",
-				"matches": "Correo no válido"
-			},
-			"password": {
-				"required": "La contraseña es requerida"
-			}
+		"notFound": "Usuario o contraseña incorrectos",
+		"email": {
+			"email": "El correo no es válido",
+			"required": "El correo es requerido",
+			"matches": "Correo no válido"
+		},
+		"password": {
+			"required": "La contraseña es requerida"
 		}
 	},
 	"actions": {

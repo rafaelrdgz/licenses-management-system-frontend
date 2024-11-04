@@ -122,7 +122,9 @@
 		"subtitle": "Information of center workers",
 		"newWorker": "NEW WORKER",
 		"createWorker": "Insert new worker",
-		"editWorker": "Edit worker"
+		"editWorker": "Edit worker",
+		"deleteConfirmationTitle": "Are you sure you want to delete the worker?",
+		"deleteConfirmationText": "Keep in mind that this action cannot be undone"
 	},
 	"centerProfile": {
 		"title": "CENTER",
@@ -164,6 +166,7 @@
 		"role": "Role",
 		"password": "Password",
 		"actions": "Actions",
+		"workerID": "Worker ID",
 		"entityType": {
 			"drivingSchool": "Driving School",
 			"clinic": "Clinic"
@@ -526,5 +529,9 @@
 		"password": {
 			"required": "The password is required"
 		}
+	},
+	"actions": {
+		"edit": "Edit",
+		"delete": "Delete"
 	}
 }
