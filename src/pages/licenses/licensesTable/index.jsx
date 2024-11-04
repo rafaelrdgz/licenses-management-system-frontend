@@ -11,8 +11,8 @@ import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-function LicensesTable() {
-  const { i18n } = useTranslation();
+function LicensesTable () {
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
   const localeText =
@@ -33,7 +33,7 @@ function LicensesTable() {
     setDialogOpen(false);
     await deleteLicense(selectedId);
     loadLicenses();
-    enqueueSnackbar("Licencia eliminada", { variant: "success" });
+    enqueueSnackbar(t("snackbarMessage.deleteLicense"), { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ function LicensesTable() {
         license.expirationDate = dayjs(license.expirationDate).format(
           "DD/MM/YYYY"
         );
-        license.renewed = license.renewed ? "Renovado" : "No Renovado";
+        license.renewed = license.renewed ? t("types.renewed") : t("types.notRenewed");
       });
       setRows(data);
     } catch (error) {
@@ -66,63 +66,63 @@ function LicensesTable() {
   const columns = [
     {
       field: "id",
-      headerName: "Número de licencia",
+      headerName: t("types.licenseNumber"),
       flex: 1,
     },
     {
       field: "driverId",
-      headerName: "CI del conductor",
+      headerName: t("types.driverID"),
       flex: 1,
     },
     {
       field: "issueDate",
-      headerName: "Fecha de emisión",
+      headerName: t("types.issueDate"),
       flex: 1,
     },
     {
       field: "expirationDate",
-      headerName: "Fecha de expiración",
+      headerName: t("types.expirationDate"),
       flex: 1,
     },
     {
       field: "category",
-      headerName: "Categoría",
+      headerName: t("types.category"),
       flex: 1,
     },
     {
       field: "restrictions",
-      headerName: "Restricciones",
+      headerName: t("types.restrictions"),
       flex: 1,
     },
     {
       field: "renewed",
-      headerName: "Renovado",
+      headerName: t("types.renewed"),
       flex: 1,
     },
     {
       field: "points",
-      headerName: "Puntos",
+      headerName: t("types.points"),
       flex: 1,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: t("types.actions"),
       flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
-            label="Edit"
+            icon={ <EditOutlinedIcon /> }
+            label={ t("actions.edit") }
             className="textPrimary"
-            onClick={() => navigate(`/licenses/${id}/edit`)}
+            onClick={ () => navigate(`/licenses/${id}/edit`) }
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
+            icon={ <DeleteOutlinedIcon /> }
+            label={ t("actions.delete") }
+            onClick={ handleDeleteClick(id) }
             color="inherit"
           />,
         ];
@@ -132,18 +132,18 @@ function LicensesTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
-      <Header title={"LICENCIAS"} subtitle={"Información de las licencias"} />
+      <SnackbarProvider maxSnack={ 3 } />
+      <Header title={ t("licenses.title") } subtitle={ t("licenses.subtitle") } />
       <Button
         color="secondary"
         variant="contained"
-        sx={{ mb: "10px" }}
-        onClick={() => navigate(`/licenses/new`)}
+        sx={ { mb: "10px" } }
+        onClick={ () => navigate(`/licenses/new`) }
       >
-        Nueva licencia
+        { t("licenses.newLicense") }
       </Button>
       <Box
-        sx={{
+        sx={ {
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -152,34 +152,34 @@ function LicensesTable() {
           "& .textPrimary": {
             color: "text.primary",
           },
-        }}
+        } }
       >
         <DataGrid
-          localeText={localeText}
-          initialState={{
+          localeText={ localeText }
+          initialState={ {
             pagination: {
               paginationModel: { pageSize: 25, page: 0 },
             },
-          }}
-          rows={rows}
-          columns={columns}
-          components={{
+          } }
+          rows={ rows }
+          columns={ columns }
+          components={ {
             Toolbar: () => (
               <TableToolbar
-                columns={columns}
-                rows={rows}
-                fileName={"Licencias"}
+                columns={ columns }
+                rows={ rows }
+                fileName={ t("licenses.title") }
               />
             ),
-          }}
+          } }
         />
       </Box>
       <ConfirmationDialog
-        title={"Está seguro de querer eliminar la licencia?"}
-        text={"Tenga en cuenta que esta acción no se puede deshacer"}
-        open={dialogOpen}
-        handleClose={handleDialogClose}
-        handleAgree={handleDialogAgree}
+        title={ t("drivers.deleteConfirmationTitle") }
+        text={ t("drivers.deleteConfirmationText") }
+        open={ dialogOpen }
+        handleClose={ handleDialogClose }
+        handleAgree={ handleDialogAgree }
       />
     </Box>
   );

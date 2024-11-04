@@ -192,6 +192,18 @@
 			"speed": "Limitación de velocidad",
 			"drivingRadioLimit": "Límite del radio de conducción",
 			"onlyUrban": "Solo conducción en zonas urbanas"
+		},
+		"categoryLicense": {
+			"A1": "Ciclomotor",
+			"A": "Motocicleta",
+			"B": "Automóvil",
+			"C1": "Camión de hasta 7500 kg",
+			"C": "Camión de más de 7500 kg",
+			"D1": "Microbus",
+			"D": "Omnibus",
+			"E": "Articulado",
+			"F": "Agrícola, Industrial o de Construcción",
+			"FE": "Tractor con remolque"
 		}
 	},
 	"snackbarMessage": {

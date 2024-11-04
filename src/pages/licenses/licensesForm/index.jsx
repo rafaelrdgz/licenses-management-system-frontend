@@ -28,15 +28,19 @@ import {
 } from "../../../apis/LicensesAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
-function LicensesForm() {
+import { useTranslation } from "react-i18next";
+
+function LicensesForm () {
+  const { t } = useTranslation();
+
   const theme = useTheme();
   const restrictionsList = [
-    "Uso de lentes",
-    "Conducción diurna",
-    "Límite del radio de conducción",
-    "Conducción sin acompañantes",
-    "Limitación de velocidad",
-    "Solo conducción en zonas urbanas",
+    t("types.restrictionsTypes.glasses"),
+    t("types.restrictionsTypes.daylight"),
+    t("types.restrictionsTypes.drivingRadioLimit"),
+    t("types.restrictionsTypes.drivingAlone"),
+    t("types.restrictionsTypes.speed"),
+    t("types.restrictionsTypes.onlyUrban"),
   ];
 
   const ITEM_HEIGHT = 48;
@@ -73,16 +77,16 @@ function LicensesForm() {
     "FE",
   ]);
   const cat = {
-    A1: "Ciclomotor",
-    A: "Motocicleta",
-    B: "Automóvil",
-    C1: "Camión de hasta 7500 kg",
-    C: "Camión de más de 7500 kg",
-    D1: "Microbus",
-    D: "Omnibus",
-    E: "Articulado",
-    F: "Agrícola, Industrial o de Construcción",
-    FE: "Tractor con remolque",
+    A1: t("types.categoryLicense.A1"),
+    A: t("types.categoryLicense.A"),
+    B: t("types.categoryLicense.B"),
+    C1: t("types.categoryLicense.C1"),
+    C: t("types.categoryLicense.C"),
+    D1: t("types.categoryLicense.D1"),
+    D: t("types.categoryLicense.D"),
+    E: t("types.categoryLicense.E"),
+    F: t("types.categoryLicense.F"),
+    FE: t("types.categoryLicense.FE"),
   };
 
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -114,7 +118,7 @@ function LicensesForm() {
       renewed: true,
     }));
     console.log(info);
-    enqueueSnackbar("Licencia renovada", { variant: "success" });
+    enqueueSnackbar(t("snackbarMessage.renewLicense"), { variant: "success" });
   };
 
   useEffect(() => {
@@ -128,36 +132,36 @@ function LicensesForm() {
       .string()
       .matches(
         /^[0-9]+$/,
-        "El número de indentificación no debe contener letras"
+        t("form.client.id.matches")
       )
-      .required("El número de indentificación es requerido")
-      .min(11, "El número de indentificación debe tener 11 dígitos")
-      .max(11, "El número de indentificación debe tener 11 dígitos")
+      .required(t("form.client.id.required"))
+      .min(11, t("form.client.id.min"))
+      .max(11, t("form.client.id.max"))
       .test(
         "is-valid-id",
-        "El número de indentificación no es válido",
+        t("form.client.id.isValidIdDate"),
         isValidIdDate
       )
       .test(
         "is-valid-person",
-        "El número de identificación no se encuentra en el sistema",
+        t("form.client.id.isValidPersonID"),
         isValidPersonID
       )
       .test(
         "exist-driver",
-        "La persona con ese Id ya posee una licencia",
+        t("form.client.id.existPersonID"),
         existsDriver
       )
       .test(
         "exams-done",
-        "La persona no tiene aprobados los exámenes",
+        t("form.client.id.examsDone"),
         checkExamsDone
       ),
-    category: yup.string().required("El tipo de categoría es requerido"),
+    category: yup.string().required(t("form.license.category.required")),
     points: yup
       .number()
-      .required("Los puntos son requeridos")
-      .moreThan(-1, "Debe ingresar un valor positivo"),
+      .required(t("form.license.points.required"))
+      .moreThan(-1, t("form.license.points.moreThan")),
   });
 
   const handleFormSubmit = async () => {
@@ -198,31 +202,31 @@ function LicensesForm() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
+      <SnackbarProvider maxSnack={ 3 } />
       <Header
-        title={"LICENCIA " + info.id}
+        title={ "LICENCIA " + info.id }
         subtitle={
-          editing ? "Editar datos de licencia" : "Insertar nueva licencia"
+          editing ? t("licenses.editLicense") : t("licenses.newLicense")
         }
       />
-      {editing && !info.renewed && (
+      { editing && !info.renewed && (
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
-          onClick={renewLicense}
+          sx={ { mb: "10px" } }
+          onClick={ renewLicense }
         >
-          Renovar licencia
+          { t("licenses.renewLicense") }
         </Button>
-      )}
+      ) }
       <Formik
         enableReinitialize
         validateOnMount
-        initialValues={info}
-        validationSchema={checkoutSchema}
-        onSubmit={handleFormSubmit}
+        initialValues={ info }
+        validationSchema={ checkoutSchema }
+        onSubmit={ handleFormSubmit }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -230,155 +234,117 @@ function LicensesForm() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
-              {!editing && (
+              { !editing && (
                 <TextField
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="Número de identificación del conductor"
-                  onBlur={handleBlur}
-                  onChange={(event) => {
+                  label={ t("types.driverID") }
+                  onBlur={ handleBlur }
+                  onChange={ (event) => {
                     setInfo((prevInfo) => ({
                       ...prevInfo,
                       driverId: event.target.value,
                     }));
-                  }}
-                  value={values.driverId}
+                  } }
+                  value={ values.driverId }
                   name="driverId"
-                  error={touched.driverId && !!errors.driverId}
-                  helperText={touched.driverId && errors.driverId}
-                  sx={{ gridColumn: "span 2" }}
+                  error={ touched.driverId && !!errors.driverId }
+                  helperText={ touched.driverId && errors.driverId }
+                  sx={ { gridColumn: "span 2" } }
                 />
-              )}
-              {categories !== null && (
-                <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              ) }
+              { categories !== null && (
+                <FormControl variant="filled" sx={ { gridColumn: "span 2" } }>
                   <InputLabel id="demo-simple-select-filled-label">
-                    {editing ? "Agregar Categoría" : "Categoría"}
+                    { editing ? t("licenses.addCategory") : t("types.category") }
                   </InputLabel>
                   <Select
-                    onBlur={handleBlur}
-                    onChange={(event) => {
+                    onBlur={ handleBlur }
+                    onChange={ (event) => {
                       setInfo((prevInfo) => ({
                         ...prevInfo,
                         category: event.target.value,
                       }));
-                    }}
-                    value={values.category}
+                    } }
+                    value={ values.category }
                     name="category"
-                    error={touched.category && !!errors.category}
-                    helpertext={touched.category && errors.category}
+                    error={ touched.category && !!errors.category }
+                    helpertext={ touched.category && errors.category }
                   >
-                    {categories.map((c) => (
-                      <MenuItem key={c} value={c}>
-                        {cat[c]}
+                    { categories.map((c) => (
+                      <MenuItem key={ c } value={ c }>
+                        { cat[c] }
                       </MenuItem>
-                    ))}
-                    {/*<MenuItem value={"A1"}>Ciclomotor</MenuItem>*/}
-                    {/*<MenuItem value={"A"}>Motocicleta</MenuItem>*/}
-                    {/*<MenuItem value={"B"}>Automóvil</MenuItem>*/}
-                    {/*<MenuItem value={"C1"}>Camión de hasta 7500 kg</MenuItem>*/}
-                    {/*<MenuItem value={"C"}>Camión de más de 7500 kg</MenuItem>*/}
-                    {/*<MenuItem value={"D1"}>Microbus</MenuItem>*/}
-                    {/*<MenuItem value={"D"}>Omnibus</MenuItem>*/}
-                    {/*<MenuItem value={"E"}>Articulado</MenuItem>*/}
-                    {/*<MenuItem value={"F"}>*/}
-                    {/*  Agrícola, Industrial o de Construcción*/}
-                    {/*</MenuItem>*/}
-                    {/*<MenuItem value={"FE"}>Tractor con remolque</MenuItem>*/}
+                    )) }
                   </Select>
-                  {touched.category && errors.category && (
-                    <FormHelperText sx={{ color: "#f44336" }}>
-                      {errors.category}
-                    </FormHelperText> // Aquí se muestra el mensaje de error
-                  )}
+                  { touched.category && errors.category && (
+                    <FormHelperText sx={ { color: "#f44336" } }>
+                      { errors.category }
+                    </FormHelperText>
+                  ) }
                 </FormControl>
-              )}
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              ) }
+              <FormControl variant="filled" sx={ { gridColumn: "span 2" } }>
                 <InputLabel id="demo-simple-select-filled-label">
-                  Restricciones
+                  { t("types.restrictions") }
                 </InputLabel>
                 <Select
                   multiple
-                  value={info.restrictions.split(",")}
-                  onChange={handleRestrictionsChange}
+                  value={ info.restrictions.split(",") }
+                  onChange={ handleRestrictionsChange }
                   name="restrictions"
-                  MenuProps={MenuProps}
+                  MenuProps={ MenuProps }
                 >
-                  {restrictionsList.map((name) => (
+                  { restrictionsList.map((name) => (
                     <MenuItem
-                      key={name}
-                      value={name}
-                      style={{
+                      key={ name }
+                      value={ name }
+                      style={ {
                         backgroundColor:
                           theme.palette.mode === "dark"
                             ? info.restrictions.indexOf(name) > -1
                               ? "green"
                               : "#2f2f2f"
                             : info.restrictions.indexOf(name) > -1
-                            ? "green"
-                            : "#ffffff",
-                      }}
+                              ? "green"
+                              : "#ffffff",
+                      } }
                     >
-                      {name}
+                      { name }
                     </MenuItem>
-                  ))}
+                  )) }
                 </Select>
               </FormControl>
-              {editing && (
+              { editing && (
                 <TextField
                   fullWidth
                   variant="filled"
                   type="number"
-                  label="Puntos"
-                  onBlur={handleBlur}
-                  onChange={(event) => {
+                  label={ t("types.points") }
+                  onBlur={ handleBlur }
+                  onChange={ (event) => {
                     setInfo((prevInfo) => ({
                       ...prevInfo,
                       points: event.target.value,
                     }));
-                  }}
-                  value={info.points}
+                  } }
+                  value={ info.points }
                   name="points"
-                  error={touched.points && !!errors.points}
-                  helperText={touched.points && errors.points}
-                  sx={{ gridColumn: "span 2" }}
+                  error={ touched.points && !!errors.points }
+                  helperText={ touched.points && errors.points }
+                  sx={ { gridColumn: "span 2" } }
                 />
-              )}
-              {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  disabled
-                  format="DD/MM/YYYY"
-                  label="Fecha de emisión"
-                  sx={{ gridColumn: "span 2" }}
-                  value={info.issueDate}
-                  slotProps={{
-                    textField: {
-                      helperText: "DD/MM/YYYY",
-                    },
-                  }}
-                />
-                <DatePicker
-                  disabled
-                  format="DD/MM/YYYY"
-                  label="Fecha de expiración"
-                  sx={{ gridColumn: "span 2" }}
-                  value={info.expirationDate}
-                  slotProps={{
-                    textField: {
-                      helperText: "DD/MM/YYYY",
-                    },
-                  }}
-                />
-              </LocalizationProvider> */}
+              ) }
             </Box>
             <Box
               display="flex"
@@ -390,7 +356,7 @@ function LicensesForm() {
                 type="submit"
                 color="secondary"
                 variant="contained"
-                onClick={() => {
+                onClick={ () => {
                   console.log(errors);
                   if (
                     Object.keys(errors).length === 0 ||
@@ -399,13 +365,13 @@ function LicensesForm() {
                       Object.keys(errors).length < 3)
                   )
                     handleFormSubmit(values);
-                }}
+                } }
               >
-                Guardar
+                { t("form.save") }
               </Button>
             </Box>
           </form>
-        )}
+        ) }
       </Formik>
     </Box>
   );

@@ -192,6 +192,18 @@
 			"speed": "Speed Limit",
 			"drivingRadioLimit": "Driving Radius Limit",
 			"onlyUrban": "Urban Driving Only"
+		},
+		"categoryLicense": {
+			"A1": "Moped",
+			"A": "Motorcycle",
+			"B": "Car",
+			"C1": "Truck up to 7500 kg",
+			"C": "Truck over 7500 kg",
+			"D1": "Minibus",
+			"D": "Bus",
+			"E": "Articulated",
+			"F": "Agricultural, Industrial or Construction",
+			"FE": "Tractor with trailer"
 		}
 	},
 	"snackbarMessage": {
