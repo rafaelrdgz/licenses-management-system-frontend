@@ -113,7 +113,9 @@
 		"subtitle": "Información de las infracciones registradas",
 		"newInfraction": "NUEVA INFRACCIÓN",
 		"createInfraction": "Insertar nueva infracción",
-		"editInfraction": "Editar infracción"
+		"editInfraction": "Editar infracción",
+		"deleteConfirmationTitle": "Está seguro de querer eliminar la infracción?",
+		"deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
 	},
 	"workers": {
 		"title": "TRABAJADORES",
@@ -153,6 +155,7 @@
 		"infractionCode": "Código de infracción",
 		"pointsDeducted": "Puntos deducidos",
 		"paid": "Pagado",
+		"unpaid": "Sin pagar",
 		"description": "Descripción",
 		"directorName": "Nombre del director",
 		"humanResourcesName": "Nombre del jefe recursos humanos",

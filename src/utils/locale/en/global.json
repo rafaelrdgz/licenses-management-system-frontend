@@ -113,7 +113,9 @@
 		"subtitle": "Information of registered infractions",
 		"newInfraction": "NEW INFRACTION",
 		"createInfraction": "Insert new infraction",
-		"editInfraction": "Edit infraction"
+		"editInfraction": "Edit infraction",
+		"deleteConfirmationTitle": "Are you sure you want to delete the infraction?",
+		"deleteConfirmationText": "Keep in mind that this action cannot be undone"
 	},
 	"workers": {
 		"title": "WORKERS",
@@ -153,6 +155,7 @@
 		"infractionCode": "Infraction code",
 		"pointsDeducted": "Points deducted",
 		"paid": "Paid",
+		"unpaid": "Unpaid",
 		"description": "Description",
 		"directorName": "Director's name",
 		"humanResourcesName": "Human resources manager's name",

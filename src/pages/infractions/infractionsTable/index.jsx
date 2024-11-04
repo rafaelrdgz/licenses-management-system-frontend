@@ -12,8 +12,8 @@ import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-function InfractionsTable() {
-  const { i18n } = useTranslation();
+function InfractionsTable () {
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
   const localeText =
@@ -34,7 +34,7 @@ function InfractionsTable() {
     setDialogOpen(false);
     await deleteClient(selectedId);
     loadInfractions();
-    enqueueSnackbar("Infracción eliminada", { variant: "success" });
+    enqueueSnackbar(t("snackbarMessage.deleteInfraction"), { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ function InfractionsTable() {
       console.log(data);
       data.forEach((infraction) => {
         infraction.date = dayjs(infraction.date).format("DD/MM/YYYY");
-        infraction.paid = infraction.paid ? "Pagado" : "Pendiente";
+        infraction.paid = infraction.paid ? t("types.paid") : "Pendiente";
       });
       setRows(data);
     } catch (error) {
@@ -64,68 +64,68 @@ function InfractionsTable() {
   const columns = [
     {
       field: "id",
-      headerName: "Código",
+      headerName: t("types.infractionCode"),
       flex: 1,
     },
     {
       field: "driverid",
-      headerName: "CI del conductor",
+      headerName: t("types.driverID"),
       flex: 1,
     },
     {
       field: "licenseid",
-      headerName: "Número de licencia",
+      headerName: t("types.licenseNumber"),
       flex: 1,
     },
     {
       field: "type",
-      headerName: "Tipo",
+      headerName: t("types.infractionTypes"),
       flex: 1,
     },
     {
       field: "date",
-      headerName: "Fecha",
+      headerName: t("types.date"),
       flex: 1,
     },
     {
       field: "pointsDeducted",
-      headerName: "Puntos deducidos",
+      headerName: t("types.pointsDeducted"),
       flex: 1,
     },
     {
       field: "paid",
-      headerName: "Pagado",
+      headerName: t("types.paid"),
       flex: 1,
     },
     {
       field: "address",
-      headerName: "Dirección",
+      headerName: t("types.address"),
       flex: 1,
     },
     {
       field: "description",
-      headerName: "Descripción",
+      headerName: t("types.description"),
       flex: 1,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: t("types.actions"),
       flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={ <EditOutlinedIcon /> }
             label="Edit"
             className="textPrimary"
-            onClick={() => navigate(`/infractions/${id}/edit`)}
+            onClick={ () => navigate(`/infractions/${id}/edit`) }
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
+            icon={ <DeleteOutlinedIcon /> }
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={ handleDeleteClick(id) }
             color="inherit"
           />,
         ];
@@ -135,13 +135,13 @@ function InfractionsTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
+      <SnackbarProvider maxSnack={ 3 } />
       <Header
-        title={"INFRACCIONES"}
-        subtitle={"Información de las infracciones"}
+        title={ t("infractions.title") }
+        subtitle={ t("infractions.subtitle") }
       />
       <Box
-        sx={{
+        sx={ {
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -150,42 +150,42 @@ function InfractionsTable() {
           "& .textPrimary": {
             color: "text.primary",
           },
-        }}
+        } }
       >
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
-          onClick={() => navigate(`/infractions/new`)}
+          sx={ { mb: "10px" } }
+          onClick={ () => navigate(`/infractions/new`) }
         >
-          Nueva infracción
+          { t("infractions.newInfraction") }
         </Button>
         <DataGrid
-          localeText={localeText}
-          initialState={{
+          localeText={ localeText }
+          initialState={ {
             pagination: {
               paginationModel: { pageSize: 25, page: 0 },
             },
-          }}
-          rows={rows}
-          columns={columns}
-          components={{
+          } }
+          rows={ rows }
+          columns={ columns }
+          components={ {
             Toolbar: () => (
               <TableToolbar
-                columns={columns}
-                rows={rows}
-                fileName={"Infracciones"}
+                columns={ columns }
+                rows={ rows }
+                fileName={ t("infractions.title") }
               />
             ),
-          }}
+          } }
         />
       </Box>
       <ConfirmationDialog
-        title={"Está seguro de querer eliminar la infracción?"}
-        text={"Tenga en cuenta que esta acción no se puede deshacer"}
-        open={dialogOpen}
-        handleClose={handleDialogClose}
-        handleAgree={handleDialogAgree}
+        title={ t("infractions.deleteConfirmationTitle") }
+        text={ t("infractions.deleteConfirmationText") }
+        open={ dialogOpen }
+        handleClose={ handleDialogClose }
+        handleAgree={ handleDialogAgree }
       />
     </Box>
   );
