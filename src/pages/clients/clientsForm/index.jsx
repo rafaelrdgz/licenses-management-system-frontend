@@ -7,13 +7,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { isValidIdDate, existPersonID } from "../../../utils/validations.js";
+import { useTranslation } from "react-i18next";
 import {
   createClient,
   getClientById,
   updateClient,
 } from "../../../apis/ClientAPI.js";
 
-function ClientsForm() {
+function ClientsForm () {
+  const { t } = useTranslation();
+
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
@@ -48,58 +51,58 @@ function ClientsForm() {
       .string()
       .matches(
         /^[0-9]+$/,
-        "El número de indentificación no debe contener letras"
+        t("form.client.id.matches")
       )
-      .required("El número de indentificación es requerido")
-      .min(11, "El número de indentificación debe tener 11 dígitos")
-      .max(11, "El número de indentificación debe tener 11 dígitos")
+      .required(t("form.client.id.required"))
+      .min(11, t("form.client.id.min"))
+      .max(11, t("form.client.id.max"))
       .test(
         "is-valid-id",
-        "El número de indentificación no es válido",
+        t("form.client.id.isValidIdDate"),
         isValidIdDate
       )
       .test(
         "is-valid-person",
-        "El número de identificación ya pertenece a un cliente",
+        t("form.client.id.existPersonID"),
         existPersonID
       ),
     name: yup
       .string()
-      .required("El nombre es requerido")
+      .required(t("form.client.name.required"))
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre no debe contener números ni caracteres especiales"
+        t("form.client.name.matches")
       )
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(25, "El nombre debe tener menos de 25 caracteres"),
+      .min(3, t("form.client.name.min"))
+      .max(25, t("form.client.name.max")),
     lastNames: yup
       .string()
-      .required("Los apellidos son requeridos")
+      .required(t("form.client.lastNames.required"))
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "Los apellidos no deben contener números ni caracteres especiales"
+        t("form.client.lastNames.matches")
       )
-      .min(5, "Los apellidos deben tener al menos 5 caracteres")
-      .max(50, "Los apellidos deben tener menos de 50 caracteres"),
+      .min(5, t("form.client.lastNames.min"))
+      .max(50, t("form.client.lastNames.max")),
     address: yup
       .string()
-      .required("La dirección es requerida")
-      .min(10, "La dirección debe tener al menos 10 caracteres")
-      .max(100, "La dirección debe tener menos de 100 caracteres"),
+      .required(t("form.client.address.required"))
+      .min(10, t("form.client.address.min"))
+      .max(100, t("form.client.address.max")),
     phoneNumber: yup
       .string()
-      .required("El número de teléfono es requerido")
+      .required(t("form.client.phoneNumber.required"))
       .matches(
         /^[0-9]+$/,
-        "El número de teléfono no debe contener letras ni caracteres especiales"
+        t("form.client.phoneNumber.matches")
       )
-      .min(8, "El número de teléfono debe tener 8 dígitos")
-      .max(8, "El número de teléfono debe tener 8 dígitos"),
+      .min(8, t("form.client.phoneNumber.min"))
+      .max(8, t("form.client.phoneNumber.max")),
     email: yup
       .string()
-      .email("El correo debe ser un correo válido")
-      .required("El correo es requerido")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
+      .email(t("form.client.email.email"))
+      .required(t("form.client.email.required"))
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, t("form.client.email.matches")),
   });
 
   const handleFormSubmit = async (values) => {
@@ -139,16 +142,16 @@ function ClientsForm() {
   return (
     <Box m="20px">
       <Header
-        title={"CLIENTE " + info.id}
-        subtitle={editing ? "Editar cliente" : "Insertar nuevo cliente"}
+        title={ t("clients.title") + " " + info.id }
+        subtitle={ editing ? t("form.edit") : t("clients.createClient") }
       />
       <Formik
         enableReinitialize
         validateOnMount
-        initialValues={info}
-        validationSchema={checkoutSchema}
+        initialValues={ info }
+        validationSchema={ checkoutSchema }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -156,97 +159,97 @@ function ClientsForm() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
-              {!editing && (
+              { !editing && (
                 <TextField
                   fullWidth
                   variant="filled"
                   type="text"
-                  label="ID"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.id}
+                  label={ t("types.clientID") }
+                  onBlur={ handleBlur }
+                  onChange={ handleChange }
+                  value={ values.id }
                   name="id"
-                  error={touched.id && !!errors.id}
-                  helperText={touched.id && errors.id}
-                  sx={{ gridColumn: "span 2" }}
+                  error={ touched.id && !!errors.id }
+                  helperText={ touched.id && errors.id }
+                  sx={ { gridColumn: "span 2" } }
                 />
-              )}
+              ) }
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.name}
+                label={ t("types.name") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.name }
                 name="name"
-                error={touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.name && !!errors.name }
+                helperText={ touched.name && errors.name }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Apellidos"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.lastNames}
+                label={ t("types.lastNames") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.lastNames }
                 name="lastNames"
-                error={touched.lastNames && !!errors.lastNames}
-                helperText={touched.lastNames && errors.lastNames}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.lastNames && !!errors.lastNames }
+                helperText={ touched.lastNames && errors.lastNames }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Correo"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
+                label={ t("types.email") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.email }
                 name="email"
-                error={touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.email && !!errors.email }
+                helperText={ touched.email && errors.email }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Número de teléfono"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.phoneNumber}
+                label={ t("types.phoneNumber") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.phoneNumber }
                 name="phoneNumber"
-                error={touched.phoneNumber && !!errors.phoneNumber}
-                helperText={touched.phoneNumber && errors.phoneNumber}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.phoneNumber && !!errors.phoneNumber }
+                helperText={ touched.phoneNumber && errors.phoneNumber }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Dirección"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address}
+                label={ t("types.address") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.address }
                 name="address"
-                error={touched.address && !!errors.address}
-                helperText={touched.address && errors.address}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.address && !!errors.address }
+                helperText={ touched.address && errors.address }
+                sx={ { gridColumn: "span 2" } }
               />
               <LocalizationProvider
-                dateAdapter={AdapterDayjs}
+                dateAdapter={ AdapterDayjs }
               ></LocalizationProvider>
             </Box>
             <Box
@@ -259,7 +262,7 @@ function ClientsForm() {
                 type="text"
                 color="secondary"
                 variant="contained"
-                onClick={() => {
+                onClick={ () => {
                   console.log(errors);
                   if (
                     Object.keys(errors).length === 0 ||
@@ -268,13 +271,13 @@ function ClientsForm() {
                       Object.keys(errors).length === 1)
                   )
                     handleFormSubmit(values);
-                }}
+                } }
               >
-                Guardar
+                { t("form.save") }
               </Button>
             </Box>
           </form>
-        )}
+        ) }
       </Formik>
     </Box>
   );

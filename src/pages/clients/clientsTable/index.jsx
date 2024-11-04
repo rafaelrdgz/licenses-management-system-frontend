@@ -12,8 +12,8 @@ import { deleteWorker } from "../../../apis/WorkerAPI.js";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-function ClientsTable() {
-  const { i18n } = useTranslation();
+function ClientsTable () {
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
   const localeText =
@@ -34,7 +34,7 @@ function ClientsTable() {
     setDialogOpen(false);
     await deleteClient(selectedId);
     loadClients();
-    enqueueSnackbar("Cliente eliminado", { variant: "success" });
+    enqueueSnackbar(t("snackbarMessage.deleteClient"), { variant: "success" });
   };
 
   const navigate = useNavigate();
@@ -62,58 +62,58 @@ function ClientsTable() {
   const columns = [
     {
       field: "id",
-      headerName: "CI cliente",
+      headerName: t("types.clientID"),
       flex: 1,
     },
     {
       field: "name",
-      headerName: "Nombre",
+      headerName: t("types.name"),
       flex: 1,
     },
     {
       field: "lastNames",
-      headerName: "Apellidos",
+      headerName: t("types.lastNames"),
       flex: 1,
     },
     {
       field: "bornDate",
-      headerName: "Fecha de nacimiento",
+      headerName: t("types.bornDate"),
       flex: 1,
     },
     {
       field: "address",
-      headerName: "Dirección",
+      headerName: t("types.address"),
       flex: 1,
     },
     {
       field: "phoneNumber",
-      headerName: "Número de teléfono",
+      headerName: t("types.phoneNumber"),
       flex: 1,
     },
     {
       field: "email",
-      headerName: "Correo",
+      headerName: t("types.email"),
       flex: 1,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: t("types.actions"),
       flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
-            label="Edit"
+            icon={ <EditOutlinedIcon /> }
+            label={ t("form.edit") }
             className="textPrimary"
-            onClick={() => navigate(`/clients/${id}/edit`)}
+            onClick={ () => navigate(`/clients/${id}/edit`) }
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
+            icon={ <DeleteOutlinedIcon /> }
+            label={ t("form.delete") }
+            onClick={ handleDeleteClick(id) }
             color="inherit"
           />,
         ];
@@ -123,10 +123,10 @@ function ClientsTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
-      <Header title={"CLIENTES"} subtitle={"Información de los clientes"} />
+      <SnackbarProvider maxSnack={ 3 } />
+      <Header title={ t("clients.title") } subtitle={ t("clients.subtitle") } />
       <Box
-        sx={{
+        sx={ {
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -135,43 +135,43 @@ function ClientsTable() {
           "& .textPrimary": {
             color: "text.primary",
           },
-        }}
+        } }
       >
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
-          onClick={() => navigate(`/clients/new`)}
+          sx={ { mb: "10px" } }
+          onClick={ () => navigate(`/clients/new`) }
         >
-          Nuevo cliente
+          { t("clients.newClient") }
         </Button>
-        {rows.length >= 0 && (
+        { rows.length >= 0 && (
           <DataGrid
-            localeText={localeText}
-            initialState={{
+            localeText={ localeText }
+            initialState={ {
               pagination: {
                 paginationModel: { pageSize: 25, page: 0 },
               },
-            }}
-            rows={rows}
-            columns={columns}
-            components={{
+            } }
+            rows={ rows }
+            columns={ columns }
+            components={ {
               Toolbar: () => (
                 <TableToolbar
-                  columns={columns}
-                  rows={rows}
-                  fileName={"Clientes"}
+                  columns={ columns }
+                  rows={ rows }
+                  fileName={ t("clients.title") }
                 />
               ),
-            }}
+            } }
           />
-        )}
+        ) }
         <ConfirmationDialog
-          title={"Desea eliminar el cliente?"}
-          text={"Tenga en cuenta que esta acción no se puede deshacer"}
-          open={dialogOpen}
-          handleClose={handleDialogClose}
-          handleAgree={handleDialogAgree}
+          title={ t("dialogMessage.title") }
+          text={ t("dialogMessage.content") }
+          open={ dialogOpen }
+          handleClose={ handleDialogClose }
+          handleAgree={ handleDialogAgree }
         />
       </Box>
     </Box>
