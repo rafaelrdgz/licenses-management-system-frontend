@@ -58,7 +58,7 @@
 			"name": "Name",
 			"type": "Type",
 			"address": "Address",
-			"phone": "Phone",
+			"phone": "Phone Number",
 			"email": "Email",
 			"directorName": "Director Name"
 		},
@@ -67,6 +67,7 @@
 		"registeredInfractions": "Report of Registered Infractions in a Time Period",
 		"infractionsPerTypeInYear": {
 			"subtitle": "Consolidated Report of Infractions by Type in a Specific Year",
+			"year": "Year",
 			"summaryByType": "Summary by type",
 			"registeredInfractions": "Registered infractions"
 		},

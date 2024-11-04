@@ -24,9 +24,9 @@ import { useTranslation } from "react-i18next";
 import "dayjs/locale/es-us.js";
 import { LoadingButton } from "@mui/lab";
 
-function InfractionsByTypeReport() {
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Obtener el idioma actual
+function InfractionsByTypeReport () {
+  const { t } = useTranslation();
+  const currentLanguage = t.language; // Obtener el idioma actual
 
   const localeText =
     currentLanguage === "es"
@@ -144,30 +144,28 @@ function InfractionsByTypeReport() {
   };
 
   return (
-    <Box m={"20px"}>
+    <Box m={ "20px" }>
       <Header
-        title={"REPORTES"}
-        subtitle={
-          "Reporte Consolidado de Infracciones por Tipo en un Año Determinado"
-        }
+        title={ t("reports.title") }
+        subtitle={ t("reports.infractionsPerTypeInYear.subtitle") }
       />
-      {search && (
+      { search && (
         <LoadingButton
-          loading={loading}
-          sx={{ mb: "10px" }}
+          loading={ loading }
+          sx={ { mb: "10px" } }
           color="secondary"
           variant="contained"
-          onClick={handleExportPdf}
+          onClick={ handleExportPdf }
         >
-          Exportar PDF
+          { t("reports.export") }
         </LoadingButton>
-      )}
+      ) }
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
+        onSubmit={ handleFormSubmit }
+        initialValues={ initialValues }
+        validationSchema={ checkoutSchema }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -175,78 +173,76 @@ function InfractionsByTypeReport() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
               <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale={adapterLocale}
+                dateAdapter={ AdapterDayjs }
+                adapterLocale={ adapterLocale }
               >
                 <DatePicker
-                  value={values.year}
-                  onChange={(newValue) =>
+                  value={ values.year }
+                  onChange={ (newValue) =>
                     handleChange({
                       target: { name: "year", value: newValue },
                     })
                   }
-                  slotProps={{
+                  slotProps={ {
                     textField: {
                       error: Boolean(touched.year && errors.year),
                       helperText: touched.year && errors.year,
                     },
-                  }}
-                  minDate={dayjs("1-1-2015")}
-                  maxDate={dayjs()}
-                  sx={{ gridColumn: "span 2" }}
-                  label={"Año"}
-                  views={["year"]}
+                  } }
+                  minDate={ dayjs("1-1-2015") }
+                  maxDate={ dayjs() }
+                  sx={ { gridColumn: "span 2" } }
+                  label={ t("reports.infractionsPerTypeInYear.year") }
+                  views={ ["year"] }
                 />
               </LocalizationProvider>
             </Box>
             <Button
-              sx={{ mt: "10px" }}
+              sx={ { mt: "10px" } }
               type="submit"
               color="secondary"
               variant="contained"
             >
-              Buscar
+              { t("reports.find") }
             </Button>
           </form>
-        )}
+        ) }
       </Formik>
 
-      {noData && (
-        <Typography variant="h6" color="error" sx={{ mt: "10px" }}>
-          No hay registros para mostrar
+      { noData && (
+        <Typography variant="h6" color="error" sx={ { mt: "10px" } }>
+          { t("reports.noData") }
         </Typography>
-      )}
+      ) }
 
-      {search && (
+      { search && (
         <div>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Año: {info.year}
+            { t("reports.infractionsPerTypeInYear.year") }: { info.year }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Resumen por tipo{" "}
+            { t("reports.infractionsPerTypeInYear.summaryByType") }
           </Typography>
           <Box
-            sx={{
+            sx={ {
               height: "40vh",
               maxflex: "100%",
               "& .actions": {
@@ -255,38 +251,37 @@ function InfractionsByTypeReport() {
               "& .textPrimary": {
                 color: "text.primary",
               },
-            }}
+            } }
           >
             <DataGrid
-              localeText={localeText}
-              initialState={{
+              localeText={ localeText }
+              initialState={ {
                 pagination: {
                   paginationModel: { pageSize: 25, page: 0 },
                 },
-              }}
-              rows={info.typesRows}
-              columns={typesColumns}
-              components={{
+              } }
+              rows={ info.typesRows }
+              columns={ typesColumns }
+              components={ {
                 Toolbar: () => (
                   <TableToolbar
-                    columns={typesColumns}
-                    rows={info.typesRows}
-                    fileName={"Tipos de Infracciones"}
+                    columns={ typesColumns }
+                    rows={ info.typesRows }
+                    fileName={ "Infraction Types" }
                   />
                 ),
-              }}
+              } }
             />
           </Box>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Infracciones registradas{" "}
+            { t("reports.registeredInfractions") }
           </Typography>
           <Box
-            sx={{
+            sx={ {
               height: "70vh",
               maxflex: "100%",
               "& .actions": {
@@ -295,31 +290,32 @@ function InfractionsByTypeReport() {
               "& .textPrimary": {
                 color: "text.primary",
               },
-            }}
+            } }
           >
             <DataGrid
-              localeText={localeText}
-              initialState={{
+              localeText={ localeText }
+              initialState={ {
                 pagination: {
                   paginationModel: { pageSize: 25, page: 0 },
                 },
-              }}
-              rows={info.infractionsRows}
-              columns={infractionsColumns}
-              components={{
+              } }
+              rows={ info.infractionsRows }
+              columns={ infractionsColumns }
+              components={ {
                 Toolbar: () => (
                   <TableToolbar
-                    columns={infractionsColumns}
-                    rows={info.infractionsRows}
-                    fileName={"Infracciones"}
+                    columns={ infractionsColumns }
+                    rows={ info.infractionsRows }
+                    fileName={ "Infractions" }
                   />
                 ),
-              }}
+              } }
             />
           </Box>
         </div>
-      )}
+      ) }
     </Box>
+
   );
 }
 

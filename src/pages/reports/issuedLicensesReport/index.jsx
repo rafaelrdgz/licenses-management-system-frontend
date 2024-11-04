@@ -23,9 +23,9 @@ import {
 import { useTranslation } from "react-i18next";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-function IssuedLicensesReport() {
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Obtener el idioma actual
+function IssuedLicensesReport () {
+  const { t } = useTranslation();
+  const currentLanguage = t.language; // Obtener el idioma actual
 
   const localeText =
     currentLanguage === "es"
@@ -127,28 +127,28 @@ function IssuedLicensesReport() {
   };
 
   return (
-    <Box m={"20px"}>
+    <Box m={ "20px" }>
       <Header
-        title={"REPORTES"}
-        subtitle={"Reporte de Licencias Emitidas en un Período de Tiempo"}
+        title={ t("reports.title") }
+        subtitle={ t("reports.issuedLicenses") }
       />
-      {search && (
+      { search && (
         <LoadingButton
-          loading={loading}
-          sx={{ mb: "10px" }}
+          loading={ loading }
+          sx={ { mb: "10px" } }
           color="secondary"
           variant="contained"
-          onClick={handleExportPdf}
+          onClick={ handleExportPdf }
         >
-          Exportar PDF
+          { t("reports.export") }
         </LoadingButton>
-      )}
+      ) }
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
+        onSubmit={ handleFormSubmit }
+        initialValues={ initialValues }
+        validationSchema={ checkoutSchema }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -156,91 +156,89 @@ function IssuedLicensesReport() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
               <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale={adapterLocale}
+                dateAdapter={ AdapterDayjs }
+                adapterLocale={ adapterLocale }
               >
                 <DatePicker
-                  minDate={dayjs("2000-01-01")}
-                  maxDate={dayjs().subtract(1, "day")}
+                  minDate={ dayjs("2000-01-01") }
+                  maxDate={ dayjs().subtract(1, "day") }
                   format="DD/MM/YYYY"
-                  label="Fecha de inicio"
-                  sx={{ gridColumn: "span 2" }}
-                  value={values.startDate}
-                  onChange={(newValue) =>
+                  label={ t("reports.startDate") }
+                  sx={ { gridColumn: "span 2" } }
+                  value={ values.startDate }
+                  onChange={ (newValue) =>
                     handleChange({
                       target: { name: "startDate", value: newValue },
                     })
                   }
-                  slotProps={{
+                  slotProps={ {
                     textField: {
                       error: Boolean(touched.startDate && errors.startDate),
                       helperText: touched.startDate && errors.startDate,
                     },
-                  }}
+                  } }
                 />
                 <DatePicker
                   format="DD/MM/YYYY"
-                  minDate={dayjs("2000-01-01")}
-                  maxDate={dayjs()}
-                  label="Fecha de fin"
-                  sx={{ gridColumn: "span 2" }}
-                  value={values.endDate}
-                  onChange={(newValue) =>
+                  minDate={ dayjs("2000-01-01") }
+                  maxDate={ dayjs() }
+                  label={ t("reports.endDate") }
+                  sx={ { gridColumn: "span 2" } }
+                  value={ values.endDate }
+                  onChange={ (newValue) =>
                     handleChange({
                       target: { name: "endDate", value: newValue },
                     })
                   }
-                  slotProps={{
+                  slotProps={ {
                     textField: {
                       error: Boolean(touched.endDate && errors.endDate),
                       helperText: touched.endDate && errors.endDate,
                     },
-                  }}
+                  } }
                 />
               </LocalizationProvider>
             </Box>
             <Button
-              sx={{ mt: "10px", mb: "30px" }}
+              sx={ { mt: "10px", mb: "30px" } }
               type="submit"
               color="secondary"
               variant="contained"
             >
-              Buscar
+              { t("reports.find") }
             </Button>
           </form>
-        )}
+        ) }
       </Formik>
 
-      {search && (
+      { search && (
         <div>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Fecha de inicio: {info.startDate.format("DD/MM/YYYY").toString()}
+            { t("reports.startDate") }: { info.startDate.format("DD/MM/YYYY").toString() }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Fecha de fin: {info.endDate.format("DD/MM/YYYY").toString()}
+            { t("reports.endDate") }: { info.endDate.format("DD/MM/YYYY").toString() }
           </Typography>
           <Box
-            sx={{
+            sx={ {
               height: "80vh",
               maxflex: "100%",
               "& .actions": {
@@ -249,31 +247,32 @@ function IssuedLicensesReport() {
               "& .textPrimary": {
                 color: "text.primary",
               },
-            }}
+            } }
           >
             <DataGrid
-              localeText={localeText}
-              initialState={{
+              localeText={ localeText }
+              initialState={ {
                 pagination: {
                   paginationModel: { pageSize: 25, page: 0 },
                 },
-              }}
-              rows={info.rows}
-              columns={columns}
-              components={{
+              } }
+              rows={ info.rows }
+              columns={ columns }
+              components={ {
                 Toolbar: () => (
                   <TableToolbar
-                    columns={columns}
-                    rows={info.rows}
-                    fileName={"Licencias"}
+                    columns={ columns }
+                    rows={ info.rows }
+                    fileName={ "Licenses" }
                   />
                 ),
-              }}
+              } }
             />
           </Box>
         </div>
-      )}
+      ) }
     </Box>
+
   );
 }
 

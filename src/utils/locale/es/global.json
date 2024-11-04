@@ -67,6 +67,7 @@
 		"registeredInfractions": "Reporte de Infracciones Registradas en un Período de Tiempo",
 		"infractionsPerTypeInYear": {
 			"subtitle": "Reporte Consolidado de Infracciones por Tipo en un Año Determinado",
+			"year": "Año",
 			"summaryByType": "Resumen por tipo",
 			"registeredInfractions": "Infracciones registradas"
 		},
