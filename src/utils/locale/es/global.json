@@ -53,6 +53,15 @@
 			"registeredInfractions": "Infracciones registradas"
 		},
 		"entityInfo": "Ficha de una Entidad Asociada",
+		"entity": {
+			"entityCode": "Código de entidad",
+			"name": "Nombre",
+			"type": "Tipo",
+			"address": "Dirección",
+			"phone": "Teléfono",
+			"email": "Email",
+			"directorName": "Nombre del director"
+		},
 		"issuedLicenses": "Reporte de Licencias Emitidas en un Período de Tiempo",
 		"examsTaken": "Reporte de Exámenes Realizados en un Período de Tiempo",
 		"registeredInfractions": "Reporte de Infracciones Registradas en un Período de Tiempo",

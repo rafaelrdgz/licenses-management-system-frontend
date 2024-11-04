@@ -15,8 +15,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { fetchEntityPdf, getEntityById } from "../../../apis/EntityAPI.js";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { useTranslation } from "react-i18next";
 
-function EntityReport() {
+function EntityReport () {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -62,26 +63,31 @@ function EntityReport() {
     setLoading(false);
   };
 
+  const { t } = useTranslation();
+
   return (
-    <Box m={"20px"}>
-      <Header title={"REPORTES"} subtitle={"Ficha de una Entidad Asociada"} />
-      {search && (
+    <Box m={ "20px" }>
+      <Header
+        title={ t("reports.title") }
+        subtitle={ t("reports.entityInfo") }
+      />
+      { search && (
         <LoadingButton
-          loading={loading}
-          sx={{ mb: "10px" }}
+          loading={ loading }
+          sx={ { mb: "10px" } }
           color="secondary"
           variant="contained"
-          onClick={handleExportPdf}
+          onClick={ handleExportPdf }
         >
-          Exportar PDF
+          { t("reports.export") }
         </LoadingButton>
-      )}
+      ) }
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
+        onSubmit={ handleFormSubmit }
+        initialValues={ initialValues }
+        validationSchema={ checkoutSchema }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -89,104 +95,97 @@ function EntityReport() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Código de entidad"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.code}
+                label={ t("reports.entity.entityCode") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.code }
                 name="code"
-                error={touched.code && !!errors.code}
-                helperText={touched.code && errors.code}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.code && !!errors.code }
+                helperText={ touched.code && errors.code }
+                sx={ { gridColumn: "span 2" } }
               />
               <LocalizationProvider
-                dateAdapter={AdapterDayjs}
+                dateAdapter={ AdapterDayjs }
               ></LocalizationProvider>
             </Box>
             <Button
-              sx={{ mt: "10px" }}
+              sx={ { mt: "10px" } }
               type="submit"
               color="secondary"
               variant="contained"
             >
-              Buscar
+              { t("reports.find") }
             </Button>
           </form>
-        )}
+        ) }
       </Formik>
 
-      {search && (
+      { search && (
         <div>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Código: {info.code}
+            { t("reports.entity.entityCode") }: { info.code }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Nombre: {info.name}
+            { t("reports.entity.name") }: { info.name }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Tipo: {info.type}
+            { t("reports.entity.type") }: { info.type }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Dirección: {info.address}
+            { t("reports.entity.address") }: { info.address }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Teléfono: {info.phone}
+            { t("reports.entity.phone") }: { info.phone }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Email: {info.email}
+            { t("reports.entity.email") }: { info.email }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Nombre del director: {info.directorName}
+            { t("reports.entity.directorName") }: { info.directorName }
           </Typography>
         </div>
-      )}
+      ) }
     </Box>
   );
 }

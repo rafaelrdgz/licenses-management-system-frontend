@@ -53,6 +53,15 @@
 			"registeredInfractions": "Registered infractions"
 		},
 		"entityInfo": "Record of an Associated Entity",
+		"entity": {
+			"entityCode": "Entity Code",
+			"name": "Name",
+			"type": "Type",
+			"address": "Address",
+			"phone": "Phone",
+			"email": "Email",
+			"directorName": "Director Name"
+		},
 		"issuedLicenses": "Report of Licenses Issued in a Time Period",
 		"examsTaken": "Report of Exams Taken in a Time Period",
 		"registeredInfractions": "Report of Registered Infractions in a Time Period",
