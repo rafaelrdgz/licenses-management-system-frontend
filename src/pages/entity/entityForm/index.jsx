@@ -18,7 +18,11 @@ import {
   updateEntity,
 } from "../../../apis/EntityAPI.js";
 
-function EntityForm() {
+import { useTranslation } from "react-i18next";
+
+function EntityForm () {
+
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
 
   const [info, setInfo] = useState({
@@ -52,48 +56,48 @@ function EntityForm() {
   const checkoutSchema = yup.object().shape({
     // code: yup
     //   .string()
-    //   .matches(/^[0-9]+$/, "El código debe ser un número")
-    //   .required("El código es requerido")
-    //   .min(6, "El código debe tener al menos 6 caracteres")
-    //   .max(16, "El código debe tener menos de 16 caracteres"),
+    //   .matches(/^[0-9]+$/, t("form.entity.code.matches"))
+    //   .required(t("form.entity.code.required"))
+    //   .min(6, t("form.entity.code.min"))
+    //   .max(16, t("form.entity.code.max")),
     name: yup
       .string()
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre no debe contener números ni caracteres especiales"
+        t("form.entity.name.matches")
       )
-      .required("El nombre es requerido")
-      .min(3, "El nombre debe tener al menos 3 caracteres")
-      .max(50, "El nombre debe tener menos de 50 caracteres"),
+      .required(t("form.entity.name.required"))
+      .min(3, t("form.entity.name.min"))
+      .max(50, t("form.entity.name.max")),
     address: yup
       .string()
-      .required("La dirección es requerida")
-      .min(10, "La dirección debe tener al menos 10 caracteres")
-      .max(100, "La dirección debe tener menos de 100 caracteres"),
+      .required(t("form.entity.address.required"))
+      .min(10, t("form.entity.address.min"))
+      .max(100, t("form.entity.address.max")),
     phone: yup
       .string()
       .matches(
         /^[0-9]+$/,
-        "El número de teléfono no debe contener letras ni caracteres especiales"
+        t("form.entity.phone.matches")
       )
-      .required("El número de teléfono es requerido")
-      .min(8, "El número de teléfono debe tener 8 dígitos")
-      .max(8, "El número de teléfono debe tener 8 dígitos"),
+      .required(t("form.entity.phone.required"))
+      .min(8, t("form.entity.phone.min"))
+      .max(8, t("form.entity.phone.max")),
     directorName: yup
       .string()
       .matches(
         /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/,
-        "El nombre del director no debe contener números ni caracteres especiales"
+        t("form.entity.directorName.matches")
       )
-      .required("El nombre del director es requerido")
-      .min(5, "El nombre del director debe tener al menos 5 caracteres")
-      .max(50, "El nombre del director debe tener menos de 50 caracteres"),
+      .required(t("form.entity.directorName.required"))
+      .min(5, t("form.entity.directorName.min"))
+      .max(50, t("form.entity.directorName.max")),
     email: yup
       .string()
-      .email("El correo debe ser un correo válido")
-      .required("El correo es requerido")
-      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Correo no válido"),
-    type: yup.string().required("El tipo de entidad es requerido"),
+      .email(t("form.entity.email.email"))
+      .required(t("form.entity.email.required"))
+      .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, t("form.entity.email.matches")),
+    type: yup.string().required(t("form.entity.type.required")),
   });
 
   const handleFormSubmit = async (values) => {
@@ -110,16 +114,16 @@ function EntityForm() {
   return (
     <Box m="20px">
       <Header
-        title={"ENTIDAD " + info.code}
-        subtitle={editing ? "Editar entidad" : "Crear nueva entidad"}
+        title={ t("entities.title") + info.code }
+        subtitle={ editing ? t("entities.editEntity") : t("entities.newEntity") }
       />
       <Formik
         enableReinitialize
         validateOnMount
-        initialValues={info}
-        validationSchema={checkoutSchema}
+        initialValues={ info }
+        validationSchema={ checkoutSchema }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -127,100 +131,100 @@ function EntityForm() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.name}
+                label={ t("types.name") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.name }
                 name="name"
-                error={touched.name && !!errors.name}
-                helperText={touched.name && errors.name}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.name && !!errors.name }
+                helperText={ touched.name && errors.name }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Número de teléfono"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.phone}
+                label={ t("types.phoneNumber") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.phone }
                 name="phone"
-                error={touched.phone && !!errors.phone}
-                helperText={touched.phone && errors.phone}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.phone && !!errors.phone }
+                helperText={ touched.phone && errors.phone }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Correo"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.email}
+                label={ t("types.email") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.email }
                 name="email"
-                error={touched.email && !!errors.email}
-                helperText={touched.email && errors.email}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.email && !!errors.email }
+                helperText={ touched.email && errors.email }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Nombre del director"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.directorName}
+                label={ t("types.directorName") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.directorName }
                 name="directorName"
-                error={touched.directorName && !!errors.directorName}
-                helperText={touched.directorName && errors.directorName}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.directorName && !!errors.directorName }
+                helperText={ touched.directorName && errors.directorName }
+                sx={ { gridColumn: "span 2" } }
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Dirección"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.address}
+                label={ t("types.address") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.address }
                 name="address"
-                error={touched.address && !!errors.address}
-                helperText={touched.address && errors.address}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.address && !!errors.address }
+                helperText={ touched.address && errors.address }
+                sx={ { gridColumn: "span 2" } }
               />
-              <FormControl variant="filled" sx={{ gridColumn: "span 2" }}>
+              <FormControl variant="filled" sx={ { gridColumn: "span 2" } }>
                 <InputLabel id="demo-simple-select-filled-label">
-                  Tipo
+                  { t("types.type") }
                 </InputLabel>
                 <Select
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.type}
+                  onBlur={ handleBlur }
+                  onChange={ handleChange }
+                  value={ values.type }
                   name="type"
-                  error={touched.type && !!errors.type}
-                  helpertext={touched.type && errors.type}
+                  error={ touched.type && !!errors.type }
+                  helpertext={ touched.type && errors.type }
                 >
-                  <MenuItem value={"AUTOESCUELA"}>Autoescuela</MenuItem>
-                  <MenuItem value={"CLINICA"}>Clínica</MenuItem>
+                  <MenuItem value={ "AUTOESCUELA" }>{ t("types.entityType.drivingSchool") }</MenuItem>
+                  <MenuItem value={ "CLINICA" }>{ t("types.entityType.clinic") }</MenuItem>
                 </Select>
-                {touched.type && errors.type && (
-                  <FormHelperText sx={{ color: "#f44336" }}>
-                    {errors.type}
+                { touched.type && errors.type && (
+                  <FormHelperText sx={ { color: "#f44336" } }>
+                    { errors.type }
                   </FormHelperText>
-                )}
+                ) }
               </FormControl>
             </Box>
             <Box
@@ -233,16 +237,16 @@ function EntityForm() {
                 type="text"
                 color="secondary"
                 variant="contained"
-                onClick={() => {
+                onClick={ () => {
                   if (Object.keys(errors).length === 0)
                     handleFormSubmit(values);
-                }}
+                } }
               >
-                Guardar
+                { t("form.save") }
               </Button>
             </Box>
           </form>
-        )}
+        ) }
       </Formik>
     </Box>
   );

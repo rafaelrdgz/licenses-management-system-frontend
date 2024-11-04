@@ -76,7 +76,7 @@
 	"entities": {
 		"title": "ENTITIES",
 		"subtitle": "Information of related entities",
-		"newEntity": "NEW ENTITY",
+		"newEntity": "New entity",
 		"createEntity": "Insert new entity",
 		"editEntity": "Edit entity"
 	},
@@ -241,6 +241,12 @@
 			},
 			"type": {
 				"required": "The entity type is required"
+			},
+			"code": {
+				"matches": "El código debe ser un número",
+				"required": "El código es requerido",
+				"min": "El código debe tener al menos 6 caracteres",
+				"max": "El código debe tener menos de 16 caracteres"
 			}
 		},
 		"client": {

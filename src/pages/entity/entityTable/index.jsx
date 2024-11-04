@@ -10,9 +10,9 @@ import { deleteEntity, getEntities } from "../../../apis/EntityAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { useTranslation } from "react-i18next";
 
-function EntityTable() {
-  const { i18n } = useTranslation();
-  const currentLanguage = i18n.language; // Obtener el idioma actual
+function EntityTable () {
+  const { t } = useTranslation();
+  const currentLanguage = t.language; // Obtener el idioma actual
 
   const localeText =
     currentLanguage === "es"
@@ -95,16 +95,16 @@ function EntityTable() {
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={ <EditOutlinedIcon /> }
             label="Edit"
             className="textPrimary"
-            onClick={() => navigate(`/entity/${id}/edit`)}
+            onClick={ () => navigate(`/entity/${id}/edit`) }
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteOutlinedIcon />}
+            icon={ <DeleteOutlinedIcon /> }
             label="Delete"
-            onClick={handleDeleteClick(id)}
+            onClick={ handleDeleteClick(id) }
             color="inherit"
           />,
         ];
@@ -114,13 +114,13 @@ function EntityTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
+      <SnackbarProvider maxSnack={ 3 } />
       <Header
-        title={"ENTIDADES"}
-        subtitle={"Información de las entidades relacionadas"}
+        title={ t('entities.title') }
+        subtitle={ t('entities.subtitle') }
       />
       <Box
-        sx={{
+        sx={ {
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -129,47 +129,47 @@ function EntityTable() {
           "& .textPrimary": {
             color: "text.primary",
           },
-        }}
+        } }
       >
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
-          onClick={() => navigate(`/entity/new`)}
+          sx={ { mb: "10px" } }
+          onClick={ () => navigate(`/entity/new`) }
         >
-          Nueva entidad
+          { t('entities.newEntity') }
         </Button>
-        {rows.length >= 0 && (
+        { rows.length >= 0 && (
           <DataGrid
-            localeText={localeText}
-            initialState={{
+            localeText={ localeText }
+            initialState={ {
               pagination: {
                 paginationModel: { pageSize: 25, page: 0 },
               },
-            }}
-            rows={rows}
-            columns={columns}
-            getRowId={(row) => {
+            } }
+            rows={ rows }
+            columns={ columns }
+            getRowId={ (row) => {
               return row.code;
-            }}
-            components={{
+            } }
+            components={ {
               Toolbar: () => (
                 <TableToolbar
-                  columns={columns}
-                  rows={rows}
-                  fileName={"Entidades"}
+                  columns={ columns }
+                  rows={ rows }
+                  fileName={ t('entities.createEntity') } // Aquí podrías usar un nombre de archivo traducido si lo necesitas
                 />
               ),
-            }}
+            } }
           />
-        )}
+        ) }
       </Box>
       <ConfirmationDialog
-        title={"Está seguro de querer eliminar la entidad?"}
-        text={"Tenga en cuenta que esta acción no se puede deshacer"}
-        open={dialogOpen}
-        handleClose={handleDialogClose}
-        handleAgree={handleDialogAgree}
+        title={ t('entities.editEntity') }
+        text={ t('entities.editEntity') } // Si este texto también está en el JSON, reemplaza con la clave adecuada
+        open={ dialogOpen }
+        handleClose={ handleDialogClose }
+        handleAgree={ handleDialogAgree }
       />
     </Box>
   );
