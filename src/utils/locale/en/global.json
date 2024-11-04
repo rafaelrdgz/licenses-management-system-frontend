@@ -204,6 +204,10 @@
 			"E": "Articulated",
 			"F": "Agricultural, Industrial or Construction",
 			"FE": "Tractor with trailer"
+		},
+		"examResult": {
+			"approved": "Approved",
+			"failed": "Failed"
 		}
 	},
 	"snackbarMessage": {

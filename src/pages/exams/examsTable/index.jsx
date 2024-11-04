@@ -10,8 +10,8 @@ import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-function ExamsTable() {
-  const { i18n } = useTranslation();
+function ExamsTable () {
+  const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
   const localeText =
@@ -60,52 +60,52 @@ function ExamsTable() {
   const columns = [
     {
       field: "personId",
-      headerName: "CI cliente",
+      headerName: t("types.clientID"),
       flex: 1,
     },
     {
       field: "id",
-      headerName: "Código de exámen",
+      headerName: t("types.examCode"),
       flex: 1,
     },
     {
       field: "entityCode",
-      headerName: "Código de entidad",
+      headerName: t("types.entityCode"),
       flex: 1,
     },
     {
       field: "examinerName",
-      headerName: "Nombre del examinador",
+      headerName: t("types.examinerName"),
       flex: 1,
     },
     {
       field: "type",
-      headerName: "Tipo",
+      headerName: t("types.type"),
       flex: 1,
     },
     {
       field: "result",
-      headerName: "Resultado",
+      headerName: t("types.result"),
       flex: 1,
     },
     {
       field: "date",
-      headerName: "Fecha",
+      headerName: t("types.date"),
       flex: 1,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: t("types.actions"),
       flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={<EditOutlinedIcon />}
+            icon={ <EditOutlinedIcon /> }
             label="Edit"
             className="textPrimary"
-            onClick={() => navigate(`/exams/${id}/edit`)}
+            onClick={ () => navigate(`/exams/${id}/edit`) }
             color="inherit"
           />,
           // <GridActionsCellItem
@@ -121,10 +121,10 @@ function ExamsTable() {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={3} />
-      <Header title={"EXAMENES"} subtitle={"Información de los exámenes"} />
+      <SnackbarProvider maxSnack={ 3 } />
+      <Header title={ t("exams.title") } subtitle={ t("exams.subtitle") } />
       <Box
-        sx={{
+        sx={ {
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -133,43 +133,43 @@ function ExamsTable() {
           "& .textPrimary": {
             color: "text.primary",
           },
-        }}
+        } }
       >
         <Button
           color="secondary"
           variant="contained"
-          sx={{ mb: "10px" }}
-          onClick={() => navigate(`/exams/new`)}
+          sx={ { mb: "10px" } }
+          onClick={ () => navigate(`/exams/new`) }
         >
-          Nuevo exámen
+          { t("exams.newExam") }
         </Button>
         <DataGrid
-          localeText={localeText}
-          initialState={{
+          localeText={ localeText }
+          initialState={ {
             pagination: {
               paginationModel: { pageSize: 25, page: 0 },
             },
-          }}
-          rows={rows}
-          columns={columns}
-          components={{
+          } }
+          rows={ rows }
+          columns={ columns }
+          components={ {
             Toolbar: () => (
               <TableToolbar
-                columns={columns}
-                rows={rows}
-                fileName={"Exámenes"}
+                columns={ columns }
+                rows={ rows }
+                fileName={ t("exams.title") }
               />
             ),
-          }}
+          } }
         />
       </Box>
-      {/*<ConfirmationDialog*/}
-      {/*  title={"Está seguro de querer eliminar el exámen?"}*/}
-      {/*  text={"Tenga en cuenta que esta acción no se puede deshacer"}*/}
-      {/*  open={dialogOpen}*/}
-      {/*  handleClose={handleDialogClose}*/}
-      {/*  handleAgree={handleDialogAgree}*/}
-      {/*/>*/}
+      {/*<ConfirmationDialog*/ }
+      {/*  title={"Está seguro de querer eliminar el exámen?"}*/ }
+      {/*  text={"Tenga en cuenta que esta acción no se puede deshacer"}*/ }
+      {/*  open={dialogOpen}*/ }
+      {/*  handleClose={handleDialogClose}*/ }
+      {/*  handleAgree={handleDialogAgree}*/ }
+      {/*/>*/ }
     </Box>
   );
 }

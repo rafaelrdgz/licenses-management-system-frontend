@@ -204,6 +204,10 @@
 			"E": "Articulado",
 			"F": "Agrícola, Industrial o de Construcción",
 			"FE": "Tractor con remolque"
+		},
+		"esult": {
+			"approved": "Aprobado",
+			"failed": "Reprobado"
 		}
 	},
 	"snackbarMessage": {
