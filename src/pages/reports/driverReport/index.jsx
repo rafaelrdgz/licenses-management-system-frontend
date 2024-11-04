@@ -19,7 +19,7 @@ import { fetchDriverPdf, getDriverReport } from "../../../apis/ReportsAPI.js";
 import { useTranslation } from "react-i18next";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-function DriverReport() {
+function DriverReport () {
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
@@ -141,29 +141,31 @@ function DriverReport() {
     setLoading(false);
   };
 
+  const { t } = useTranslation();
+
   return (
-    <Box m={"20px"}>
+    <Box m={ "20px" }>
       <Header
-        title={"REPORTES"}
-        subtitle={"Ficha de un Conductor Determinado"}
+        title={ t("reports.title") }
+        subtitle={ t("reports.driverInfo.subtitle") }
       />
-      {search && (
+      { search && (
         <LoadingButton
-          sx={{ mb: "10px" }}
-          loading={loading}
+          sx={ { mb: "10px" } }
+          loading={ loading }
           color="secondary"
           variant="contained"
-          onClick={handleExportPdf}
+          onClick={ handleExportPdf }
         >
-          Exportar PDF
+          { t("reports.export") }
         </LoadingButton>
-      )}
+      ) }
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-        validationSchema={checkoutSchema}
+        onSubmit={ handleFormSubmit }
+        initialValues={ initialValues }
+        validationSchema={ checkoutSchema }
       >
-        {({
+        { ({
           values,
           errors,
           touched,
@@ -171,104 +173,97 @@ function DriverReport() {
           handleChange,
           handleSubmit,
         }) => (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit }>
             <Box
               display="grid"
               gap="30px"
               gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              sx={{
+              sx={ {
                 "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
+              } }
             >
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Número de identidad"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.id}
+                label={ t("reports.driverInfo.idenityNumber") }
+                onBlur={ handleBlur }
+                onChange={ handleChange }
+                value={ values.id }
                 name="id"
-                error={touched.id && !!errors.id}
-                helperText={touched.id && errors.id}
-                sx={{ gridColumn: "span 2" }}
+                error={ touched.id && !!errors.id }
+                helperText={ touched.id && errors.id }
+                sx={ { gridColumn: "span 2" } }
               />
               <LocalizationProvider
-                dateAdapter={AdapterDayjs}
+                dateAdapter={ AdapterDayjs }
               ></LocalizationProvider>
             </Box>
             <Button
-              sx={{ mt: "10px" }}
+              sx={ { mt: "10px" } }
               type="submit"
               color="secondary"
               variant="contained"
             >
-              Buscar
+              { t("reports.find") }
             </Button>
           </form>
-        )}
+        ) }
       </Formik>
 
-      {search && (
+      { search && (
         <div>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Número de identidad: {info.id}
+            { t("reports.driverInfo.idenityNumber") }: { info.id }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Nombre: {info.name}
+            { t("reports.driverInfo.name") }: { info.name }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Apellidos: {info.lastNames}
+            { t("reports.driverInfo.lastName") }: { info.lastNames }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Dirección: {info.address}
+            { t("reports.driverInfo.address") }: { info.address }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Télefono: {info.phoneNumber}
+            { t("reports.driverInfo.phoneNumber") }: { info.phoneNumber }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "20px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "20px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Estado de licencia: {info.licenseStatus}
+            { t("reports.driverInfo.licenceStatus") }: { info.licenseStatus }
           </Typography>
           <Typography
             variant="h4"
-            sx={{ mt: "40px", mb: "10px" }}
-            color={colors.gray[100]}
+            sx={ { mt: "40px", mb: "10px" } }
+            color={ colors.gray[100] }
           >
-            {" "}
-            Licencias emitidas{" "}
+            { t("reports.driverInfo.issuedLicenses") }
           </Typography>
           <Box
-            sx={{
+            sx={ {
               height: "40vh",
               maxflex: "100%",
               "& .actions": {
@@ -277,50 +272,49 @@ function DriverReport() {
               "& .textPrimary": {
                 color: "text.primary",
               },
-            }}
+            } }
           >
             <DataGrid
-              localeText={localeText}
-              initialState={{
+              localeText={ localeText }
+              initialState={ {
                 pagination: {
                   paginationModel: { pageSize: 25, page: 0 },
                 },
-              }}
-              rows={info.licensesRows}
-              columns={licensesColumns}
-              components={{
+              } }
+              rows={ info.licensesRows }
+              columns={ licensesColumns }
+              components={ {
                 Toolbar: () => (
                   <TableToolbar
-                    columns={licensesColumns}
-                    rows={info.licensesRows}
-                    fileName={"Licencias"}
+                    columns={ licensesColumns }
+                    rows={ info.licensesRows }
+                    fileName={ t("reports.driverInfo.issuedLicenses") }
                   />
                 ),
-              }}
+              } }
             />
           </Box>
-          {noDataInfractions && (
+          { noDataInfractions && (
             <Typography
               variant="h6"
-              color={colors.gray[100]}
-              sx={{ mt: "10px" }}
+              color={ colors.gray[100] }
+              sx={ { mt: "10px" } }
             >
-              El conductor no ha cometido infracciones
+              { t("reports.noInfractions") }
             </Typography>
-          )}
+          ) }
 
-          {!noDataInfractions && (
+          { !noDataInfractions && (
             <>
               <Typography
                 variant="h4"
-                sx={{ mt: "20px", mb: "10px" }}
-                color={colors.gray[100]}
+                sx={ { mt: "20px", mb: "10px" } }
+                color={ colors.gray[100] }
               >
-                {" "}
-                Infracciones registradas{" "}
+                { t("reports.driverInfo.registeredInfractions") }
               </Typography>
               <Box
-                sx={{
+                sx={ {
                   height: "40vh",
                   maxflex: "100%",
                   "& .actions": {
@@ -329,33 +323,34 @@ function DriverReport() {
                   "& .textPrimary": {
                     color: "text.primary",
                   },
-                }}
+                } }
               >
                 <DataGrid
-                  localeText={localeText}
-                  initialState={{
+                  localeText={ localeText }
+                  initialState={ {
                     pagination: {
                       paginationModel: { pageSize: 25, page: 0 },
                     },
-                  }}
-                  rows={info.infractionsRows}
-                  columns={infractionsColumns}
-                  components={{
+                  } }
+                  rows={ info.infractionsRows }
+                  columns={ infractionsColumns }
+                  components={ {
                     Toolbar: () => (
                       <TableToolbar
-                        columns={infractionsColumns}
-                        rows={info.infractionsRows}
-                        fileName={"Infracciones"}
+                        columns={ infractionsColumns }
+                        rows={ info.infractionsRows }
+                        fileName={ t("reports.driverInfo.registeredInfractions") }
                       />
                     ),
-                  }}
+                  } }
                 />
               </Box>
             </>
-          )}
+          ) }
         </div>
-      )}
+      ) }
     </Box>
+
   );
 }
 

@@ -19,7 +19,9 @@ import {
   getTotalLicenses,
 } from "../../apis/DashboardAPI.js";
 
-function Dashboard() {
+import { useTranslation } from "react-i18next";
+
+function Dashboard () {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const isXlDevices = useMediaQuery("(min-width: 1260px)");
@@ -66,6 +68,8 @@ function Dashboard() {
     setNoPaidInfractions(i);
   };
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     loadData();
   }, []);
@@ -73,109 +77,109 @@ function Dashboard() {
   return (
     <Box m="20px">
       <Box display="flex" justifyContent="space-between">
-        <Header title="PRINCIPAL" subtitle="Resúmen estadístico del centro" />
+        <Header title={ t("dashboard.title") } subtitle={ t("dashboard.subtitle") } />
       </Box>
 
-      {/* GRID & CHARTS */}
+      {/* GRID & CHARTS */ }
       <Box
         display="grid"
         gridTemplateColumns={
           isXlDevices
             ? "repeat(12, 1fr)"
             : isMdDevices
-            ? "repeat(6, 1fr)"
-            : "repeat(3, 1fr)"
+              ? "repeat(6, 1fr)"
+              : "repeat(3, 1fr)"
         }
         gridAutoRows="140px"
         gap="20px"
       >
-        {/* Statistic Items */}
+        {/* Statistic Items */ }
         <Box
           gridColumn="span 3"
-          bgcolor={colors.primary[400]}
+          bgcolor={ colors.primary[400] }
           display="flex"
           alignItems="center"
           justifyContent="center"
           borderRadius="5px"
         >
           <StatBox
-            title={clients}
-            subtitle="Clientes registrados"
+            title={ clients }
+            subtitle={ t("dashboard.registeredClients") }
             icon={
               <PermIdentityOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={ { color: colors.greenAccent[600], fontSize: "26px" } }
               />
             }
           />
         </Box>
         <Box
           gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
+          backgroundColor={ colors.primary[400] }
           display="flex"
           alignItems="center"
           justifyContent="center"
           borderRadius="5px"
         >
           <StatBox
-            title={drivers}
-            subtitle="Conductores con licencia vigente"
+            title={ drivers }
+            subtitle={ t("dashboard.driversWithCurrentLicense") }
             icon={
               <DirectionsCarFilledOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={ { color: colors.greenAccent[600], fontSize: "26px" } }
               />
             }
           />
         </Box>
         <Box
           gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
+          backgroundColor={ colors.primary[400] }
           display="flex"
           alignItems="center"
           justifyContent="center"
           borderRadius="5px"
         >
           <StatBox
-            title={licenses}
-            subtitle="Licencias emitidas"
+            title={ licenses }
+            subtitle={ t("dashboard.issuedLicenses") }
             icon={
               <BadgeOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={ { color: colors.greenAccent[600], fontSize: "26px" } }
               />
             }
           />
         </Box>
         <Box
           gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
+          backgroundColor={ colors.primary[400] }
           display="flex"
           alignItems="center"
           justifyContent="center"
           borderRadius="5px"
         >
           <StatBox
-            title={exams}
-            subtitle="Exámenes realizados"
+            title={ exams }
+            subtitle={ t("dashboard.examsTaken") }
             icon={
               <ArticleOutlinedIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={ { color: colors.greenAccent[600], fontSize: "26px" } }
               />
             }
           />
         </Box>
 
-        {/* Bar Chart */}
+        {/* Bar Chart */ }
         <Box
-          gridColumn={isXlDevices ? "span 6" : "span 3"}
+          gridColumn={ isXlDevices ? "span 6" : "span 3" }
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          backgroundColor={ colors.primary[400] }
         >
           <Typography
             variant="h5"
             fontWeight="600"
-            sx={{ p: "30px 30px 0 30px" }}
-            color={colors.gray[100]}
+            sx={ { p: "30px 30px 0 30px" } }
+            color={ colors.gray[100] }
           >
-            Licencias por categoría
+            { t("dashboard.licensesPerCategory") }
           </Typography>
           <Box
             display="flex"
@@ -185,25 +189,25 @@ function Dashboard() {
             mt="-20px"
           >
             <BarChart
-              xAxis={[
+              xAxis={ [
                 {
                   scaleType: "band",
                   data: chartBarInfo[0],
                 },
-              ]}
-              series={[{ type: "bar", data: chartBarInfo[1] }]}
+              ] }
+              series={ [{ type: "bar", data: chartBarInfo[1] }] }
             />
           </Box>
         </Box>
 
         <Box
-          gridColumn={isXlDevices ? "span 6" : "span 3"}
+          gridColumn={ isXlDevices ? "span 6" : "span 3" }
           gridRow="span 2"
-          backgroundColor={colors.primary[400]}
+          backgroundColor={ colors.primary[400] }
           p="30px"
         >
-          <Typography variant="h5" fontWeight="600" color={colors.gray[100]}>
-            Tasa de aprobación de exámen práctico
+          <Typography variant="h5" fontWeight="600" color={ colors.gray[100] }>
+            { t("dashboard.practiceExamsApproved") }
           </Typography>
           <Box
             display="flex"
@@ -211,146 +215,146 @@ function Dashboard() {
             alignItems="center"
             mt="25px"
           >
-            <ProgressCircle size="125" progress={progressCircleInfo} />
+            <ProgressCircle size="125" progress={ progressCircleInfo } />
             <Typography
               textAlign="center"
               variant="h5"
-              color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
-              fontWeight={"bold"}
+              color={ colors.greenAccent[500] }
+              sx={ { mt: "15px" } }
+              fontWeight={ "bold" }
             >
-              {(parseFloat(progressCircleInfo) * 100).toFixed(2)}%
+              { (parseFloat(progressCircleInfo) * 100).toFixed(2) }%
             </Typography>
           </Box>
         </Box>
 
         <Box
-          gridColumn={isXlDevices ? "span 4" : "span 3"}
+          gridColumn={ isXlDevices ? "span 4" : "span 3" }
           gridRow="span 2"
-          bgcolor={colors.primary[400]}
+          bgcolor={ colors.primary[400] }
           overflow="auto"
         >
-          <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
-            <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
-              Licencias próximas a vencer
+          <Box borderBottom={ `4px solid ${colors.primary[500]}` } p="15px">
+            <Typography color={ colors.gray[100] } variant="h5" fontWeight="600">
+              { t("dashboard.licensesToExpire") }
             </Typography>
           </Box>
-          {recentLicenses.map((license, index) => (
+          { recentLicenses.map((license, index) => (
             <Box
-              key={`${license.id}-${index}`}
+              key={ `${license.id}-${index}` }
               display="flex"
               alignItems="center"
               justifyContent="space-between"
-              borderBottom={`4px solid ${colors.primary[500]}`}
+              borderBottom={ `4px solid ${colors.primary[500]}` }
               p="15px"
             >
               <Box>
                 <Typography
-                  color={colors.greenAccent[500]}
+                  color={ colors.greenAccent[500] }
                   variant="h5"
                   fontWeight="600"
                 >
-                  {license.id}
+                  { license.id }
                 </Typography>
-                <Typography color={colors.gray[100]}>
-                  {license.driverId}
+                <Typography color={ colors.gray[100] }>
+                  { license.driverId }
                 </Typography>
               </Box>
-              <Typography color={colors.gray[100]}>
-                {license.expirationDate.substring(0, 10)}
+              <Typography color={ colors.gray[100] }>
+                { license.expirationDate.substring(0, 10) }
               </Typography>
               <Box
-                bgcolor={colors.greenAccent[500]}
+                bgcolor={ colors.greenAccent[500] }
                 p="5px 10px"
                 borderRadius="4px"
               >
-                {license.category}
+                { license.category }
               </Box>
             </Box>
-          ))}
+          )) }
         </Box>
         <Box
-          gridColumn={isXlDevices ? "span 4" : "span 3"}
+          gridColumn={ isXlDevices ? "span 4" : "span 3" }
           gridRow="span 2"
-          bgcolor={colors.primary[400]}
+          bgcolor={ colors.primary[400] }
           overflow="auto"
         >
-          <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
-            <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
-              Exámenes médicos periódicos
+          <Box borderBottom={ `4px solid ${colors.primary[500]}` } p="15px">
+            <Typography color={ colors.gray[100] } variant="h5" fontWeight="600">
+              { t("dashboard.periodicMedicalExams") }
             </Typography>
           </Box>
-          {medicalExams.map((driver, index) => (
+          { medicalExams.map((driver, index) => (
             <Box
-              key={`${driver.id}-${index}`}
+              key={ `${driver.id}-${index}` }
               display="flex"
               alignItems="center"
               justifyContent="space-between"
-              borderBottom={`4px solid ${colors.primary[500]}`}
+              borderBottom={ `4px solid ${colors.primary[500]}` }
               p="15px"
             >
               <Box>
                 <Typography
-                  color={colors.greenAccent[500]}
+                  color={ colors.greenAccent[500] }
                   variant="h5"
                   fontWeight="600"
                 >
-                  {driver.id}
+                  { driver.id }
                 </Typography>
-                <Typography color={colors.gray[100]}>
-                  {driver.name} {driver.lastnames}
+                <Typography color={ colors.gray[100] }>
+                  { driver.name } { driver.lastnames }
                 </Typography>
               </Box>
-              <Typography color={colors.gray[100]}>
-                {driver.phonenumber}
+              <Typography color={ colors.gray[100] }>
+                { driver.phonenumber }
               </Typography>
             </Box>
-          ))}
+          )) }
         </Box>
         <Box
-          gridColumn={isXlDevices ? "span 4" : "span 3"}
+          gridColumn={ isXlDevices ? "span 4" : "span 3" }
           gridRow="span 2"
-          bgcolor={colors.primary[400]}
+          bgcolor={ colors.primary[400] }
           overflow="auto"
         >
-          <Box borderBottom={`4px solid ${colors.primary[500]}`} p="15px">
-            <Typography color={colors.gray[100]} variant="h5" fontWeight="600">
-              Multas pendientes de pago
+          <Box borderBottom={ `4px solid ${colors.primary[500]}` } p="15px">
+            <Typography color={ colors.gray[100] } variant="h5" fontWeight="600">
+              { t("dashboard.unpaidInfractions") }
             </Typography>
           </Box>
-          {noPaidInfractions.map((infraction, index) => (
+          { noPaidInfractions.map((infraction, index) => (
             <Box
-              key={`${infraction.id}-${index}`}
+              key={ `${infraction.id}-${index}` }
               display="flex"
               alignItems="center"
               justifyContent="space-between"
-              borderBottom={`4px solid ${colors.primary[500]}`}
+              borderBottom={ `4px solid ${colors.primary[500]}` }
               p="15px"
             >
               <Box>
                 <Typography
-                  color={colors.greenAccent[500]}
+                  color={ colors.greenAccent[500] }
                   variant="h5"
                   fontWeight="600"
                 >
-                  {infraction.id}
+                  { infraction.id }
                 </Typography>
-                <Typography color={colors.gray[100]}>
-                  {infraction.name}
+                <Typography color={ colors.gray[100] }>
+                  { infraction.name }
                 </Typography>
               </Box>
-              <Typography color={colors.gray[100]}>
-                {infraction.date.substring(0, 10)}
+              <Typography color={ colors.gray[100] }>
+                { infraction.date.substring(0, 10) }
               </Typography>
               <Box
-                bgcolor={colors.greenAccent[500]}
+                bgcolor={ colors.greenAccent[500] }
                 p="5px 10px"
                 borderRadius="4px"
               >
-                {infraction.type}
+                { infraction.type }
               </Box>
             </Box>
-          ))}
+          )) }
         </Box>
       </Box>
     </Box>

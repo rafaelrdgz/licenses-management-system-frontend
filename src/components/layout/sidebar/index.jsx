@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import {Box, IconButton, Typography, useTheme} from "@mui/material";
-import {useContext, useEffect, useState} from "react";
-import {tokens} from "../../../theme";
-import {Menu, MenuItem, Sidebar} from "react-pro-sidebar";
-import {DashboardOutlined, MenuOutlined, PeopleAltOutlined, StoreOutlined} from "@mui/icons-material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { tokens } from "../../../theme";
+import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
+import { DashboardOutlined, MenuOutlined, PeopleAltOutlined, StoreOutlined } from "@mui/icons-material";
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
@@ -11,59 +11,59 @@ import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFi
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import logoo from "../../../assets/images/logo.png";
 import Item from "./Item";
-import {ToggledContext} from "../../../App";
+import { ToggledContext } from "../../../App";
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined';
 import { EngineeringOutlined } from "@mui/icons-material";
 import { AuthContext } from "../../../utils/AuthContext";
-
+import { useTranslation } from "react-i18next";
 
 const SideBar = () => {
-  const {user} = useContext(AuthContext);
-  
+  const { user } = useContext(AuthContext);
+
   const [collapsed, setCollapsed] = useState(false);
-  const {toggled, setToggled} = useContext(ToggledContext);
+  const { toggled, setToggled } = useContext(ToggledContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [logo, setLogo] = useState(logoo);
 
-
+  const { t } = useTranslation();
 
   return (
     <Sidebar
-      backgroundColor={colors.primary[400]}
-      rootStyles={{
+      backgroundColor={ colors.primary[400] }
+      rootStyles={ {
         border: 0,
         height: "100%",
-      }}
-      collapsed={collapsed}
-      onBackdropClick={() => setToggled(false)}
-      toggled={toggled}
+      } }
+      collapsed={ collapsed }
+      onBackdropClick={ () => setToggled(false) }
+      toggled={ toggled }
       breakPoint="md"
     >
       <Menu
-        menuItemStyles={{
-          button: {":hover": {background: "transparent"}},
-        }}
+        menuItemStyles={ {
+          button: { ":hover": { background: "transparent" } },
+        } }
       >
         <MenuItem
-          rootStyles={{
+          rootStyles={ {
             margin: "10px 0 20px 0",
             color: colors.gray[100],
-          }}
+          } }
         >
           <Box
-            sx={{
+            sx={ {
               display: "flex",
               alignItems: "center",
               justifyContent: 'space-between',
-            }}
+            } }
           >
-            {!collapsed && (
+            { !collapsed && (
               <Box
                 display="flex"
                 alignItems="center"
                 gap="12px"
-                sx={{transition: ".3s ease"}}
+                sx={ { transition: ".3s ease" } }
               >
                 {/*<img
                   style={{width: "30px", height: "30px", borderRadius: "8px", marginLeft: "15px"}}
@@ -71,16 +71,16 @@ const SideBar = () => {
                   alt="Argon"
             />*/}
               </Box>
-            )}
-            <IconButton onClick={() => setCollapsed(!collapsed)}>
-              <MenuOutlined/>
+            ) }
+            <IconButton onClick={ () => setCollapsed(!collapsed) }>
+              <MenuOutlined />
             </IconButton>
           </Box>
         </MenuItem>
       </Menu>
-      <Box mb={5} pl={collapsed ? undefined : "5%"}>
+      <Box mb={ 5 } pl={ collapsed ? undefined : "5%" }>
         <Menu
-          menuItemStyles={{
+          menuItemStyles={ {
             button: {
               ":hover": {
                 color: "#868dfb",
@@ -88,30 +88,30 @@ const SideBar = () => {
                 transition: ".4s ease",
               },
             },
-          }}
+          } }
         >
           <Item
-            title="Principal"
+            title={ t("sidebar.dashboard") }
             path="/dashboard"
-            colors={colors}
-            icon={<DashboardOutlined/>}
+            colors={ colors }
+            icon={ <DashboardOutlined /> }
           />
           <Item
-            title="Reportes"
+            title={ t("sidebar.reports") }
             path="/reports"
-            colors={colors}
-            icon={<SummarizeOutlinedIcon/>}
+            colors={ colors }
+            icon={ <SummarizeOutlinedIcon /> }
           />
         </Menu>
         <Typography
           variant="h6"
-          color={colors.gray[300]}
-          sx={{m: "15px 0 5px 20px"}}
+          color={ colors.gray[300] }
+          sx={ { m: "15px 0 5px 20px" } }
         >
-          {!collapsed ? "Datos" : " "}
+          { !collapsed ? t("sidebar.data") : " " }
         </Typography>
         <Menu
-          menuItemStyles={{
+          menuItemStyles={ {
             button: {
               ":hover": {
                 color: "#868dfb",
@@ -119,53 +119,53 @@ const SideBar = () => {
                 transition: ".4s ease",
               },
             },
-          }}
+          } }
         >
-          {user && user.role === 'MANAGER' && (<Item
-            title="Entidades"
+          { user && user.role === 'MANAGER' && (<Item
+            title={ t("sidebar.entities") }
             path="/entity"
-            colors={colors}
-            icon={<PeopleAltOutlined/>}
-          />)}
+            colors={ colors }
+            icon={ <PeopleAltOutlined /> }
+          />) }
           <Item
-            title="Clientes"
+            title={ t("sidebar.clients") }
             path="/clients"
-            colors={colors}
-            icon={<PermIdentityOutlinedIcon/>}
+            colors={ colors }
+            icon={ <PermIdentityOutlinedIcon /> }
           />
           <Item
-            title="Conductores"
+            title={ t("sidebar.drivers") }
             path="/drivers"
-            colors={colors}
-            icon={<DirectionsCarFilledOutlinedIcon/>}
+            colors={ colors }
+            icon={ <DirectionsCarFilledOutlinedIcon /> }
           />
           <Item
-            title="Licencias"
+            title={ t("sidebar.licenses") }
             path="/licenses"
-            colors={colors}
-            icon={<BadgeOutlinedIcon/>}
+            colors={ colors }
+            icon={ <BadgeOutlinedIcon /> }
           />
           <Item
-            title="Exámenes"
+            title={ t("sidebar.exams") }
             path="/exams"
-            colors={colors}
-            icon={<ArticleOutlinedIcon/>}
+            colors={ colors }
+            icon={ <ArticleOutlinedIcon /> }
           />
           <Item
-            title="Infracciones"
+            title={ t("sidebar.infractions") }
             path="/infractions"
-            colors={colors}
-            icon={<PaidOutlinedIcon/>}
+            colors={ colors }
+            icon={ <PaidOutlinedIcon /> }
           />
         </Menu>
-        {user && user.role === 'MANAGER' && (<><Typography
+        { user && user.role === 'MANAGER' && (<><Typography
           variant="h6"
-          color={colors.gray[300]}
-          sx={{ m: "15px 0 5px 20px" }}
+          color={ colors.gray[300] }
+          sx={ { m: "15px 0 5px 20px" } }
         >
-          {!collapsed ? "Centro" : " "}
+          { !collapsed ? t("sidebar.center") : " " }
         </Typography><Menu
-          menuItemStyles={{
+          menuItemStyles={ {
             button: {
               ":hover": {
                 color: "#868dfb",
@@ -173,21 +173,21 @@ const SideBar = () => {
                 transition: ".4s ease",
               },
             },
-          }}
+          } }
         >
             <Item
-              title="Trabajadores"
+              title={ t("sidebar.workers") }
               path="/workers"
-              colors={colors}
-              icon={<EngineeringOutlined />}
+              colors={ colors }
+              icon={ <EngineeringOutlined /> }
             ></Item>
             <Item
-              title="Perfil"
+              title={ t("sidebar.profile") }
               path="/center"
-              colors={colors}
-              icon={<StoreOutlined />}
+              colors={ colors }
+              icon={ <StoreOutlined /> }
             ></Item>
-          </Menu></>)}
+          </Menu></>) }
       </Box>
     </Sidebar>
   );
