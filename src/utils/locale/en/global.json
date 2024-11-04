@@ -243,10 +243,10 @@
 				"required": "The entity type is required"
 			},
 			"code": {
-				"matches": "El código debe ser un número",
-				"required": "El código es requerido",
-				"min": "El código debe tener al menos 6 caracteres",
-				"max": "El código debe tener menos de 16 caracteres"
+				"matches": "The code must be a number",
+				"required": "The code is required",
+				"min": "The code must be at least 6 characters long",
+				"max": "The code must be less than 16 characters long"
 			}
 		},
 		"client": {
