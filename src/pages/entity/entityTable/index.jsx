@@ -10,7 +10,7 @@ import { deleteEntity, getEntities } from "../../../apis/EntityAPI.js";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { useTranslation } from "react-i18next";
 
-function EntityTable () {
+function EntityTable() {
   const { t } = useTranslation();
   const currentLanguage = t.language; // Obtener el idioma actual
 
@@ -54,57 +54,57 @@ function EntityTable () {
   };
 
   const columns = [
-    { field: "code", headerName: "Código", flex: 1, editable: false },
-    { field: "name", headerName: "Nombre", flex: 1, editable: false },
+    { field: "code", headerName: t("types.code"), flex: 1, editable: false },
+    { field: "name", headerName: t("types.name"), flex: 1, editable: false },
     {
       field: "phone",
-      headerName: "Número de teléfono",
+      headerName: t("types.phoneNumber"),
       flex: 1,
       editable: false,
     },
     {
       field: "email",
-      headerName: "Correo",
+      headerName: t("types.email"),
       flex: 1,
       editable: false,
     },
     {
       field: "type",
-      headerName: "Tipo",
+      headerName: t("types.type"),
       flex: 1,
       editable: false,
     },
     {
       field: "address",
-      headerName: "Dirección",
+      headerName: t("types.address"),
       flex: 1,
       editable: false,
     },
     {
       field: "directorName",
-      headerName: "Nombre del director",
+      headerName: t("types.directorName"),
       flex: 1,
       editable: false,
     },
     {
       field: "actions",
       type: "actions",
-      headerName: "Acciones",
+      headerName: t("types.actions"),
       flex: 0.5,
       cellClassName: "actions",
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={ <EditOutlinedIcon /> }
+            icon={<EditOutlinedIcon />}
             label="Edit"
             className="textPrimary"
-            onClick={ () => navigate(`/entity/${id}/edit`) }
+            onClick={() => navigate(`/entity/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={ <DeleteOutlinedIcon /> }
+            icon={<DeleteOutlinedIcon />}
             label="Delete"
-            onClick={ handleDeleteClick(id) }
+            onClick={handleDeleteClick(id)}
             color="inherit"
           />,
         ];
@@ -114,13 +114,10 @@ function EntityTable () {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={ 3 } />
-      <Header
-        title={ t('entities.title') }
-        subtitle={ t('entities.subtitle') }
-      />
+      <SnackbarProvider maxSnack={3} />
+      <Header title={t("entities.title")} subtitle={t("entities.subtitle")} />
       <Box
-        sx={ {
+        sx={{
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -129,47 +126,47 @@ function EntityTable () {
           "& .textPrimary": {
             color: "text.primary",
           },
-        } }
+        }}
       >
         <Button
           color="secondary"
           variant="contained"
-          sx={ { mb: "10px" } }
-          onClick={ () => navigate(`/entity/new`) }
+          sx={{ mb: "10px" }}
+          onClick={() => navigate(`/entity/new`)}
         >
-          { t('entities.newEntity') }
+          {t("entities.newEntity")}
         </Button>
-        { rows.length >= 0 && (
+        {rows.length >= 0 && (
           <DataGrid
-            localeText={ localeText }
-            initialState={ {
+            localeText={localeText}
+            initialState={{
               pagination: {
                 paginationModel: { pageSize: 25, page: 0 },
               },
-            } }
-            rows={ rows }
-            columns={ columns }
-            getRowId={ (row) => {
+            }}
+            rows={rows}
+            columns={columns}
+            getRowId={(row) => {
               return row.code;
-            } }
-            components={ {
+            }}
+            components={{
               Toolbar: () => (
                 <TableToolbar
-                  columns={ columns }
-                  rows={ rows }
-                  fileName={ t('entities.createEntity') } // Aquí podrías usar un nombre de archivo traducido si lo necesitas
+                  columns={columns}
+                  rows={rows}
+                  fileName={t("entities.createEntity")} // Aquí podrías usar un nombre de archivo traducido si lo necesitas
                 />
               ),
-            } }
+            }}
           />
-        ) }
+        )}
       </Box>
       <ConfirmationDialog
-        title={ t('entities.editEntity') }
-        text={ t('entities.editEntity') } // Si este texto también está en el JSON, reemplaza con la clave adecuada
-        open={ dialogOpen }
-        handleClose={ handleDialogClose }
-        handleAgree={ handleDialogAgree }
+        title={t("entities.editEntity")}
+        text={t("entities.editEntity")} // Si este texto también está en el JSON, reemplaza con la clave adecuada
+        open={dialogOpen}
+        handleClose={handleDialogClose}
+        handleAgree={handleDialogAgree}
       />
     </Box>
   );

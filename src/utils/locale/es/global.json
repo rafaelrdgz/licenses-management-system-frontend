@@ -1,538 +1,539 @@
 {
-	"navbar": {
-		"languageES": "Español",
-		"languageEN": "Inglés"
-	},
-	"sidebar": {
-		"dashboard": "Principal",
-		"reports": "Reportes",
-		"data": "Datos",
-		"entities": "Entidades",
-		"clients": "Clientes",
-		"drivers": "Conductores",
-		"licenses": "Licencias",
-		"exams": "Exámenes",
-		"infractions": "Infracciones",
-		"center": "Centro",
-		"workers": "Trabajadores",
-		"profile": "Perfil"
-	},
-	"dashboard": {
-		"title": "PRINCIPAL",
-		"subtitle": "Resúmen estadístico del centro",
-		"registeredClients": "Clientes registrados",
-		"driversWithCurrentLicense": "Conductores con licencia vigente",
-		"issuedLicenses": "Licencias emitidas",
-		"examsTaken": "Exámenes realizados",
-		"licensesPerCategory": "Licencias por categoría",
-		"practiceExamsApproved": "Tasa de aprobación de exámen práctico",
-		"licensesToExpire": "Licencias próximas a vencer",
-		"periodicMedicalExams": "Exámenes médicos periódicos",
-		"unpaidInfractions": "Infracciones pendientes de pago"
-	},
-	"error": {
-		"error404": "La página que estás buscando no existe."
-	},
-	"reports": {
-		"title": "REPORTES",
-		"subtitle": "Listado de reportes disponibles",
-		"export": "EXPORTAR PDF",
-		"find": "BUSCAR",
-		"startDate": "Fecha de inicio",
-		"endDate": "Fecha de fin",
-		"center": "Ficha del Centro",
-		"driverInfo": {
-			"subtitle": "Ficha de un Conductor Determinado",
-			"idenityNumber": "Número de identidad",
-			"name": "Nombre",
-			"lastName": "Apellidos",
-			"address": "Dirección",
-			"phoneNumber": "Teléfono",
-			"licenceStatus": "Estado de licencia",
-			"issuedLicenses": "Licencias emitidas",
-			"registeredInfractions": "Infracciones registradas"
-		},
-		"entityInfo": "Ficha de una Entidad Asociada",
-		"entity": {
-			"entityCode": "Código de entidad",
-			"name": "Nombre",
-			"type": "Tipo",
-			"address": "Dirección",
-			"phone": "Teléfono",
-			"email": "Email",
-			"directorName": "Nombre del director"
-		},
-		"issuedLicenses": "Reporte de Licencias Emitidas en un Período de Tiempo",
-		"examsTaken": "Reporte de Exámenes Realizados en un Período de Tiempo",
-		"registeredInfractions": "Reporte de Infracciones Registradas en un Período de Tiempo",
-		"infractionsPerTypeInYear": {
-			"subtitle": "Reporte Consolidado de Infracciones por Tipo en un Año Determinado",
-			"year": "Año",
-			"summaryByType": "Resumen por tipo",
-			"registeredInfractions": "Infracciones registradas"
-		},
-		"driversWithExpiredLicenses": "Reporte de Conductores con Licencias Vencidas en un Período de Tiempo"
-	},
-	"entities": {
-		"title": "ENTIDADES",
-		"subtitle": "Información de las entidades relacionadas",
-		"newEntity": "Nueva entidad",
-		"createEntity": "Insertar nueva entidad",
-		"editEntity": "Editar entidad"
-	},
-	"clients": {
-		"title": "CLIENTES",
-		"subtitle": "Información de los clientes registrados",
-		"newClient": "NUEVO CLIENTE",
-		"createClient": "Insertar nuevo cliente",
-		"editClient": "Editar cliente"
-	},
-	"drivers": {
-		"title": "CONDUCTORES",
-		"subtitle": "Información de los conductores registrados",
-		"editDriver": "Editar conductor",
-		"deleteConfirmationTitle": "¿Está seguro de querer eliminar el conductor?",
-		"deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
-	},
-	"licenses": {
-		"title": "LICENCIAS",
-		"subtitle": "Información de las licencias emitidas",
-		"newLicense": "NUEVA LICENCIA",
-		"createLicense": "Insertar nueva licencia",
-		"editLicense": "Editar licencia"
-	},
-	"exams": {
-		"title": "EXÁMENES",
-		"subtitle": "Información de los exámenes realizados",
-		"newExam": "NUEVO EXAMEN",
-		"createExam": "Insertar nuevo examen",
-		"editExam": "Editar examen"
-	},
-	"infractions": {
-		"title": "INFRACCIONES",
-		"subtitle": "Información de las infracciones registradas",
-		"newInfraction": "NUEVA INFRACCIÓN",
-		"createInfraction": "Insertar nueva infracción",
-		"editInfraction": "Editar infracción",
-		"deleteConfirmationTitle": "Está seguro de querer eliminar la infracción?",
-		"deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
-	},
-	"workers": {
-		"title": "TRABAJADORES",
-		"subtitle": "Información de los trabajadores del centro",
-		"newWorker": "NUEVO TRABAJADOR",
-		"createWorker": "Insertar nuevo trabajador",
-		"editWorker": "Editar trabajador",
-		"deleteConfirmationTitle": "¿Está seguro de querer eliminar el trabajador?",
-		"deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
-	},
-	"centerProfile": {
-		"title": "CENTRO",
-		"subtitle": "Información del usuario"
-	},
-	"types": {
-		"code": "Código",
-		"name": "Nombre",
-		"phoneNumber": "Teléfono",
-		"email": "Correo",
-		"type": "Tipo",
-		"address": "Dirección",
-		"clientID": "CI Cliente",
-		"lastNames": "Apellidos",
-		"bornDate": "Fecha de nacimiento",
-		"driverID": "CI Conductor",
-		"licenseStatus": "Estado de licencia",
-		"category": "Categoría",
-		"expirationDate": "Fecha de vencimiento",
-		"issueDate": "Fecha de emisión",
-		"licenseNumber": "Número de licencia",
-		"restrictions": "Restricciones",
-		"renewed": "Renovado",
-		"points": "Puntos",
-		"examCode": "Código de examen",
-		"examinerName": "Nombre del examinador",
-		"entityCode": "Código de entidad",
-		"result": "Resultado",
-		"date": "Fecha",
-		"infractionCode": "Código de infracción",
-		"pointsDeducted": "Puntos deducidos",
-		"paid": "Pagado",
-		"unpaid": "Sin pagar",
-		"description": "Descripción",
-		"directorName": "Nombre del director",
-		"humanResourcesName": "Nombre del jefe recursos humanos",
-		"accountantName": "Nombre del responsable de contabilidad",
-		"syndicateSecretaryName": "Nombre del secretario del sindicato",
-		"role": "Rol",
-		"password": "Contraseña",
-		"actions": "Acciones",
-		"workerID": "CI Trabajador",
-		"entityType": {
-			"drivingSchool": "Autoescuela",
-			"clinic": "Clínica"
-		},
-		"licenseStatusTypes": {
-			"active": "Vigente",
-			"expired": "Vencida",
-			"suspended": "Suspendida",
-			"revoked": "Revocada"
-		},
-		"examTypes": {
-			"teoric": "Teórico",
-			"practical": "Práctico",
-			"medical": "Médico"
-		},
-		"infractionTypes": {
-			"minor": "Leve",
-			"serious": "Grave",
-			"verySerious": "Muy grave"
-		},
-		"roles": {
-			"manager": "Gerente",
-			"comercial": "Comercial"
-		},
-		"restrictionsTypes": {
-			"glasses": "Uso de lentes",
-			"daylight": " Conducción diurna",
-			"drivingAlone": "Conducción sin acompañantes",
-			"speed": "Limitación de velocidad",
-			"drivingRadioLimit": "Límite del radio de conducción",
-			"onlyUrban": "Solo conducción en zonas urbanas"
-		},
-		"categoryLicense": {
-			"A1": "Ciclomotor",
-			"A": "Motocicleta",
-			"B": "Automóvil",
-			"C1": "Camión de hasta 7500 kg",
-			"C": "Camión de más de 7500 kg",
-			"D1": "Microbus",
-			"D": "Omnibus",
-			"E": "Articulado",
-			"F": "Agrícola, Industrial o de Construcción",
-			"FE": "Tractor con remolque"
-		},
-		"esult": {
-			"approved": "Aprobado",
-			"failed": "Reprobado"
-		}
-	},
-	"snackbarMessage": {
-		"deleteEntity": "Entidad eliminada",
-		"deleteClient": "Cliente eliminado",
-		"deleteDriver": "Conductor eliminado",
-		"deleteLicense": "Licencia eliminada",
-		"deleteExam": "Examen eliminado",
-		"deleteInfraction": "Infracción eliminada",
-		"deleteWorker": "Trabajador eliminado",
-		"renewLicense": "Licencia renovada"
-	},
-	"dialogMessage": {
-		"title": "¿Estás seguro de querer eliminar este registro?",
-		"content": "Ten en cuenta que esta acción no se puede deshacer",
-		"accept": "Aceptar",
-		"cancel": "Cancelar"
-	},
-	"form": {
-		"save": "GUARDAR",
-		"edit": "EDITAR",
-		"entity": {
-			"name": {
-				"matches": "El nombre no debe contener números ni caracteres especiales",
-				"required": "El nombre es requerido",
-				"min": "El nombre debe tener al menos 3 caracteres",
-				"max": "El nombre debe tener menos de 50 caracteres"
-			},
-			"address": {
-				"required": "La dirección es requerida",
-				"min": "La dirección debe tener al menos 10 caracteres",
-				"max": "La dirección debe tener menos de 100 caracteres"
-			},
-			"phone": {
-				"matches": "El número de teléfono no debe contener letras ni caracteres especiales",
-				"required": "El número de teléfono es requerido",
-				"min": "El número de teléfono debe tener 8 dígitos",
-				"max": "El número de teléfono debe tener 8 dígitos"
-			},
-			"directorName": {
-				"matches": "El nombre del director no debe contener números ni caracteres especiales",
-				"required": "El nombre del director es requerido",
-				"min": "El nombre del director debe tener al menos 5 caracteres",
-				"max": "El nombre del director debe tener menos de 50 caracteres"
-			},
-			"email": {
-				"email": "El correo debe ser un correo válido",
-				"required": "El correo es requerido",
-				"matches": "Correo no válido"
-			},
-			"type": {
-				"required": "El tipo de entidad es requerido"
-			},
-			"code": {
-				"matches": "El código debe ser un número",
-				"required": "El código es requerido",
-				"min": "El código debe tener al menos 6 caracteres",
-				"max": "El código debe tener menos de 16 caracteres"
-			}
-		},
-		"client": {
-			"id": {
-				"matches": "El número de indentificación no debe contener letras",
-				"required": "El número de indentificación es requerido",
-				"min": "El número de indentificación debe tener 11 dígitos",
-				"max": "El número de indentificación debe tener 11 dígitos",
-				"isValidIdDate": "El número de indentificación no es válido",
-				"existPersonID": "El número de identificación ya pertenece a un cliente"
-			},
-			"name": {
-				"required": "El nombre es requerido",
-				"matches": "El nombre no debe contener números ni caracteres especiales",
-				"min": "El nombre debe tener al menos 3 caracteres",
-				"max": "El nombre debe tener menos de 25 caracteres"
-			},
-			"lastNames": {
-				"required": "Los apellidos son requeridos",
-				"matches": "Los apellidos no deben contener números ni caracteres especiales",
-				"min": "Los apellidos deben tener al menos 5 caracteres",
-				"max": "Los apellidos deben tener menos de 50 caracteres"
-			},
-			"address": {
-				"required": "La dirección es requerida",
-				"min": "La dirección debe tener al menos 10 caracteres",
-				"max": "La dirección debe tener menos de 100 caracteres"
-			},
-			"phoneNumber": {
-				"required": "El número de teléfono es requerido",
-				"matches": "El número de teléfono no debe contener letras ni caracteres especiales",
-				"min": "El número de teléfono debe tener 8 dígitos",
-				"max": "El número de teléfono debe tener 8 dígitos"
-			},
-			"email": {
-				"email": "El correo debe ser un correo válido",
-				"required": "El correo es requerido",
-				"matches": "Correo no válido"
-			}
-		},
-		"driver": {
-			"name": {
-				"required": "El nombre es requerido",
-				"matches": "El nombre no debe contener números ni caracteres especiales",
-				"min": "El nombre debe tener al menos 3 caracteres",
-				"max": "El nombre debe tener menos de 25 caracteres"
-			},
-			"lastNames": {
-				"required": "Los apellidos son requeridos",
-				"matches": "Los apellidos no deben contener números ni caracteres especiales",
-				"min": "Los apellidos deben tener al menos 5 caracteres",
-				"max": "Los apellidos deben tener menos de 50 caracteres"
-			},
-			"address": {
-				"required": "La dirección es requerida",
-				"min": "La dirección debe tener al menos 10 caracteres",
-				"max": "La dirección debe tener menos de 100 caracteres"
-			},
-			"phoneNumber": {
-				"required": "El número de teléfono es requerido",
-				"matches": "El número de teléfono no debe contener letras ni caracteres especiales",
-				"min": "El número de teléfono debe tener al menos 6 dígitos",
-				"max": "El número de teléfono debe tener menos de 12 dígitos"
-			},
-			"email": {
-				"email": "El correo debe ser un correo válido",
-				"required": "El correo es requerido",
-				"matches": "Correo no válido"
-			},
-			"licenseStatus": {
-				"required": "El estado de la licencia es requerido"
-			}
-		},
-		"license": {
-			"driverId": {
-				"matches": "El número de identificación no debe contener letras",
-				"required": "El número de identificación es requerido",
-				"min": "El número de identificación debe tener 11 dígitos",
-				"max": "El número de identificación debe tener 11 dígitos",
-				"test": {
-					"is-valid-id": "El número de identificación no es válido",
-					"is-valid-person": "El número de identificación no se encuentra en el sistema",
-					"exist-driver": "La persona con ese Id ya posee una licencia",
-					"exams-done": "La persona no tiene aprobados los exámenes"
-				}
-			},
-			"category": {
-				"required": "El tipo de categoría es requerido"
-			},
-			"points": {
-				"required": "Los puntos son requeridos",
-				"moreThan": "Debe ingresar un valor positivo"
-			}
-		},
-		"exam": {
-			"personId": {
-				"matches": "El número de identificación no debe contener letras",
-				"required": "El número de identificación es requerido",
-				"min": "El número de identificación debe tener 11 dígitos",
-				"max": "El número de identificación debe tener 11 dígitos",
-				"test": {
-					"is-valid-id": "El número de identificación no es válido",
-					"is-valid-person": "El número de identificación no se encuentra en el sistema"
-				}
-			},
-			"examinerName": {
-				"required": "El nombre es requerido",
-				"matches": "El nombre no debe contener números ni caracteres especiales",
-				"min": "El nombre debe tener al menos 5 caracteres",
-				"max": "El nombre debe tener menos de 50 caracteres"
-			},
-			"entityCode": {
-				"required": "El código es requerido",
-				"min": "El código debe tener al menos 6 caracteres",
-				"max": "El código debe tener menos de 36 caracteres",
-				"test": {
-					"is-valid-entity": "El código de la entidad no se encuentra en el sistema"
-				}
-			},
-			"type": {
-				"required": "El tipo de examen es requerido"
-			},
-			"result": {
-				"required": "El resultado es requerido"
-			}
-		},
-		"infraction": {
-			"licenseid": {
-				"matches": "El número de licencia no debe contener letras",
-				"required": "El número de licencia es requerido",
-				"min": "El número de licencia debe tener 6 dígitos",
-				"max": "El número de licencia debe tener 6 dígitos",
-				"test": {
-					"is-valid-license": "El número de licencia no se encuentra en el sistema"
-				}
-			},
-			"description": {
-				"min": "La descripción debe tener al menos 5 caracteres",
-				"max": "La descripción debe tener menos de 50 caracteres"
-			},
-			"type": {
-				"required": "El tipo de infracción es requerido"
-			},
-			"address": {
-				"required": "El lugar es requerido",
-				"min": "La descripción debe tener al menos 5 caracteres",
-				"max": "La descripción debe tener menos de 25 caracteres"
-			},
-			"pointsDeducted": {
-				"required": "Los puntos son requeridos",
-				"min": "Los puntos deben ser al menos 1",
-				"max": "Los puntos deben ser menos de 36"
-			},
-			"paid": {
-				"required": "El pago es requerido"
-			}
-		},
-		"worker": {
-			"id": {
-				"matches": "El número de indentificación no debe contener letras",
-				"required": "El número de indentificación es requerido",
-				"min": "El número de indentificación debe tener 11 dígitos",
-				"max": "El número de indentificación debe tener 11 dígitos",
-				"test": {
-					"is-valid-id": "El número de indentificación no es válido",
-					"existWorkerID": "El número de identificación ya pertenece a un trabajador"
-				}
-			},
-			"name": {
-				"required": "El nombre es requerido",
-				"matches": "El nombre no debe contener números ni caracteres especiales",
-				"min": "El nombre debe tener al menos 3 caracteres",
-				"max": "El nombre debe tener menos de 25 caracteres"
-			},
-			"lastNames": {
-				"required": "Los apellidos son requeridos",
-				"matches": "Los apellidos no deben contener números ni caracteres especiales",
-				"min": "Los apellidos deben tener al menos 5 caracteres",
-				"max": "Los apellidos deben tener menos de 50 caracteres"
-			},
-			"email": {
-				"email": "El correo debe ser un correo válido",
-				"required": "El correo es requerido",
-				"matches": "Correo no válido"
-			},
-			"password": {
-				"required": "La contraseña es requerida",
-				"min": "La contraseña debe tener al menos 8 caracteres",
-				"max": "La contraseña debe tener menos de 20 caracteres"
-			},
-			"role": {
-				"required": "El rol es requerido"
-			}
-		},
-		"center": {
-			"name": {
-				"matches": "El nombre no debe contener números ni caracteres especiales",
-				"required": "El nombre es requerido",
-				"min": "El nombre debe tener al menos 3 caracteres",
-				"max": "El nombre debe tener menos de 50 caracteres"
-			},
-			"address": {
-				"required": "La dirección es requerida",
-				"min": "La dirección debe tener al menos 10 caracteres",
-				"max": "La dirección debe tener menos de 100 caracteres"
-			},
-			"phone": {
-				"matches": "El número de teléfono no debe contener letras ni caracteres especiales",
-				"required": "El número de teléfono es requerido",
-				"min": "El número de teléfono debe tener 8 dígitos",
-				"max": "El número de teléfono debe tener 8 dígitos"
-			},
-			"directorName": {
-				"matches": "El nombre del director no debe contener números ni caracteres especiales",
-				"required": "El nombre del director es requerido",
-				"min": "El nombre del director debe tener al menos 5 caracteres",
-				"max": "El nombre del director debe tener menos de 50 caracteres"
-			},
-			"humanResourcesName": {
-				"matches": "El nombre del jefe de recursos humanos no debe contener números ni caracteres especiales",
-				"required": "El nombre del jefe de recursos humanos es requerido",
-				"min": "El nombre del jefe de recursos humanos debe tener al menos 5 caracteres",
-				"max": "El nombre del jefe de recursos humanos debe tener menos de 50 caracteres"
-			},
-			"accountantName": {
-				"matches": "El nombre del responsable de contabilidad no debe contener números ni caracteres especiales",
-				"required": "El nombre del responsable de contabilidad es requerido",
-				"min": "El nombre del responsable de contabilidad debe tener al menos 5 caracteres",
-				"max": "El nombre del responsable de contabilidad debe tener menos de 50 caracteres"
-			},
-			"syndicateSecretaryName": {
-				"matches": "El nombre del secretario del sindicato no debe contener números ni caracteres especiales",
-				"required": "El nombre del secretario del sindicato es requerido",
-				"min": "El nombre del secretario del sindicato debe tener al menos 5 caracteres",
-				"max": "El nombre del secretario del sindicato debe tener menos de 50 caracteres"
-			},
-			"code": {
-				"required": "El código es requerido",
-				"min": "El código debe tener al menos 6 caracteres",
-				"max": "El código debe tener menos de 36 caracteres"
-			}
-		}
-	},
-	"login": {
-		"title": "Iniciar Sesión",
-		"fields": {
-			"email": "Correo",
-			"password": "Contraseña"
-		},
-		"notFound": "Usuario o contraseña incorrectos",
-		"email": {
-			"email": "El correo no es válido",
-			"required": "El correo es requerido",
-			"matches": "Correo no válido"
-		},
-		"password": {
-			"required": "La contraseña es requerida"
-		}
-	},
-	"actions": {
-		"edit": "Editar",
-		"delete": "Eliminar"
-	}
+  "navbar": {
+    "languageES": "Español",
+    "languageEN": "Inglés"
+  },
+  "sidebar": {
+    "dashboard": "Principal",
+    "reports": "Reportes",
+    "data": "Datos",
+    "entities": "Entidades",
+    "clients": "Clientes",
+    "drivers": "Conductores",
+    "licenses": "Licencias",
+    "exams": "Exámenes",
+    "infractions": "Infracciones",
+    "center": "Centro",
+    "workers": "Trabajadores",
+    "profile": "Perfil"
+  },
+  "dashboard": {
+    "title": "PRINCIPAL",
+    "subtitle": "Resúmen estadístico del centro",
+    "registeredClients": "Clientes registrados",
+    "driversWithCurrentLicense": "Conductores con licencia vigente",
+    "issuedLicenses": "Licencias emitidas",
+    "examsTaken": "Exámenes realizados",
+    "licensesPerCategory": "Licencias por categoría",
+    "practiceExamsApproved": "Tasa de aprobación de exámen práctico",
+    "licensesToExpire": "Licencias próximas a vencer",
+    "periodicMedicalExams": "Exámenes médicos periódicos",
+    "unpaidInfractions": "Infracciones pendientes de pago"
+  },
+  "error": {
+    "error404": "La página que estás buscando no existe."
+  },
+  "reports": {
+    "title": "REPORTES",
+    "subtitle": "Listado de reportes disponibles",
+    "export": "EXPORTAR PDF",
+    "find": "BUSCAR",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de fin",
+    "center": "Ficha del Centro",
+    "driverInfo": {
+      "subtitle": "Ficha de un Conductor Determinado",
+      "idenityNumber": "Número de identidad",
+      "name": "Nombre",
+      "lastName": "Apellidos",
+      "address": "Dirección",
+      "phoneNumber": "Teléfono",
+      "licenceStatus": "Estado de licencia",
+      "issuedLicenses": "Licencias emitidas",
+      "registeredInfractions": "Infracciones registradas"
+    },
+    "entityInfo": "Ficha de una Entidad Asociada",
+    "entity": {
+      "entityCode": "Código de entidad",
+      "name": "Nombre",
+      "type": "Tipo",
+      "address": "Dirección",
+      "phone": "Teléfono",
+      "email": "Email",
+      "directorName": "Nombre del director"
+    },
+    "issuedLicenses": "Reporte de Licencias Emitidas en un Período de Tiempo",
+    "examsTaken": "Reporte de Exámenes Realizados en un Período de Tiempo",
+    "registeredInfractions": "Reporte de Infracciones Registradas en un Período de Tiempo",
+    "infractionsPerTypeInYear": {
+      "subtitle": "Reporte Consolidado de Infracciones por Tipo en un Año Determinado",
+      "year": "Año",
+      "summaryByType": "Resumen por tipo",
+      "registeredInfractions": "Infracciones registradas"
+    },
+    "driversWithExpiredLicenses": "Reporte de Conductores con Licencias Vencidas en un Período de Tiempo"
+  },
+  "entities": {
+    "title": "ENTIDADES",
+    "subtitle": "Información de las entidades relacionadas",
+    "newEntity": "Nueva entidad",
+    "createEntity": "Insertar nueva entidad",
+    "editEntity": "Editar entidad"
+  },
+  "clients": {
+    "title": "CLIENTES",
+    "subtitle": "Información de los clientes registrados",
+    "newClient": "NUEVO CLIENTE",
+    "createClient": "Insertar nuevo cliente",
+    "editClient": "Editar cliente"
+  },
+  "drivers": {
+    "title": "CONDUCTORES",
+    "subtitle": "Información de los conductores registrados",
+    "editDriver": "Editar conductor",
+    "deleteConfirmationTitle": "¿Está seguro de querer eliminar el conductor?",
+    "deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
+  },
+  "licenses": {
+    "title": "LICENCIAS",
+    "subtitle": "Información de las licencias emitidas",
+    "newLicense": "NUEVA LICENCIA",
+    "createLicense": "Insertar nueva licencia",
+    "editLicense": "Editar licencia"
+  },
+  "exams": {
+    "title": "EXÁMENES",
+    "subtitle": "Información de los exámenes realizados",
+    "newExam": "NUEVO EXAMEN",
+    "createExam": "Insertar nuevo examen",
+    "editExam": "Editar examen"
+  },
+  "infractions": {
+    "title": "INFRACCIONES",
+    "subtitle": "Información de las infracciones registradas",
+    "newInfraction": "NUEVA INFRACCIÓN",
+    "createInfraction": "Insertar nueva infracción",
+    "editInfraction": "Editar infracción",
+    "deleteConfirmationTitle": "Está seguro de querer eliminar la infracción?",
+    "deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
+  },
+  "workers": {
+    "title": "TRABAJADORES",
+    "subtitle": "Información de los trabajadores del centro",
+    "newWorker": "NUEVO TRABAJADOR",
+    "createWorker": "Insertar nuevo trabajador",
+    "editWorker": "Editar trabajador",
+    "deleteConfirmationTitle": "¿Está seguro de querer eliminar el trabajador?",
+    "deleteConfirmationText": "Tenga en cuenta que esta acción no se puede deshacer"
+  },
+  "centerProfile": {
+    "title": "CENTRO",
+    "subtitle": "Información del usuario"
+  },
+  "types": {
+    "code": "Código",
+    "name": "Nombre",
+    "phoneNumber": "Teléfono",
+    "email": "Correo",
+    "type": "Tipo",
+    "address": "Dirección",
+    "clientID": "CI Cliente",
+    "lastNames": "Apellidos",
+    "bornDate": "Fecha de nacimiento",
+    "driverID": "CI Conductor",
+    "licenseStatus": "Estado de licencia",
+    "category": "Categoría",
+    "expirationDate": "Fecha de vencimiento",
+    "issueDate": "Fecha de emisión",
+    "licenseNumber": "Número de licencia",
+    "restrictions": "Restricciones",
+    "renewed": "Renovado",
+    "notRenewed": "No Renovado",
+    "points": "Puntos",
+    "examCode": "Código de examen",
+    "examinerName": "Nombre del examinador",
+    "entityCode": "Código de entidad",
+    "result": "Resultado",
+    "date": "Fecha",
+    "infractionCode": "Código de infracción",
+    "pointsDeducted": "Puntos deducidos",
+    "paid": "Pagado",
+    "unpaid": "Sin pagar",
+    "description": "Descripción",
+    "directorName": "Nombre del director",
+    "humanResourcesName": "Nombre del jefe recursos humanos",
+    "accountantName": "Nombre del responsable de contabilidad",
+    "syndicateSecretaryName": "Nombre del secretario del sindicato",
+    "role": "Rol",
+    "password": "Contraseña",
+    "actions": "Acciones",
+    "workerID": "CI Trabajador",
+    "entityType": {
+      "drivingSchool": "Autoescuela",
+      "clinic": "Clínica"
+    },
+    "licenseStatusTypes": {
+      "active": "Vigente",
+      "expired": "Vencida",
+      "suspended": "Suspendida",
+      "revoked": "Revocada"
+    },
+    "examTypes": {
+      "teoric": "Teórico",
+      "practical": "Práctico",
+      "medical": "Médico"
+    },
+    "infractionTypes": {
+      "minor": "Leve",
+      "serious": "Grave",
+      "verySerious": "Muy grave"
+    },
+    "roles": {
+      "manager": "Gerente",
+      "comercial": "Comercial"
+    },
+    "restrictionsTypes": {
+      "glasses": "Uso de lentes",
+      "daylight": " Conducción diurna",
+      "drivingAlone": "Conducción sin acompañantes",
+      "speed": "Limitación de velocidad",
+      "drivingRadioLimit": "Límite del radio de conducción",
+      "onlyUrban": "Solo conducción en zonas urbanas"
+    },
+    "categoryLicense": {
+      "A1": "Ciclomotor",
+      "A": "Motocicleta",
+      "B": "Automóvil",
+      "C1": "Camión de hasta 7500 kg",
+      "C": "Camión de más de 7500 kg",
+      "D1": "Microbus",
+      "D": "Omnibus",
+      "E": "Articulado",
+      "F": "Agrícola, Industrial o de Construcción",
+      "FE": "Tractor con remolque"
+    },
+    "esult": {
+      "approved": "Aprobado",
+      "failed": "Reprobado"
+    }
+  },
+  "snackbarMessage": {
+    "deleteEntity": "Entidad eliminada",
+    "deleteClient": "Cliente eliminado",
+    "deleteDriver": "Conductor eliminado",
+    "deleteLicense": "Licencia eliminada",
+    "deleteExam": "Examen eliminado",
+    "deleteInfraction": "Infracción eliminada",
+    "deleteWorker": "Trabajador eliminado",
+    "renewLicense": "Licencia renovada"
+  },
+  "dialogMessage": {
+    "title": "¿Estás seguro de querer eliminar este registro?",
+    "content": "Ten en cuenta que esta acción no se puede deshacer",
+    "accept": "Aceptar",
+    "cancel": "Cancelar"
+  },
+  "form": {
+    "save": "GUARDAR",
+    "edit": "EDITAR",
+    "entity": {
+      "name": {
+        "matches": "El nombre no debe contener números ni caracteres especiales",
+        "required": "El nombre es requerido",
+        "min": "El nombre debe tener al menos 3 caracteres",
+        "max": "El nombre debe tener menos de 50 caracteres"
+      },
+      "address": {
+        "required": "La dirección es requerida",
+        "min": "La dirección debe tener al menos 10 caracteres",
+        "max": "La dirección debe tener menos de 100 caracteres"
+      },
+      "phone": {
+        "matches": "El número de teléfono no debe contener letras ni caracteres especiales",
+        "required": "El número de teléfono es requerido",
+        "min": "El número de teléfono debe tener 8 dígitos",
+        "max": "El número de teléfono debe tener 8 dígitos"
+      },
+      "directorName": {
+        "matches": "El nombre del director no debe contener números ni caracteres especiales",
+        "required": "El nombre del director es requerido",
+        "min": "El nombre del director debe tener al menos 5 caracteres",
+        "max": "El nombre del director debe tener menos de 50 caracteres"
+      },
+      "email": {
+        "email": "El correo debe ser un correo válido",
+        "required": "El correo es requerido",
+        "matches": "Correo no válido"
+      },
+      "type": {
+        "required": "El tipo de entidad es requerido"
+      },
+      "code": {
+        "matches": "El código debe ser un número",
+        "required": "El código es requerido",
+        "min": "El código debe tener al menos 6 caracteres",
+        "max": "El código debe tener menos de 16 caracteres"
+      }
+    },
+    "client": {
+      "id": {
+        "matches": "El número de indentificación no debe contener letras",
+        "required": "El número de indentificación es requerido",
+        "min": "El número de indentificación debe tener 11 dígitos",
+        "max": "El número de indentificación debe tener 11 dígitos",
+        "isValidIdDate": "El número de indentificación no es válido",
+        "existPersonID": "El número de identificación ya pertenece a un cliente"
+      },
+      "name": {
+        "required": "El nombre es requerido",
+        "matches": "El nombre no debe contener números ni caracteres especiales",
+        "min": "El nombre debe tener al menos 3 caracteres",
+        "max": "El nombre debe tener menos de 25 caracteres"
+      },
+      "lastNames": {
+        "required": "Los apellidos son requeridos",
+        "matches": "Los apellidos no deben contener números ni caracteres especiales",
+        "min": "Los apellidos deben tener al menos 5 caracteres",
+        "max": "Los apellidos deben tener menos de 50 caracteres"
+      },
+      "address": {
+        "required": "La dirección es requerida",
+        "min": "La dirección debe tener al menos 10 caracteres",
+        "max": "La dirección debe tener menos de 100 caracteres"
+      },
+      "phoneNumber": {
+        "required": "El número de teléfono es requerido",
+        "matches": "El número de teléfono no debe contener letras ni caracteres especiales",
+        "min": "El número de teléfono debe tener 8 dígitos",
+        "max": "El número de teléfono debe tener 8 dígitos"
+      },
+      "email": {
+        "email": "El correo debe ser un correo válido",
+        "required": "El correo es requerido",
+        "matches": "Correo no válido"
+      }
+    },
+    "driver": {
+      "name": {
+        "required": "El nombre es requerido",
+        "matches": "El nombre no debe contener números ni caracteres especiales",
+        "min": "El nombre debe tener al menos 3 caracteres",
+        "max": "El nombre debe tener menos de 25 caracteres"
+      },
+      "lastNames": {
+        "required": "Los apellidos son requeridos",
+        "matches": "Los apellidos no deben contener números ni caracteres especiales",
+        "min": "Los apellidos deben tener al menos 5 caracteres",
+        "max": "Los apellidos deben tener menos de 50 caracteres"
+      },
+      "address": {
+        "required": "La dirección es requerida",
+        "min": "La dirección debe tener al menos 10 caracteres",
+        "max": "La dirección debe tener menos de 100 caracteres"
+      },
+      "phoneNumber": {
+        "required": "El número de teléfono es requerido",
+        "matches": "El número de teléfono no debe contener letras ni caracteres especiales",
+        "min": "El número de teléfono debe tener al menos 6 dígitos",
+        "max": "El número de teléfono debe tener menos de 12 dígitos"
+      },
+      "email": {
+        "email": "El correo debe ser un correo válido",
+        "required": "El correo es requerido",
+        "matches": "Correo no válido"
+      },
+      "licenseStatus": {
+        "required": "El estado de la licencia es requerido"
+      }
+    },
+    "license": {
+      "driverId": {
+        "matches": "El número de identificación no debe contener letras",
+        "required": "El número de identificación es requerido",
+        "min": "El número de identificación debe tener 11 dígitos",
+        "max": "El número de identificación debe tener 11 dígitos",
+        "test": {
+          "is-valid-id": "El número de identificación no es válido",
+          "is-valid-person": "El número de identificación no se encuentra en el sistema",
+          "exist-driver": "La persona con ese Id ya posee una licencia",
+          "exams-done": "La persona no tiene aprobados los exámenes"
+        }
+      },
+      "category": {
+        "required": "El tipo de categoría es requerido"
+      },
+      "points": {
+        "required": "Los puntos son requeridos",
+        "moreThan": "Debe ingresar un valor positivo"
+      }
+    },
+    "exam": {
+      "personId": {
+        "matches": "El número de identificación no debe contener letras",
+        "required": "El número de identificación es requerido",
+        "min": "El número de identificación debe tener 11 dígitos",
+        "max": "El número de identificación debe tener 11 dígitos",
+        "test": {
+          "is-valid-id": "El número de identificación no es válido",
+          "is-valid-person": "El número de identificación no se encuentra en el sistema"
+        }
+      },
+      "examinerName": {
+        "required": "El nombre es requerido",
+        "matches": "El nombre no debe contener números ni caracteres especiales",
+        "min": "El nombre debe tener al menos 5 caracteres",
+        "max": "El nombre debe tener menos de 50 caracteres"
+      },
+      "entityCode": {
+        "required": "El código es requerido",
+        "min": "El código debe tener al menos 6 caracteres",
+        "max": "El código debe tener menos de 36 caracteres",
+        "test": {
+          "is-valid-entity": "El código de la entidad no se encuentra en el sistema"
+        }
+      },
+      "type": {
+        "required": "El tipo de examen es requerido"
+      },
+      "result": {
+        "required": "El resultado es requerido"
+      }
+    },
+    "infraction": {
+      "licenseid": {
+        "matches": "El número de licencia no debe contener letras",
+        "required": "El número de licencia es requerido",
+        "min": "El número de licencia debe tener 6 dígitos",
+        "max": "El número de licencia debe tener 6 dígitos",
+        "test": {
+          "is-valid-license": "El número de licencia no se encuentra en el sistema"
+        }
+      },
+      "description": {
+        "min": "La descripción debe tener al menos 5 caracteres",
+        "max": "La descripción debe tener menos de 50 caracteres"
+      },
+      "type": {
+        "required": "El tipo de infracción es requerido"
+      },
+      "address": {
+        "required": "El lugar es requerido",
+        "min": "La descripción debe tener al menos 5 caracteres",
+        "max": "La descripción debe tener menos de 25 caracteres"
+      },
+      "pointsDeducted": {
+        "required": "Los puntos son requeridos",
+        "min": "Los puntos deben ser al menos 1",
+        "max": "Los puntos deben ser menos de 36"
+      },
+      "paid": {
+        "required": "El pago es requerido"
+      }
+    },
+    "worker": {
+      "id": {
+        "matches": "El número de indentificación no debe contener letras",
+        "required": "El número de indentificación es requerido",
+        "min": "El número de indentificación debe tener 11 dígitos",
+        "max": "El número de indentificación debe tener 11 dígitos",
+        "test": {
+          "is-valid-id": "El número de indentificación no es válido",
+          "existWorkerID": "El número de identificación ya pertenece a un trabajador"
+        }
+      },
+      "name": {
+        "required": "El nombre es requerido",
+        "matches": "El nombre no debe contener números ni caracteres especiales",
+        "min": "El nombre debe tener al menos 3 caracteres",
+        "max": "El nombre debe tener menos de 25 caracteres"
+      },
+      "lastNames": {
+        "required": "Los apellidos son requeridos",
+        "matches": "Los apellidos no deben contener números ni caracteres especiales",
+        "min": "Los apellidos deben tener al menos 5 caracteres",
+        "max": "Los apellidos deben tener menos de 50 caracteres"
+      },
+      "email": {
+        "email": "El correo debe ser un correo válido",
+        "required": "El correo es requerido",
+        "matches": "Correo no válido"
+      },
+      "password": {
+        "required": "La contraseña es requerida",
+        "min": "La contraseña debe tener al menos 8 caracteres",
+        "max": "La contraseña debe tener menos de 20 caracteres"
+      },
+      "role": {
+        "required": "El rol es requerido"
+      }
+    },
+    "center": {
+      "name": {
+        "matches": "El nombre no debe contener números ni caracteres especiales",
+        "required": "El nombre es requerido",
+        "min": "El nombre debe tener al menos 3 caracteres",
+        "max": "El nombre debe tener menos de 50 caracteres"
+      },
+      "address": {
+        "required": "La dirección es requerida",
+        "min": "La dirección debe tener al menos 10 caracteres",
+        "max": "La dirección debe tener menos de 100 caracteres"
+      },
+      "phone": {
+        "matches": "El número de teléfono no debe contener letras ni caracteres especiales",
+        "required": "El número de teléfono es requerido",
+        "min": "El número de teléfono debe tener 8 dígitos",
+        "max": "El número de teléfono debe tener 8 dígitos"
+      },
+      "directorName": {
+        "matches": "El nombre del director no debe contener números ni caracteres especiales",
+        "required": "El nombre del director es requerido",
+        "min": "El nombre del director debe tener al menos 5 caracteres",
+        "max": "El nombre del director debe tener menos de 50 caracteres"
+      },
+      "humanResourcesName": {
+        "matches": "El nombre del jefe de recursos humanos no debe contener números ni caracteres especiales",
+        "required": "El nombre del jefe de recursos humanos es requerido",
+        "min": "El nombre del jefe de recursos humanos debe tener al menos 5 caracteres",
+        "max": "El nombre del jefe de recursos humanos debe tener menos de 50 caracteres"
+      },
+      "accountantName": {
+        "matches": "El nombre del responsable de contabilidad no debe contener números ni caracteres especiales",
+        "required": "El nombre del responsable de contabilidad es requerido",
+        "min": "El nombre del responsable de contabilidad debe tener al menos 5 caracteres",
+        "max": "El nombre del responsable de contabilidad debe tener menos de 50 caracteres"
+      },
+      "syndicateSecretaryName": {
+        "matches": "El nombre del secretario del sindicato no debe contener números ni caracteres especiales",
+        "required": "El nombre del secretario del sindicato es requerido",
+        "min": "El nombre del secretario del sindicato debe tener al menos 5 caracteres",
+        "max": "El nombre del secretario del sindicato debe tener menos de 50 caracteres"
+      },
+      "code": {
+        "required": "El código es requerido",
+        "min": "El código debe tener al menos 6 caracteres",
+        "max": "El código debe tener menos de 36 caracteres"
+      }
+    }
+  },
+  "login": {
+    "title": "Iniciar Sesión",
+    "fields": {
+      "email": "Correo",
+      "password": "Contraseña"
+    },
+    "notFound": "Usuario o contraseña incorrectos",
+    "email": {
+      "email": "El correo no es válido",
+      "required": "El correo es requerido",
+      "matches": "Correo no válido"
+    },
+    "password": {
+      "required": "La contraseña es requerida"
+    }
+  },
+  "actions": {
+    "edit": "Editar",
+    "delete": "Eliminar"
+  }
 }

@@ -11,7 +11,7 @@ import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
 
-function LicensesTable () {
+function LicensesTable() {
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language; // Obtener el idioma actual
 
@@ -51,7 +51,9 @@ function LicensesTable () {
         license.expirationDate = dayjs(license.expirationDate).format(
           "DD/MM/YYYY"
         );
-        license.renewed = license.renewed ? t("types.renewed") : t("types.notRenewed");
+        license.renewed = license.renewed
+          ? t("types.renewed")
+          : t("types.notRenewed");
       });
       setRows(data);
     } catch (error) {
@@ -113,16 +115,16 @@ function LicensesTable () {
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem
-            icon={ <EditOutlinedIcon /> }
-            label={ t("actions.edit") }
+            icon={<EditOutlinedIcon />}
+            label={t("actions.edit")}
             className="textPrimary"
-            onClick={ () => navigate(`/licenses/${id}/edit`) }
+            onClick={() => navigate(`/licenses/${id}/edit`)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={ <DeleteOutlinedIcon /> }
-            label={ t("actions.delete") }
-            onClick={ handleDeleteClick(id) }
+            icon={<DeleteOutlinedIcon />}
+            label={t("actions.delete")}
+            onClick={handleDeleteClick(id)}
             color="inherit"
           />,
         ];
@@ -132,18 +134,18 @@ function LicensesTable () {
 
   return (
     <Box m="20px">
-      <SnackbarProvider maxSnack={ 3 } />
-      <Header title={ t("licenses.title") } subtitle={ t("licenses.subtitle") } />
+      <SnackbarProvider maxSnack={3} />
+      <Header title={t("licenses.title")} subtitle={t("licenses.subtitle")} />
       <Button
         color="secondary"
         variant="contained"
-        sx={ { mb: "10px" } }
-        onClick={ () => navigate(`/licenses/new`) }
+        sx={{ mb: "10px" }}
+        onClick={() => navigate(`/licenses/new`)}
       >
-        { t("licenses.newLicense") }
+        {t("licenses.newLicense")}
       </Button>
       <Box
-        sx={ {
+        sx={{
           height: "75vh",
           maxflex: "100%",
           "& .actions": {
@@ -152,34 +154,34 @@ function LicensesTable () {
           "& .textPrimary": {
             color: "text.primary",
           },
-        } }
+        }}
       >
         <DataGrid
-          localeText={ localeText }
-          initialState={ {
+          localeText={localeText}
+          initialState={{
             pagination: {
               paginationModel: { pageSize: 25, page: 0 },
             },
-          } }
-          rows={ rows }
-          columns={ columns }
-          components={ {
+          }}
+          rows={rows}
+          columns={columns}
+          components={{
             Toolbar: () => (
               <TableToolbar
-                columns={ columns }
-                rows={ rows }
-                fileName={ t("licenses.title") }
+                columns={columns}
+                rows={rows}
+                fileName={t("licenses.title")}
               />
             ),
-          } }
+          }}
         />
       </Box>
       <ConfirmationDialog
-        title={ t("drivers.deleteConfirmationTitle") }
-        text={ t("drivers.deleteConfirmationText") }
-        open={ dialogOpen }
-        handleClose={ handleDialogClose }
-        handleAgree={ handleDialogAgree }
+        title={t("drivers.deleteConfirmationTitle")}
+        text={t("drivers.deleteConfirmationText")}
+        open={dialogOpen}
+        handleClose={handleDialogClose}
+        handleAgree={handleDialogAgree}
       />
     </Box>
   );

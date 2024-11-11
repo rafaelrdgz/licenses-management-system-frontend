@@ -1,538 +1,539 @@
 {
-	"navbar": {
-		"languageES": "Spanish",
-		"languageEN": "English"
-	},
-	"sidebar": {
-		"dashboard": "Dashboard",
-		"reports": "Reports",
-		"data": "Data",
-		"entities": "Entities",
-		"clients": "Clients",
-		"drivers": "Drivers",
-		"licenses": "Licenses",
-		"exams": "Exams",
-		"infractions": "Infractions",
-		"center": "Center",
-		"workers": "Workers",
-		"profile": "Profile"
-	},
-	"dashboard": {
-		"title": "DASHBOARD",
-		"subtitle": "Statistical summary of the center",
-		"registeredClients": "Registered clients",
-		"driversWithCurrentLicense": "Drivers with a valid license",
-		"issuedLicenses": "Issued licenses",
-		"examsTaken": "Exams taken",
-		"licensesPerCategory": "Licenses by category",
-		"practiceExamsApproved": "Practical exam approval rate",
-		"licensesToExpire": "Licenses about to expire",
-		"periodicMedicalExams": "Periodic medical exams",
-		"unpaidInfractions": "Unpaid infractions"
-	},
-	"error": {
-		"error404": "The page you are looking for does not exist."
-	},
-	"reports": {
-		"title": "REPORTS",
-		"subtitle": "List of available reports",
-		"export": "EXPORT PDF",
-		"find": "SEARCH",
-		"startDate": "Start date",
-		"endDate": "End date",
-		"center": "Center Record",
-		"driverInfo": {
-			"subtitle": "Record of a Specific Driver",
-			"idenityNumber": "Identity Number",
-			"name": "Name",
-			"lastName": "Last Name",
-			"address": "Address",
-			"phoneNumber": "Phone Number",
-			"licenceStatus": "License Status",
-			"issuedLicenses": "Issued licenses",
-			"registeredInfractions": "Registered infractions"
-		},
-		"entityInfo": "Record of an Associated Entity",
-		"entity": {
-			"entityCode": "Entity Code",
-			"name": "Name",
-			"type": "Type",
-			"address": "Address",
-			"phone": "Phone Number",
-			"email": "Email",
-			"directorName": "Director Name"
-		},
-		"issuedLicenses": "Report of Licenses Issued in a Time Period",
-		"examsTaken": "Report of Exams Taken in a Time Period",
-		"registeredInfractions": "Report of Registered Infractions in a Time Period",
-		"infractionsPerTypeInYear": {
-			"subtitle": "Consolidated Report of Infractions by Type in a Specific Year",
-			"year": "Year",
-			"summaryByType": "Summary by type",
-			"registeredInfractions": "Registered infractions"
-		},
-		"driversWithExpiredLicenses": "Report of Drivers with Expired Licenses in a Time Period"
-	},
-	"entities": {
-		"title": "ENTITIES",
-		"subtitle": "Information of related entities",
-		"newEntity": "New entity",
-		"createEntity": "Insert new entity",
-		"editEntity": "Edit entity"
-	},
-	"clients": {
-		"title": "CLIENTS",
-		"subtitle": "Information of registered clients",
-		"newClient": "NEW CLIENT",
-		"createClient": "Insert new client",
-		"editClient": "Edit client"
-	},
-	"drivers": {
-		"title": "DRIVERS",
-		"subtitle": "Information of registered drivers",
-		"editDriver": "Edit driver",
-		"deleteConfirmationTitle": "Are you sure you want to delete the driver?",
-		"deleteConfirmationText": "Keep in mind that this action cannot be undone"
-	},
-	"licenses": {
-		"title": "LICENSES",
-		"subtitle": "Information of issued licenses",
-		"newLicense": "NEW LICENSE",
-		"createLicense": "Insert new license",
-		"editLicense": "Edit license"
-	},
-	"exams": {
-		"title": "EXAMS",
-		"subtitle": "Information of taken exams",
-		"newExam": "NEW EXAM",
-		"createExam": "Insert new exam",
-		"editExam": "Edit exam"
-	},
-	"infractions": {
-		"title": "INFRACTIONS",
-		"subtitle": "Information of registered infractions",
-		"newInfraction": "NEW INFRACTION",
-		"createInfraction": "Insert new infraction",
-		"editInfraction": "Edit infraction",
-		"deleteConfirmationTitle": "Are you sure you want to delete the infraction?",
-		"deleteConfirmationText": "Keep in mind that this action cannot be undone"
-	},
-	"workers": {
-		"title": "WORKERS",
-		"subtitle": "Information of center workers",
-		"newWorker": "NEW WORKER",
-		"createWorker": "Insert new worker",
-		"editWorker": "Edit worker",
-		"deleteConfirmationTitle": "Are you sure you want to delete the worker?",
-		"deleteConfirmationText": "Keep in mind that this action cannot be undone"
-	},
-	"centerProfile": {
-		"title": "CENTER",
-		"subtitle": "User information"
-	},
-	"types": {
-		"code": "Code",
-		"name": "Name",
-		"phoneNumber": "Phone number",
-		"email": "Email",
-		"type": "Type",
-		"address": "Address",
-		"clientID": "Client ID",
-		"lastNames": "Last names",
-		"bornDate": "Date of birth",
-		"driverID": "Driver ID",
-		"licenseStatus": "License status",
-		"category": "Category",
-		"expirationDate": "Expiration date",
-		"issueDate": "Issue date",
-		"licenseNumber": "License number",
-		"restrictions": "Restrictions",
-		"renewed": "Renewed",
-		"points": "Points",
-		"examCode": "Exam code",
-		"examinerName": "Examiner's name",
-		"entityCode": "Entity code",
-		"result": "Result",
-		"date": "Date",
-		"infractionCode": "Infraction code",
-		"pointsDeducted": "Points deducted",
-		"paid": "Paid",
-		"unpaid": "Unpaid",
-		"description": "Description",
-		"directorName": "Director's name",
-		"humanResourcesName": "Human resources manager's name",
-		"accountantName": "Accountant's name",
-		"syndicateSecretaryName": "Syndicate secretary's name",
-		"role": "Role",
-		"password": "Password",
-		"actions": "Actions",
-		"workerID": "Worker ID",
-		"entityType": {
-			"drivingSchool": "Driving School",
-			"clinic": "Clinic"
-		},
-		"licenseStatusTypes": {
-			"active": "Active",
-			"expired": "Expired",
-			"suspended": "Suspended",
-			"revoked": "Revoked"
-		},
-		"examTypes": {
-			"teoric": "Teoric",
-			"practical": "Practical",
-			"medical": "Medical"
-		},
-		"infractionTypes": {
-			"minor": "Minor",
-			"serious": "Serious",
-			"verySerious": "Very Serious"
-		},
-		"roles": {
-			"manager": "Manager",
-			"comercial": "Commercial"
-		},
-		"restrictionsTypes": {
-			"glasses": "Use of Glasses",
-			"daylight": "Daylight Driving",
-			"drivingAlone": "Driving Alone",
-			"speed": "Speed Limit",
-			"drivingRadioLimit": "Driving Radius Limit",
-			"onlyUrban": "Urban Driving Only"
-		},
-		"categoryLicense": {
-			"A1": "Moped",
-			"A": "Motorcycle",
-			"B": "Car",
-			"C1": "Truck up to 7500 kg",
-			"C": "Truck over 7500 kg",
-			"D1": "Minibus",
-			"D": "Bus",
-			"E": "Articulated",
-			"F": "Agricultural, Industrial or Construction",
-			"FE": "Tractor with trailer"
-		},
-		"examResult": {
-			"approved": "Approved",
-			"failed": "Failed"
-		}
-	},
-	"snackbarMessage": {
-		"deleteEntity": "Entity deleted",
-		"deleteClient": "Client deleted",
-		"deleteDriver": "Driver deleted",
-		"deleteLicense": "License deleted",
-		"deleteExam": "Exam deleted",
-		"deleteInfraction": "Infraction deleted",
-		"deleteWorker": "Worker deleted",
-		"renewLicense": "License renewed"
-	},
-	"dialogMessage": {
-		"title": "Are you sure you want to delete this record?",
-		"content": "Keep in mind that this action cannot be undone",
-		"accept": "Accept",
-		"cancel": "Cancel"
-	},
-	"form": {
-		"save": "SAVE",
-		"edit": "EDIT",
-		"entity": {
-			"name": {
-				"matches": "The name must not contain numbers or special characters",
-				"required": "The name is required",
-				"min": "The name must be at least 3 characters long",
-				"max": "The name must be less than 50 characters long"
-			},
-			"address": {
-				"required": "The address is required",
-				"min": "The address must be at least 10 characters long",
-				"max": "The address must be less than 100 characters long"
-			},
-			"phone": {
-				"matches": "The phone number must not contain letters or special characters",
-				"required": "The phone number is required",
-				"min": "The phone number must be 8 digits long",
-				"max": "The phone number must be 8 digits long"
-			},
-			"directorName": {
-				"matches": "The director's name must not contain numbers or special characters",
-				"required": "The director's name is required",
-				"min": "The director's name must be at least 5 characters long",
-				"max": "The director's name must be less than 50 characters long"
-			},
-			"email": {
-				"email": "The email must be valid",
-				"required": "The email is required",
-				"matches": "Invalid email"
-			},
-			"type": {
-				"required": "The entity type is required"
-			},
-			"code": {
-				"matches": "The code must be a number",
-				"required": "The code is required",
-				"min": "The code must be at least 6 characters long",
-				"max": "The code must be less than 16 characters long"
-			}
-		},
-		"client": {
-			"id": {
-				"matches": "The identification number must not contain letters",
-				"required": "The identification number is required",
-				"min": "The identification number must be 11 digits long",
-				"max": "The identification number must be 11 digits long",
-				"isValidIdDate": "The identification number is not valid",
-				"existPersonID": "The identification number already belongs to a client"
-			},
-			"name": {
-				"required": "The name is required",
-				"matches": "The name must not contain numbers or special characters",
-				"min": "The name must be at least 3 characters long",
-				"max": "The name must be less than 25 characters long"
-			},
-			"lastNames": {
-				"required": "Last names are required",
-				"matches": "Last names must not contain numbers or special characters",
-				"min": "Last names must be at least 5 characters long",
-				"max": "Last names must be less than 50 characters long"
-			},
-			"address": {
-				"required": "The address is required",
-				"min": "The address must be at least 10 characters long",
-				"max": "The address must be less than 100 characters long"
-			},
-			"phoneNumber": {
-				"required": "The phone number is required",
-				"matches": "The phone number must not contain letters or special characters",
-				"min": "The phone number must be 8 digits long",
-				"max": "The phone number must be 8 digits long"
-			},
-			"email": {
-				"email": "The email must be valid",
-				"required": "The email is required",
-				"matches": "Invalid email"
-			}
-		},
-		"driver": {
-			"name": {
-				"required": "The name is required",
-				"matches": "The name must not contain numbers or special characters",
-				"min": "The name must be at least 3 characters long",
-				"max": "The name must be less than 25 characters long"
-			},
-			"lastNames": {
-				"required": "Last names are required",
-				"matches": "Last names must not contain numbers or special characters",
-				"min": "Last names must be at least 5 characters long",
-				"max": "Last names must be less than 50 characters long"
-			},
-			"address": {
-				"required": "The address is required",
-				"min": "The address must be at least 10 characters long",
-				"max": "The address must be less than 100 characters long"
-			},
-			"phoneNumber": {
-				"required": "The phone number is required",
-				"matches": "The phone number must not contain letters or special characters",
-				"min": "The phone number must be at least 6 digits long",
-				"max": "The phone number must be less than 12 digits long"
-			},
-			"email": {
-				"email": "The email must be valid",
-				"required": "The email is required",
-				"matches": "Invalid email"
-			},
-			"licenseStatus": {
-				"required": "The license status is required"
-			}
-		},
-		"license": {
-			"driverId": {
-				"matches": "The identification number must not contain letters",
-				"required": "The identification number is required",
-				"min": "The identification number must be 11 digits long",
-				"max": "The identification number must be 11 digits long",
-				"test": {
-					"is-valid-id": "The identification number is not valid",
-					"is-valid-person": "The identification number is not found in the system",
-					"exist-driver": "The person with that ID already has a license",
-					"exams-done": "The person has not passed the exams"
-				}
-			},
-			"category": {
-				"required": "The category type is required"
-			},
-			"points": {
-				"required": "Points are required",
-				"moreThan": "You must enter a positive value"
-			}
-		},
-		"exam": {
-			"personId": {
-				"matches": "The identification number must not contain letters",
-				"required": "The identification number is required",
-				"min": "The identification number must be 11 digits long",
-				"max": "The identification number must be 11 digits long",
-				"test": {
-					"is-valid-id": "The identification number is not valid",
-					"is-valid-person": "The identification number is not found in the system"
-				}
-			},
-			"examinerName": {
-				"required": "The name is required",
-				"matches": "The name must not contain numbers or special characters",
-				"min": "The name must be at least 5 characters long",
-				"max": "The name must be less than 50 characters long"
-			},
-			"entityCode": {
-				"required": "The code is required",
-				"min": "The code must be at least 6 characters long",
-				"max": "The code must be less than 36 characters long",
-				"test": {
-					"is-valid-entity": "The entity code is not found in the system"
-				}
-			},
-			"type": {
-				"required": "The exam type is required"
-			},
-			"result": {
-				"required": "The result is required"
-			}
-		},
-		"infraction": {
-			"licenseid": {
-				"matches": "The license number must not contain letters",
-				"required": "The license number is required",
-				"min": "The license number must be 6 digits long",
-				"max": "The license number must be 6 digits long",
-				"test": {
-					"is-valid-license": "The license number is not found in the system"
-				}
-			},
-			"description": {
-				"min": "The description must be at least 5 characters long",
-				"max": "The description must be less than 50 characters long"
-			},
-			"type": {
-				"required": "The type of infraction is required"
-			},
-			"address": {
-				"required": "The location is required",
-				"min": "The description must be at least 5 characters long",
-				"max": "The description must be less than 25 characters long"
-			},
-			"pointsDeducted": {
-				"required": "Points are required",
-				"min": "Points must be at least 1",
-				"max": "Points must be less than 36"
-			},
-			"paid": {
-				"required": "Payment is required"
-			}
-		},
-		"worker": {
-			"id": {
-				"matches": "The identification number must not contain letters",
-				"required": "The identification number is required",
-				"min": "The identification number must be 11 digits long",
-				"max": "The identification number must be 11 digits long",
-				"test": {
-					"is-valid-id": "The identification number is not valid",
-					"existWorkerID": "The identification number already belongs to a worker"
-				}
-			},
-			"name": {
-				"required": "The name is required",
-				"matches": "The name must not contain numbers or special characters",
-				"min": "The name must be at least 3 characters long",
-				"max": "The name must be less than 25 characters long"
-			},
-			"lastNames": {
-				"required": "Last names are required",
-				"matches": "Last names must not contain numbers or special characters",
-				"min": "Last names must be at least 5 characters long",
-				"max": "Last names must be less than 50 characters long"
-			},
-			"email": {
-				"email": "The email must be valid",
-				"required": "The email is required",
-				"matches": "Invalid email"
-			},
-			"password": {
-				"required": "The password is required",
-				"min": "The password must be at least 8 characters long",
-				"max": "The password must be less than 20 characters long"
-			},
-			"role": {
-				"required": "The role is required"
-			}
-		},
-		"center": {
-			"name": {
-				"matches": "The name must not contain numbers or special characters",
-				"required": "The name is required",
-				"min": "The name must be at least 3 characters long",
-				"max": "The name must be less than 50 characters long"
-			},
-			"address": {
-				"required": "The address is required",
-				"min": "The address must be at least 10 characters long",
-				"max": "The address must be less than 100 characters long"
-			},
-			"phone": {
-				"matches": "The phone number must not contain letters or special characters",
-				"required": "The phone number is required",
-				"min": "The phone number must be 8 digits long",
-				"max": "The phone number must be 8 digits long"
-			},
-			"directorName": {
-				"matches": "The director's name must not contain numbers or special characters",
-				"required": "The director's name is required",
-				"min": "The director's name must be at least 5 characters long",
-				"max": "The director's name must be less than 50 characters long"
-			},
-			"humanResourcesName": {
-				"matches": "The name of the head of human resources must not contain numbers or special characters",
-				"required": "The name of the head of human resources is required",
-				"min": "The name of the head of human resources must be at least 5 characters long",
-				"max": "The name of the head of human resources must be less than 50 characters long"
-			},
-			"accountantName": {
-				"matches": "The name of the accountant must not contain numbers or special characters",
-				"required": "The name of the accountant is required",
-				"min": "The name of the accountant must be at least 5 characters long",
-				"max": "The name of the accountant must be less than 50 characters long"
-			},
-			"syndicateSecretaryName": {
-				"matches": "The name of the union secretary must not contain numbers or special characters",
-				"required": "The name of the union secretary is required",
-				"min": "The name of the union secretary must be at least 5 characters long",
-				"max": "The name of the union secretary must be less than 50 characters long"
-			},
-			"code": {
-				"required": "The code is required",
-				"min": "The code must be at least 6 characters long",
-				"max": "The code must be less than 36 characters long"
-			}
-		}
-	},
-	"login": {
-		"title": "Login",
-		"fields": {
-			"email": "Email",
-			"password": "Password"
-		},
-		"notFound": "Incorrect username or password",
-		"email": {
-			"email": "The email is not valid",
-			"required": "The email is required",
-			"matches": "Invalid email"
-		},
-		"password": {
-			"required": "The password is required"
-		}
-	},
-	"actions": {
-		"edit": "Edit",
-		"delete": "Delete"
-	}
+  "navbar": {
+    "languageES": "Spanish",
+    "languageEN": "English"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "reports": "Reports",
+    "data": "Data",
+    "entities": "Entities",
+    "clients": "Clients",
+    "drivers": "Drivers",
+    "licenses": "Licenses",
+    "exams": "Exams",
+    "infractions": "Infractions",
+    "center": "Center",
+    "workers": "Workers",
+    "profile": "Profile"
+  },
+  "dashboard": {
+    "title": "DASHBOARD",
+    "subtitle": "Statistical summary of the center",
+    "registeredClients": "Registered clients",
+    "driversWithCurrentLicense": "Drivers with a valid license",
+    "issuedLicenses": "Issued licenses",
+    "examsTaken": "Exams taken",
+    "licensesPerCategory": "Licenses by category",
+    "practiceExamsApproved": "Practical exam approval rate",
+    "licensesToExpire": "Licenses about to expire",
+    "periodicMedicalExams": "Periodic medical exams",
+    "unpaidInfractions": "Unpaid infractions"
+  },
+  "error": {
+    "error404": "The page you are looking for does not exist."
+  },
+  "reports": {
+    "title": "REPORTS",
+    "subtitle": "List of available reports",
+    "export": "EXPORT PDF",
+    "find": "SEARCH",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "center": "Center Record",
+    "driverInfo": {
+      "subtitle": "Record of a Specific Driver",
+      "idenityNumber": "Identity Number",
+      "name": "Name",
+      "lastName": "Last Name",
+      "address": "Address",
+      "phoneNumber": "Phone Number",
+      "licenceStatus": "License Status",
+      "issuedLicenses": "Issued licenses",
+      "registeredInfractions": "Registered infractions"
+    },
+    "entityInfo": "Record of an Associated Entity",
+    "entity": {
+      "entityCode": "Entity Code",
+      "name": "Name",
+      "type": "Type",
+      "address": "Address",
+      "phone": "Phone Number",
+      "email": "Email",
+      "directorName": "Director Name"
+    },
+    "issuedLicenses": "Report of Licenses Issued in a Time Period",
+    "examsTaken": "Report of Exams Taken in a Time Period",
+    "registeredInfractions": "Report of Registered Infractions in a Time Period",
+    "infractionsPerTypeInYear": {
+      "subtitle": "Consolidated Report of Infractions by Type in a Specific Year",
+      "year": "Year",
+      "summaryByType": "Summary by type",
+      "registeredInfractions": "Registered infractions"
+    },
+    "driversWithExpiredLicenses": "Report of Drivers with Expired Licenses in a Time Period"
+  },
+  "entities": {
+    "title": "ENTITIES",
+    "subtitle": "Information of related entities",
+    "newEntity": "New entity",
+    "createEntity": "Insert new entity",
+    "editEntity": "Edit entity"
+  },
+  "clients": {
+    "title": "CLIENTS",
+    "subtitle": "Information of registered clients",
+    "newClient": "NEW CLIENT",
+    "createClient": "Insert new client",
+    "editClient": "Edit client"
+  },
+  "drivers": {
+    "title": "DRIVERS",
+    "subtitle": "Information of registered drivers",
+    "editDriver": "Edit driver",
+    "deleteConfirmationTitle": "Are you sure you want to delete the driver?",
+    "deleteConfirmationText": "Keep in mind that this action cannot be undone"
+  },
+  "licenses": {
+    "title": "LICENSES",
+    "subtitle": "Information of issued licenses",
+    "newLicense": "NEW LICENSE",
+    "createLicense": "Insert new license",
+    "editLicense": "Edit license"
+  },
+  "exams": {
+    "title": "EXAMS",
+    "subtitle": "Information of taken exams",
+    "newExam": "NEW EXAM",
+    "createExam": "Insert new exam",
+    "editExam": "Edit exam"
+  },
+  "infractions": {
+    "title": "INFRACTIONS",
+    "subtitle": "Information of registered infractions",
+    "newInfraction": "NEW INFRACTION",
+    "createInfraction": "Insert new infraction",
+    "editInfraction": "Edit infraction",
+    "deleteConfirmationTitle": "Are you sure you want to delete the infraction?",
+    "deleteConfirmationText": "Keep in mind that this action cannot be undone"
+  },
+  "workers": {
+    "title": "WORKERS",
+    "subtitle": "Information of center workers",
+    "newWorker": "NEW WORKER",
+    "createWorker": "Insert new worker",
+    "editWorker": "Edit worker",
+    "deleteConfirmationTitle": "Are you sure you want to delete the worker?",
+    "deleteConfirmationText": "Keep in mind that this action cannot be undone"
+  },
+  "centerProfile": {
+    "title": "CENTER",
+    "subtitle": "User information"
+  },
+  "types": {
+    "code": "Code",
+    "name": "Name",
+    "phoneNumber": "Phone number",
+    "email": "Email",
+    "type": "Type",
+    "address": "Address",
+    "clientID": "Client ID",
+    "lastNames": "Last names",
+    "bornDate": "Date of birth",
+    "driverID": "Driver ID",
+    "licenseStatus": "License status",
+    "category": "Category",
+    "expirationDate": "Expiration date",
+    "issueDate": "Issue date",
+    "licenseNumber": "License number",
+    "restrictions": "Restrictions",
+    "renewed": "Renewed",
+    "notRenewed": "Not Renewed",
+    "points": "Points",
+    "examCode": "Exam code",
+    "examinerName": "Examiner's name",
+    "entityCode": "Entity code",
+    "result": "Result",
+    "date": "Date",
+    "infractionCode": "Infraction code",
+    "pointsDeducted": "Points deducted",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "description": "Description",
+    "directorName": "Director's name",
+    "humanResourcesName": "Human resources manager's name",
+    "accountantName": "Accountant's name",
+    "syndicateSecretaryName": "Syndicate secretary's name",
+    "role": "Role",
+    "password": "Password",
+    "actions": "Actions",
+    "workerID": "Worker ID",
+    "entityType": {
+      "drivingSchool": "Driving School",
+      "clinic": "Clinic"
+    },
+    "licenseStatusTypes": {
+      "active": "Active",
+      "expired": "Expired",
+      "suspended": "Suspended",
+      "revoked": "Revoked"
+    },
+    "examTypes": {
+      "teoric": "Teoric",
+      "practical": "Practical",
+      "medical": "Medical"
+    },
+    "infractionTypes": {
+      "minor": "Minor",
+      "serious": "Serious",
+      "verySerious": "Very Serious"
+    },
+    "roles": {
+      "manager": "Manager",
+      "comercial": "Commercial"
+    },
+    "restrictionsTypes": {
+      "glasses": "Use of Glasses",
+      "daylight": "Daylight Driving",
+      "drivingAlone": "Driving Alone",
+      "speed": "Speed Limit",
+      "drivingRadioLimit": "Driving Radius Limit",
+      "onlyUrban": "Urban Driving Only"
+    },
+    "categoryLicense": {
+      "A1": "Moped",
+      "A": "Motorcycle",
+      "B": "Car",
+      "C1": "Truck up to 7500 kg",
+      "C": "Truck over 7500 kg",
+      "D1": "Minibus",
+      "D": "Bus",
+      "E": "Articulated",
+      "F": "Agricultural, Industrial or Construction",
+      "FE": "Tractor with trailer"
+    },
+    "examResult": {
+      "approved": "Approved",
+      "failed": "Failed"
+    }
+  },
+  "snackbarMessage": {
+    "deleteEntity": "Entity deleted",
+    "deleteClient": "Client deleted",
+    "deleteDriver": "Driver deleted",
+    "deleteLicense": "License deleted",
+    "deleteExam": "Exam deleted",
+    "deleteInfraction": "Infraction deleted",
+    "deleteWorker": "Worker deleted",
+    "renewLicense": "License renewed"
+  },
+  "dialogMessage": {
+    "title": "Are you sure you want to delete this record?",
+    "content": "Keep in mind that this action cannot be undone",
+    "accept": "Accept",
+    "cancel": "Cancel"
+  },
+  "form": {
+    "save": "SAVE",
+    "edit": "EDIT",
+    "entity": {
+      "name": {
+        "matches": "The name must not contain numbers or special characters",
+        "required": "The name is required",
+        "min": "The name must be at least 3 characters long",
+        "max": "The name must be less than 50 characters long"
+      },
+      "address": {
+        "required": "The address is required",
+        "min": "The address must be at least 10 characters long",
+        "max": "The address must be less than 100 characters long"
+      },
+      "phone": {
+        "matches": "The phone number must not contain letters or special characters",
+        "required": "The phone number is required",
+        "min": "The phone number must be 8 digits long",
+        "max": "The phone number must be 8 digits long"
+      },
+      "directorName": {
+        "matches": "The director's name must not contain numbers or special characters",
+        "required": "The director's name is required",
+        "min": "The director's name must be at least 5 characters long",
+        "max": "The director's name must be less than 50 characters long"
+      },
+      "email": {
+        "email": "The email must be valid",
+        "required": "The email is required",
+        "matches": "Invalid email"
+      },
+      "type": {
+        "required": "The entity type is required"
+      },
+      "code": {
+        "matches": "The code must be a number",
+        "required": "The code is required",
+        "min": "The code must be at least 6 characters long",
+        "max": "The code must be less than 16 characters long"
+      }
+    },
+    "client": {
+      "id": {
+        "matches": "The identification number must not contain letters",
+        "required": "The identification number is required",
+        "min": "The identification number must be 11 digits long",
+        "max": "The identification number must be 11 digits long",
+        "isValidIdDate": "The identification number is not valid",
+        "existPersonID": "The identification number already belongs to a client"
+      },
+      "name": {
+        "required": "The name is required",
+        "matches": "The name must not contain numbers or special characters",
+        "min": "The name must be at least 3 characters long",
+        "max": "The name must be less than 25 characters long"
+      },
+      "lastNames": {
+        "required": "Last names are required",
+        "matches": "Last names must not contain numbers or special characters",
+        "min": "Last names must be at least 5 characters long",
+        "max": "Last names must be less than 50 characters long"
+      },
+      "address": {
+        "required": "The address is required",
+        "min": "The address must be at least 10 characters long",
+        "max": "The address must be less than 100 characters long"
+      },
+      "phoneNumber": {
+        "required": "The phone number is required",
+        "matches": "The phone number must not contain letters or special characters",
+        "min": "The phone number must be 8 digits long",
+        "max": "The phone number must be 8 digits long"
+      },
+      "email": {
+        "email": "The email must be valid",
+        "required": "The email is required",
+        "matches": "Invalid email"
+      }
+    },
+    "driver": {
+      "name": {
+        "required": "The name is required",
+        "matches": "The name must not contain numbers or special characters",
+        "min": "The name must be at least 3 characters long",
+        "max": "The name must be less than 25 characters long"
+      },
+      "lastNames": {
+        "required": "Last names are required",
+        "matches": "Last names must not contain numbers or special characters",
+        "min": "Last names must be at least 5 characters long",
+        "max": "Last names must be less than 50 characters long"
+      },
+      "address": {
+        "required": "The address is required",
+        "min": "The address must be at least 10 characters long",
+        "max": "The address must be less than 100 characters long"
+      },
+      "phoneNumber": {
+        "required": "The phone number is required",
+        "matches": "The phone number must not contain letters or special characters",
+        "min": "The phone number must be at least 6 digits long",
+        "max": "The phone number must be less than 12 digits long"
+      },
+      "email": {
+        "email": "The email must be valid",
+        "required": "The email is required",
+        "matches": "Invalid email"
+      },
+      "licenseStatus": {
+        "required": "The license status is required"
+      }
+    },
+    "license": {
+      "driverId": {
+        "matches": "The identification number must not contain letters",
+        "required": "The identification number is required",
+        "min": "The identification number must be 11 digits long",
+        "max": "The identification number must be 11 digits long",
+        "test": {
+          "is-valid-id": "The identification number is not valid",
+          "is-valid-person": "The identification number is not found in the system",
+          "exist-driver": "The person with that ID already has a license",
+          "exams-done": "The person has not passed the exams"
+        }
+      },
+      "category": {
+        "required": "The category type is required"
+      },
+      "points": {
+        "required": "Points are required",
+        "moreThan": "You must enter a positive value"
+      }
+    },
+    "exam": {
+      "personId": {
+        "matches": "The identification number must not contain letters",
+        "required": "The identification number is required",
+        "min": "The identification number must be 11 digits long",
+        "max": "The identification number must be 11 digits long",
+        "test": {
+          "is-valid-id": "The identification number is not valid",
+          "is-valid-person": "The identification number is not found in the system"
+        }
+      },
+      "examinerName": {
+        "required": "The name is required",
+        "matches": "The name must not contain numbers or special characters",
+        "min": "The name must be at least 5 characters long",
+        "max": "The name must be less than 50 characters long"
+      },
+      "entityCode": {
+        "required": "The code is required",
+        "min": "The code must be at least 6 characters long",
+        "max": "The code must be less than 36 characters long",
+        "test": {
+          "is-valid-entity": "The entity code is not found in the system"
+        }
+      },
+      "type": {
+        "required": "The exam type is required"
+      },
+      "result": {
+        "required": "The result is required"
+      }
+    },
+    "infraction": {
+      "licenseid": {
+        "matches": "The license number must not contain letters",
+        "required": "The license number is required",
+        "min": "The license number must be 6 digits long",
+        "max": "The license number must be 6 digits long",
+        "test": {
+          "is-valid-license": "The license number is not found in the system"
+        }
+      },
+      "description": {
+        "min": "The description must be at least 5 characters long",
+        "max": "The description must be less than 50 characters long"
+      },
+      "type": {
+        "required": "The type of infraction is required"
+      },
+      "address": {
+        "required": "The location is required",
+        "min": "The description must be at least 5 characters long",
+        "max": "The description must be less than 25 characters long"
+      },
+      "pointsDeducted": {
+        "required": "Points are required",
+        "min": "Points must be at least 1",
+        "max": "Points must be less than 36"
+      },
+      "paid": {
+        "required": "Payment is required"
+      }
+    },
+    "worker": {
+      "id": {
+        "matches": "The identification number must not contain letters",
+        "required": "The identification number is required",
+        "min": "The identification number must be 11 digits long",
+        "max": "The identification number must be 11 digits long",
+        "test": {
+          "is-valid-id": "The identification number is not valid",
+          "existWorkerID": "The identification number already belongs to a worker"
+        }
+      },
+      "name": {
+        "required": "The name is required",
+        "matches": "The name must not contain numbers or special characters",
+        "min": "The name must be at least 3 characters long",
+        "max": "The name must be less than 25 characters long"
+      },
+      "lastNames": {
+        "required": "Last names are required",
+        "matches": "Last names must not contain numbers or special characters",
+        "min": "Last names must be at least 5 characters long",
+        "max": "Last names must be less than 50 characters long"
+      },
+      "email": {
+        "email": "The email must be valid",
+        "required": "The email is required",
+        "matches": "Invalid email"
+      },
+      "password": {
+        "required": "The password is required",
+        "min": "The password must be at least 8 characters long",
+        "max": "The password must be less than 20 characters long"
+      },
+      "role": {
+        "required": "The role is required"
+      }
+    },
+    "center": {
+      "name": {
+        "matches": "The name must not contain numbers or special characters",
+        "required": "The name is required",
+        "min": "The name must be at least 3 characters long",
+        "max": "The name must be less than 50 characters long"
+      },
+      "address": {
+        "required": "The address is required",
+        "min": "The address must be at least 10 characters long",
+        "max": "The address must be less than 100 characters long"
+      },
+      "phone": {
+        "matches": "The phone number must not contain letters or special characters",
+        "required": "The phone number is required",
+        "min": "The phone number must be 8 digits long",
+        "max": "The phone number must be 8 digits long"
+      },
+      "directorName": {
+        "matches": "The director's name must not contain numbers or special characters",
+        "required": "The director's name is required",
+        "min": "The director's name must be at least 5 characters long",
+        "max": "The director's name must be less than 50 characters long"
+      },
+      "humanResourcesName": {
+        "matches": "The name of the head of human resources must not contain numbers or special characters",
+        "required": "The name of the head of human resources is required",
+        "min": "The name of the head of human resources must be at least 5 characters long",
+        "max": "The name of the head of human resources must be less than 50 characters long"
+      },
+      "accountantName": {
+        "matches": "The name of the accountant must not contain numbers or special characters",
+        "required": "The name of the accountant is required",
+        "min": "The name of the accountant must be at least 5 characters long",
+        "max": "The name of the accountant must be less than 50 characters long"
+      },
+      "syndicateSecretaryName": {
+        "matches": "The name of the union secretary must not contain numbers or special characters",
+        "required": "The name of the union secretary is required",
+        "min": "The name of the union secretary must be at least 5 characters long",
+        "max": "The name of the union secretary must be less than 50 characters long"
+      },
+      "code": {
+        "required": "The code is required",
+        "min": "The code must be at least 6 characters long",
+        "max": "The code must be less than 36 characters long"
+      }
+    }
+  },
+  "login": {
+    "title": "Login",
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "notFound": "Incorrect username or password",
+    "email": {
+      "email": "The email is not valid",
+      "required": "The email is required",
+      "matches": "Invalid email"
+    },
+    "password": {
+      "required": "The password is required"
+    }
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete"
+  }
 }
