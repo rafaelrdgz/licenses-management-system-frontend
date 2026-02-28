@@ -83,8 +83,8 @@ export default function Login () {
   };
 
   const initialValues = {
-    email: "",
-    password: "",
+    email: "manager@system.com",
+    password: "Manager123!",
   };
 
   const [incorrectData, setIncorrectData] = useState(false);
