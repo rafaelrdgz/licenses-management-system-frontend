@@ -14,7 +14,7 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { loginWorker } from "../../../apis/WorkerAPI.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AuthContext } from "../../../utils/AuthContext.jsx";
 import { useContext } from "react";
 import React from "react";
@@ -49,29 +49,38 @@ export default function Login () {
     setAnchorEl(null);
   };
 
-  const [darkMode, setDarkMode] = React.useState(
-    localStorage.getItem("theme") === "dark"
-  );
+  const [mode, setMode] = useState(() => {
+    const localTheme = window.localStorage.getItem("theme");
+    return localTheme ? localTheme : "dark";
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem("theme", mode);
+  }, [mode]);
+
+  const isDark = mode === "dark";
   const { login } = useContext(AuthContext);
 
   const theme = createTheme({
     palette: {
-      mode: darkMode ? "dark" : "light",
-      primary: {
-        main: darkMode ? "#90caf9" : "#1976d2",
-      },
-      secondary: {
-        main: darkMode ? "#f48fb1" : "#dc004e",
-      },
-      background: {
-        default: darkMode ? "#111520" : "#fff",
-      },
+      mode: mode,
+      ...(isDark
+        ? {
+            primary: { main: "#90caf9" },
+            secondary: { main: "#f48fb1" },
+            background: { default: "#111520" },
+          }
+        : {
+            primary: { main: "#1976d2" },
+            secondary: { main: "#dc004e" },
+            background: { default: "#fff" },
+          }),
     },
     components: {
       MuiCssBaseline: {
         styleOverrides: {
           body: {
-            backgroundColor: darkMode ? "#111520" : "#fff",
+            backgroundColor: isDark ? "#111520" : "#fff",
           },
         },
       },
@@ -79,7 +88,7 @@ export default function Login () {
   });
 
   const handleThemeToggle = () => {
-    setDarkMode(!darkMode);
+    setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   const initialValues = {
@@ -161,7 +170,7 @@ export default function Login () {
             onClick={ handleThemeToggle }
             color="inherit"
           >
-            { darkMode ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon /> }
+            { isDark ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon /> }
           </IconButton>
           <Avatar sx={ { m: 1, bgcolor: theme.palette.secondary.main } }>
             <LockOutlinedIcon />
