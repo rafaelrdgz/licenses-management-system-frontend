@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "../utils/AuthContext";
 
-const BASE_URL = "http://localhost:3000"; // Cambia el puerto si es diferente
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Funciones con token JWT en el encabezado
 
