@@ -518,6 +518,7 @@
   },
   "login": {
     "title": "Iniciar Sesión",
+    "submit": "INICIAR SESIÓN",
     "fields": {
       "email": "Correo",
       "password": "Contraseña"

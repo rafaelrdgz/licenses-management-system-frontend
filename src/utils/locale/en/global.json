@@ -518,6 +518,7 @@
   },
   "login": {
     "title": "Login",
+    "submit": "SIGN IN",
     "fields": {
       "email": "Email",
       "password": "Password"

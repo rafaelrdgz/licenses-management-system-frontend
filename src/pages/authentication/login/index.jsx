@@ -223,7 +223,7 @@ export default function Login () {
                   variant="contained"
                   sx={ { mt: 3, mb: 2 } }
                 >
-                  { t("form.save", "Iniciar sesión") }
+                  { t("login.submit") }
                 </Button>
               </form>
             ) }
