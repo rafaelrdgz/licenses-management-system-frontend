@@ -9,7 +9,7 @@ import global_en from "./utils/locale/en/global.json";
 
 i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
-  lng: "es",
+  lng: "en",
   resources: {
     es: {
       translation: global_es,
